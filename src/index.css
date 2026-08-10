@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+
+:root {
+  --font-heading: 'Poppins', sans-serif;
+  --font-body: 'Rubik', sans-serif;
+  --color-primary: #25345d;
+  --color-primary-dark: #1b2646;
+  --color-orange: #ff4d15;
+  --color-orange-hover: #e03e08;
+  --color-text-muted: #6c757d;
+  --color-bg-light: #f8f9fa;
+}
+
+body {
+  font-family: var(--font-body);
+  color: #495057;
+  background-color: #ffffff;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+/* Custom Utilities */
+.bg-navy-top {
+  background-color: #25345d;
+}
+
+.text-navy {
+  color: #25345d;
+}
+
+.bg-orange-cta {
+  background-color: #ff4d15;
+}
+
+.bg-orange-cta:hover {
+  background-color: #e03e08;
+}
+
+.text-orange-accent {
+  color: #ff4d15;
+}
+
+.text-gold-light {
+  color: #e2b76e;
+}
+
+/* Custom Australia Map Hover Animations */
+.state-path {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.state-path:hover {
+  fill: #ff4d15 !important;
+  transform: translateY(-2px);
+  filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.15));
+}
+
+/* Smooth Scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
