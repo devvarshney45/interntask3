@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MapPin, Phone, Mail, ChevronDown, Menu, X } from 'lucide-react';
 
-const Header = () => {
+const Header = ({ onSelectPage, currentPage }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -74,21 +74,42 @@ const Header = () => {
               onMouseEnter={() => setActiveDropdown('HOME')}
               onMouseLeave={() => setActiveDropdown(null)}
             >
-              <button className="flex items-center gap-0.5 px-3 py-2 text-[13px] font-semibold text-[#25345d] hover:text-[#ff4d15] transition-colors duration-200 tracking-wide">
+              <button className={`flex items-center gap-0.5 px-3 py-2 text-[13px] font-semibold transition-colors duration-200 tracking-wide ${currentPage !== 'home1' ? 'text-[#ff4d15]' : 'text-[#25345d] hover:text-[#ff4d15]'}`}>
                 HOME
+                {currentPage !== 'home1' && (
+                  <span className="text-[9px] font-bold ml-1 text-[#ff4d15] opacity-75">
+                    {currentPage.replace('home', '')}
+                  </span>
+                )}
                 <ChevronDown size={12} className={`transition-transform duration-200 ${activeDropdown === 'HOME' ? 'rotate-180' : ''}`} />
               </button>
               {activeDropdown === 'HOME' && (
                 <div className="absolute top-full left-0 mt-0 min-w-[180px] bg-white shadow-xl border border-gray-100 z-50 py-1">
-                  {homePages.map((sub) => (
-                    <a
-                      key={sub}
-                      href="#"
-                      className="block px-5 py-2 text-[13px] text-gray-700 hover:bg-gray-50 hover:text-[#ff4d15] transition-colors border-b border-gray-50 last:border-b-0"
-                    >
-                      {sub}
-                    </a>
-                  ))}
+                  {homePages.map((sub, index) => {
+                    const pageKey = `home${index + 1}`;
+                    const isActive = currentPage === pageKey;
+                    return (
+                      <a
+                        key={sub}
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (onSelectPage) onSelectPage(pageKey);
+                          setActiveDropdown(null);
+                        }}
+                        className={`flex items-center justify-between px-5 py-2 text-[13px] transition-colors border-b border-gray-50 last:border-b-0 ${
+                          isActive
+                            ? 'bg-orange-50 text-[#ff4d15] font-semibold'
+                            : 'text-gray-700 hover:bg-gray-50 hover:text-[#ff4d15]'
+                        }`}
+                      >
+                        <span>{sub}</span>
+                        {isActive && (
+                          <span className="text-[#ff4d15] text-xs font-bold ml-2">✓</span>
+                        )}
+                      </a>
+                    );
+                  })}
                 </div>
               )}
             </div>
@@ -109,33 +130,96 @@ const Header = () => {
                   <div>
                     <h4 className="text-xs font-bold text-[#25345d] uppercase tracking-wider mb-4 border-b border-gray-100 pb-2">STANDARD PAGES:</h4>
                     <ul className="space-y-2 text-[12px] text-gray-600">
-                      {['About Us Page', 'Courses List Page', 'Course Details Page', 'Partners & Colleges', 'FAQs Page'].map((p) => (
-                        <li key={p}>
-                          <a href="#" className="hover:text-[#ff4d15] transition-colors block py-0.5 border-b border-dashed border-gray-100">{p}</a>
-                        </li>
-                      ))}
+                      {[
+                        { name: 'About Us Page', key: 'about' },
+                        { name: 'Courses List Page', key: 'courses-list' },
+                        { name: 'Course Details Page', key: 'course-details' },
+                        { name: 'Partners & Colleges', key: 'partners' },
+                        { name: 'FAQs Page', key: 'faqs' }
+                      ].map((p) => {
+                        const isPageActive = currentPage === p.key;
+                        return (
+                          <li key={p.key}>
+                            <a
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                if (onSelectPage) onSelectPage(p.key);
+                                setActiveDropdown(null);
+                              }}
+                              className={`block py-0.5 border-b border-dashed border-gray-100 transition-colors ${
+                                isPageActive ? 'text-[#ff4d15] font-bold pl-1' : 'hover:text-[#ff4d15]'
+                              }`}
+                            >
+                              {p.name} {isPageActive && '✓'}
+                            </a>
+                          </li>
+                        );
+                      })}
                     </ul>
                   </div>
                   {/* Col 2 */}
                   <div>
                     <h4 className="text-xs font-bold text-[#25345d] uppercase tracking-wider mb-4 border-b border-gray-100 pb-2">SPECIAL PAGES:</h4>
                     <ul className="space-y-2 text-[12px] text-gray-600">
-                      {['Countries List Page', 'Country Details Page', 'Visa List Page #1', 'Visa List Page #2', 'Visa Details Page'].map((p) => (
-                        <li key={p}>
-                          <a href="#" className="hover:text-[#ff4d15] transition-colors block py-0.5 border-b border-dashed border-gray-100">{p}</a>
-                        </li>
-                      ))}
+                      {[
+                        { name: 'Countries List Page', key: 'countries-list' },
+                        { name: 'Country Details Page', key: 'country-details' },
+                        { name: 'Visa List Page #1', key: 'visa-list-1' },
+                        { name: 'Visa List Page #2', key: 'visa-list-2' },
+                        { name: 'Visa Details Page', key: 'visa-details' }
+                      ].map((p) => {
+                        const isPageActive = currentPage === p.key;
+                        return (
+                          <li key={p.key}>
+                            <a
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                if (onSelectPage) onSelectPage(p.key);
+                                setActiveDropdown(null);
+                              }}
+                              className={`block py-0.5 border-b border-dashed border-gray-100 transition-colors ${
+                                isPageActive ? 'text-[#ff4d15] font-bold pl-1' : 'hover:text-[#ff4d15]'
+                              }`}
+                            >
+                              {p.name} {isPageActive && '✓'}
+                            </a>
+                          </li>
+                        );
+                      })}
                     </ul>
                   </div>
                   {/* Col 3 */}
                   <div>
                     <h4 className="text-xs font-bold text-[#25345d] uppercase tracking-wider mb-4 border-b border-gray-100 pb-2">AUXILIARY PAGES:</h4>
                     <ul className="space-y-2 text-[12px] text-gray-600">
-                      {['Blog Listing Page', 'Single Blog Post', 'Contact Style #1', 'Contact Style #2', 'Contact Style #3'].map((p) => (
-                        <li key={p}>
-                          <a href="#" className="hover:text-[#ff4d15] transition-colors block py-0.5 border-b border-dashed border-gray-100">{p}</a>
-                        </li>
-                      ))}
+                      {[
+                        { name: 'Blog Listing Page', key: 'blog-list' },
+                        { name: 'Single Blog Post', key: 'blog-post' },
+                        { name: 'Contact Style #1', key: 'contact-1' },
+                        { name: 'Contact Style #2', key: 'contact-2' },
+                        { name: 'Contact Style #3', key: 'contact-3' }
+                      ].map((p) => {
+                        const isPageActive = currentPage === p.key;
+                        return (
+                          <li key={p.key}>
+                            <a
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                if (onSelectPage) onSelectPage(p.key);
+                                setActiveDropdown(null);
+                              }}
+                              className={`block py-0.5 border-b border-dashed border-gray-100 transition-colors ${
+                                isPageActive ? 'text-[#ff4d15] font-bold pl-1' : 'hover:text-[#ff4d15]'
+                              }`}
+                            >
+                              {p.name} {isPageActive && '✓'}
+                            </a>
+                          </li>
+                        );
+                      })}
                     </ul>
                   </div>
                 </div>
@@ -217,10 +301,14 @@ const Header = () => {
             </a>
 
             <a
-              href="#contact"
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                if (onSelectPage) onSelectPage('contact-2');
+              }}
               className="ml-3 px-5 py-2.5 bg-[#ff4d15] text-white text-[13px] font-semibold rounded-sm hover:bg-[#e03e08] transition-all duration-200 hover:shadow-lg hover:shadow-orange-200 tracking-wide uppercase"
             >
-              GET STARTED
+              GET CONSULTATION
             </a>
           </nav>
 
@@ -240,8 +328,16 @@ const Header = () => {
             <a href="#" className="py-2 px-3 text-sm font-semibold text-[#25345d] hover:text-[#ff4d15] border-b border-gray-50">PAGES</a>
             <a href="#" className="py-2 px-3 text-sm font-semibold text-[#25345d] hover:text-[#ff4d15] border-b border-gray-50">MEGA MENU</a>
             <a href="#" className="py-2 px-3 text-sm font-semibold text-[#25345d] hover:text-[#ff4d15] border-b border-gray-50">SIMPLE LINK</a>
-            <a href="#contact" className="mt-2 text-center py-2.5 bg-[#ff4d15] text-white text-sm font-semibold rounded-sm hover:bg-[#e03e08] transition-colors">
-              GET STARTED
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                setMobileOpen(false);
+                if (onSelectPage) onSelectPage('contact-2');
+              }}
+              className="mt-2 text-center py-2.5 bg-[#ff4d15] text-white text-sm font-semibold rounded-sm hover:bg-[#e03e08] transition-colors block"
+            >
+              GET CONSULTATION
             </a>
           </div>
         )}

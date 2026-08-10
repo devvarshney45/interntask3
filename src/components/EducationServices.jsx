@@ -2,103 +2,82 @@ import React from 'react';
 
 const services = [
   {
-    title: 'University Selection',
+    id: 1,
+    title: 'IELTS Coaching',
     desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat',
-    featured: false,
   },
   {
-    title: 'Visa Assistance',
+    id: 2,
+    title: 'TOEFL Coaching',
     desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat',
-    featured: false,
   },
   {
-    title: 'Coaching Centers',
+    id: 3,
+    title: 'SAT Prep Course',
     desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat',
-    featured: true,
   },
   {
-    title: 'Overseas Internship',
+    id: 4,
+    title: 'ACT Prep Course',
     desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat',
-    featured: false,
   },
   {
-    title: 'Health Insurance',
+    id: 5,
+    title: 'GMAT Prep Course',
     desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat',
-    featured: false,
   },
   {
-    title: 'Travel Assistance',
+    id: 6,
+    title: 'GRE Prep Course',
     desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat',
-    featured: false,
   },
 ];
 
 const EducationServices = () => {
   return (
-    <section className="py-20 px-4" style={{ background: '#f5f7fa' }}>
+    <section className="py-20 px-4" style={{ background: '#f7f8fc' }}>
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-12">
+        {/* Section header */}
+        <div className="text-center mb-14">
           <h2
-            className="text-3xl md:text-4xl font-bold text-[#25345d] mb-4"
+            className="text-3xl font-bold text-[#25345d] mb-4"
             style={{ fontFamily: 'Poppins, sans-serif' }}
           >
             ImmiEx Education Services
           </h2>
-          <p className="text-gray-500 text-sm max-w-xl mx-auto leading-relaxed">
+          <p className="text-gray-400 text-sm max-w-xl mx-auto leading-relaxed">
             Cursus porta, feugiat primis in ultrce ligula risus auctor tempus dolor feugiat, felis
-            lacinia risus interdum auctor id viverra dolor iaculis luctus placerat and massa
+            lacinia risus interdum.
           </p>
         </div>
 
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-gray-200 rounded-sm overflow-hidden shadow-sm">
-          {services.map((service, idx) => (
+        {/* 6 Service Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {services.map((item) => (
             <div
-              key={service.title}
-              className={`
-                group relative p-8 border-gray-200
-                ${idx < 3 ? 'border-b' : ''}
-                ${idx % 3 !== 2 ? 'border-r' : ''}
-                transition-all duration-300
-                ${service.featured
-                  ? 'bg-[#25345d] text-white'
-                  : 'bg-white hover:bg-[#f0f4fb]'
-                }
-              `}
+              key={item.id}
+              className="bg-white border border-gray-100 p-7 rounded-sm shadow-sm hover:shadow-md transition-shadow duration-200 group"
             >
+              {/* Number accent */}
+              <div
+                className="text-4xl font-black mb-3 leading-none"
+                style={{ color: 'rgba(37,52,93,0.07)', fontFamily: 'Poppins, sans-serif' }}
+              >
+                0{item.id}
+              </div>
               <h3
-                className={`font-semibold text-base mb-3 leading-snug ${service.featured ? 'text-white' : 'text-[#25345d]'}`}
+                className="font-bold text-[#25345d] text-[15px] mb-3 group-hover:text-[#ff4d15] transition-colors"
                 style={{ fontFamily: 'Poppins, sans-serif' }}
               >
-                {service.title}
+                {item.title}
               </h3>
-              <p
-                className={`text-xs leading-relaxed mb-6 ${service.featured ? 'text-gray-300' : 'text-gray-500'}`}
-              >
-                {service.desc}
-              </p>
+              <p className="text-gray-400 text-xs leading-relaxed mb-4">{item.desc}</p>
               <a
                 href="#"
-                className={`
-                  inline-flex items-center gap-1 text-xs font-bold tracking-wider uppercase
-                  transition-colors duration-200
-                  ${service.featured
-                    ? 'text-[#ff9c7e] hover:text-white'
-                    : 'text-[#25345d] hover:text-[#ff4d15]'
-                  }
-                `}
+                className="text-[10px] font-bold text-gray-400 hover:text-[#ff4d15] transition-colors uppercase tracking-wider"
               >
-                READ MORE
-                <svg className="w-3 h-3" viewBox="0 0 16 16" fill="none">
-                  <path d="M3 8h10M9 5l4 3-4 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+                Read More ›
               </a>
-
-              {/* Featured glow */}
-              {service.featured && (
-                <div className="absolute top-0 left-0 w-full h-1 bg-[#ff4d15]" />
-              )}
             </div>
           ))}
         </div>
