@@ -55,19 +55,19 @@ const PartnersColleges = () => {
         <div className="flex flex-wrap items-center justify-center gap-4 text-xs text-gray-400 font-semibold mb-10 border-b border-gray-100 pb-4">
           <span className="text-[#ff4d15] cursor-pointer">All Countries</span>
           <span>/</span>
-          <span className="hover:text-[#ff4d15] cursor-pointer transition-colors">Canada</span>
-          <span>/</span>
-          <span className="hover:text-[#ff4d15] cursor-pointer transition-colors">Australia</span>
-          <span>/</span>
           <span className="hover:text-[#ff4d15] cursor-pointer transition-colors">USA</span>
+          <span>/</span>
+          <span className="hover:text-[#ff4d15] cursor-pointer transition-colors">Canada</span>
           <span>/</span>
           <span className="hover:text-[#ff4d15] cursor-pointer transition-colors">United Kingdom</span>
           <span>/</span>
+          <span className="hover:text-[#ff4d15] cursor-pointer transition-colors">Australia</span>
+          <span>/</span>
           <span className="hover:text-[#ff4d15] cursor-pointer transition-colors">New Zealand</span>
           <span>/</span>
-          <span className="hover:text-[#ff4d15] cursor-pointer transition-colors">China</span>
+          <span className="hover:text-[#ff4d15] cursor-pointer transition-colors">Germany</span>
           <span>/</span>
-          <span className="hover:text-[#ff4d15] cursor-pointer transition-colors">South Korea</span>
+          <span className="hover:text-[#ff4d15] cursor-pointer transition-colors">Sweden</span>
         </div>
 
         {/* Grid of 20 Logos */}

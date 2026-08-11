@@ -45,26 +45,26 @@ const AboutAgency = () => {
           {/* Right: Text Content */}
           <div>
             <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-[0.2em] mb-3">
-              About Agency
+              About EduVista International
             </p>
             <h2
               className="text-3xl md:text-4xl font-bold text-[#25345d] leading-tight mb-6"
               style={{ fontFamily: 'Poppins, sans-serif' }}
             >
-              Consultations for<br />prospective students
+              Your Gateway to Global Education
             </h2>
 
             <ul className="space-y-5">
               <li className="flex gap-3 items-start">
                 <div className="w-2 h-2 rounded-full bg-[#ff4d15] mt-2 shrink-0" />
                 <p className="text-gray-500 text-sm leading-relaxed">
-                  An magnis nulla dolor sapien augue est iaculis purus tempor magna ipsum vitae purus primis pretium ligula rutrum luctus blandit porta justo integer. Feugiat a primis ultrce ligula
+                  Eduvista International is a professional Education Institution Consultancy dedicated to providing innovative and strategic solutions for students, educators, and educational institutions. We focus on enhancing educational quality, institutional development, career growth, and skill advancement.
                 </p>
               </li>
               <li className="flex gap-3 items-start">
                 <div className="w-2 h-2 rounded-full bg-[#ff4d15] mt-2 shrink-0" />
                 <p className="text-gray-500 text-sm leading-relaxed">
-                  Nemo ipsum egestas volute turpis dolores and aliquam quaerat sodales sapien undo pretium purus ligula a tempus ipsum unco auctor a mauris lectus ipsum blandit egestas magna ligula
+                  Our commitment is to create opportunities, improve learning experiences, and support sustainable educational success worldwide. We provide comprehensive guidance and support for students seeking admission to universities, colleges, and educational institutions globally.
                 </p>
               </li>
             </ul>

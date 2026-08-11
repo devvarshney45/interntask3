@@ -24,17 +24,17 @@ const Header = ({ onSelectPage, currentPage }) => {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-1">
           <div className="flex items-center gap-1.5">
             <MapPin size={12} className="text-gray-300" />
-            <span className="text-gray-200 text-[11px]">121 King St, Melbourne, Victoria 3000</span>
+            <span className="text-gray-200 text-[11px]">236, Jodhpur Gardens, Flat No. G2, Kolkata - 700045</span>
           </div>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1.5">
               <Phone size={11} className="text-gray-300" />
-              <span className="text-gray-200 text-[11px]">+61-2 3456 7890,  +61-2 7890 3456</span>
+              <span className="text-gray-200 text-[11px]">+91 6282002268, +91 8282002258</span>
             </div>
             <div className="flex items-center gap-1.5">
               <Mail size={11} className="text-[#ff4d15]" />
-              <a href="mailto:hello@domain.com" className="text-[#ff9c7e] text-[11px] hover:text-[#ff4d15] transition-colors">
-                hello@domain.com
+              <a href="mailto:eduvasta50@gmail.com" className="text-[#ff9c7e] text-[11px] hover:text-[#ff4d15] transition-colors">
+                eduvasta50@gmail.com
               </a>
             </div>
           </div>
@@ -59,10 +59,12 @@ const Header = ({ onSelectPage, currentPage }) => {
               </svg>
             </div>
             <div>
-              <div className="font-bold text-[#25345d] text-xl leading-tight tracking-wide" style={{fontFamily: 'Poppins, sans-serif'}}>
-                Immi<span className="text-[#ff4d15]">Ex</span>
+              <div className="font-bold text-lg text-[#25345d] leading-none tracking-tight group-hover:text-[#ff4d15] transition-colors">
+                Edu<span className="text-[#ff4d15]">Vista</span>
               </div>
-              <div className="text-[10px] text-gray-500 tracking-widest uppercase leading-tight">Immigration Consulting</div>
+              <div className="text-[8px] text-gray-400 tracking-wider uppercase font-semibold mt-0.5">
+                International
+              </div>
             </div>
           </a>
 

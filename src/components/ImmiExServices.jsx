@@ -2,8 +2,8 @@ import React from 'react';
 
 const services = [
   {
-    title: 'Education Visa',
-    desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat',
+    title: 'Expert Educational Guidance',
+    desc: 'Profile evaluation, course & university matching, credit transfers, and pathways guidance.',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="#ff4d15" strokeWidth="2" className="w-8 h-8">
         <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" strokeLinecap="round" />
@@ -12,8 +12,8 @@ const services = [
     ),
   },
   {
-    title: 'Business Visa',
-    desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat',
+    title: 'Scholarship Assistance',
+    desc: 'Merit-based and need-based global scholarship searches, matching, and application support.',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="#ff4d15" strokeWidth="2" className="w-8 h-8">
         <rect x="2" y="7" width="20" height="14" rx="2" strokeLinecap="round" />
@@ -22,8 +22,8 @@ const services = [
     ),
   },
   {
-    title: 'Skilled Immigration',
-    desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat',
+    title: 'Visa Processing Support',
+    desc: 'Visa documentation assistance, interview preparation, mock interviews, and submission guidance.',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="#ff4d15" strokeWidth="2" className="w-8 h-8">
         <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
@@ -31,8 +31,8 @@ const services = [
     ),
   },
   {
-    title: 'Working Visa',
-    desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat',
+    title: 'Document Verification & Attestation',
+    desc: 'Academic document review, transcript attestation guidance, and Statement of Purpose (SOP) guidance.',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="#ff4d15" strokeWidth="2" className="w-8 h-8">
         <path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.3c.4-.2.6-.6.5-1.1z" />
@@ -40,8 +40,8 @@ const services = [
     ),
   },
   {
-    title: 'PR Visa',
-    desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat',
+    title: 'IELTS & Language Preparation',
+    desc: 'Coaching for IELTS, TOEFL, PTE, Duolingo English Test, and spoken English proficiency.',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="#ff4d15" strokeWidth="2" className="w-8 h-8">
         <rect x="3" y="4" width="18" height="16" rx="2" strokeLinecap="round" />
@@ -50,8 +50,8 @@ const services = [
     ),
   },
   {
-    title: 'Immigration Consult',
-    desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat',
+    title: 'Pre-Departure & Post-Arrival Support',
+    desc: 'Accommodation guidance, airport pickup coordination, pre-departure briefings, and health insurance.',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="#ff4d15" strokeWidth="2" className="w-8 h-8">
         <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" strokeLinecap="round" />
@@ -73,11 +73,10 @@ const ImmiExServices = () => {
             className="text-3xl md:text-4xl font-bold text-[#25345d] mb-4"
             style={{ fontFamily: 'Poppins, sans-serif' }}
           >
-            ImmiEx Immigration Services
+            EduVista Core Consultancy Services
           </h2>
           <p className="text-gray-500 text-sm max-w-xl mx-auto leading-relaxed">
-            Cursus porta, feugiat primis in ultrce ligula risus auctor tempus dolor feugiat, felis
-            lacinia risus interdum auctor id viverra dolor iaculis luctus placerat and massa
+            Eduvista International provides comprehensive support services at every stage of the student’s study abroad journey, ensuring a smooth transition to foreign academic life.
           </p>
         </div>
 

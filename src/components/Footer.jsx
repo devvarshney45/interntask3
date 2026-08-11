@@ -47,14 +47,14 @@ const Footer = () => {
               </div>
               <div>
                 <div className="font-bold text-xl text-white leading-tight" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                  Immi<span className="text-[#ff4d15]">Ex</span>
+                  Edu<span className="text-[#ff4d15]">Vista</span>
                 </div>
-                <div className="text-[10px] text-gray-400 tracking-widest uppercase">Immigration Consulting</div>
+                <div className="text-[10px] text-gray-400 tracking-widest uppercase">International Profile</div>
               </div>
             </div>
 
             <p className="text-gray-400 text-xs leading-relaxed max-w-xs">
-              Aliquam orci a nullam tempor undo sapien donec gravida an enim ipsum porta justo velna auctor and congue magna laoreet an augue sapien
+              Eduvista International is dedicated to providing strategic and innovative education institution consultancy solutions globally.
             </p>
           </div>
 
@@ -67,12 +67,11 @@ const Footer = () => {
               Contact Details
             </h4>
             <div className="space-y-3 text-xs text-gray-400 leading-relaxed">
-              <p>121 King Street, Melbourne,<br />Victoria 3000 Australia</p>
-              <p>Phone: <span className="text-gray-300">+12 9 8765 4321</span></p>
-              <p>Email: <a href="mailto:hello@demo.com" className="text-gray-300 underline hover:text-[#ff4d15]">hello@demo.com</a></p>
+              <p>236, Jodhpur Gardens, Ground Floor,<br />Flat No. G2, P.S. Lake, Kolkata - 700045</p>
+              <p>Phone: <span className="text-gray-300">+91 6282002268, +91 8282002258</span></p>
+              <p>Email: <a href="mailto:eduvasta50@gmail.com" className="text-gray-300 underline hover:text-[#ff4d15]">eduvasta50@gmail.com</a></p>
               <div className="pt-2 border-t border-white/10 space-y-1">
-                <p>Mon-Fri: 9:00AM - 6:30PM</p>
-                <p>Saturday: 8:30AM - 3:30PM</p>
+                <p>Mon-Sat: 10:00AM - 7:00PM</p>
                 <p>Sunday: Closed</p>
               </div>
             </div>
@@ -88,7 +87,7 @@ const Footer = () => {
             </h4>
             <ul className="space-y-2.5 text-xs text-gray-400">
               {[
-                'About ImmiEx',
+                'About EduVista',
                 'University Selection',
                 'Visa Assistance',
                 'Overseas Internship',
@@ -144,7 +143,7 @@ const Footer = () => {
 
         {/* Bottom Line */}
         <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-400">
-          <p>© Copyright <strong className="text-gray-200">ImmiEx 2019</strong>. All Rights Reserved</p>
+          <p>© Copyright <strong className="text-gray-200">EduVista International 2026</strong>. All Rights Reserved</p>
 
           {/* Social icons */}
           <div className="flex items-center gap-5 text-gray-400">

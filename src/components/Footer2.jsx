@@ -32,17 +32,16 @@ const Footer2 = () => {
               Contact Details
             </h4>
             <div className="space-y-3 text-xs text-gray-500 leading-relaxed">
-              <p>121 King Street, Melbourne,<br />Victoria 3000 Australia</p>
-              <p>Phone: <span className="text-gray-700">+12 9 8765 4321</span></p>
+              <p>236, Jodhpur Gardens, Ground Floor,<br />Flat No. G2, P.S. Lake, Kolkata - 700045</p>
+              <p>Phone: <span className="text-gray-700">+91 6282002268, +91 8282002258</span></p>
               <p>
                 Email:{' '}
-                <a href="mailto:hello@demo.com" className="text-[#25345d] underline hover:text-[#ff4d15] transition-colors">
-                  hello@demo.com
+                <a href="mailto:eduvasta50@gmail.com" className="text-[#25345d] underline hover:text-[#ff4d15] transition-colors">
+                  eduvasta50@gmail.com
                 </a>
               </p>
               <div className="pt-2 space-y-1">
-                <p>Mon-Fri: 9:00AM - 6:30PM</p>
-                <p>Saturday: 8:30AM - 3:30PM</p>
+                <p>Mon-Sat: 10:00AM - 7:00PM</p>
                 <p>Sunday: Closed</p>
               </div>
             </div>
@@ -58,11 +57,11 @@ const Footer2 = () => {
             </h4>
             <ul className="space-y-2.5 text-xs text-gray-500">
               {[
-                'About ImmiEx',
+                'About EduVista',
                 'Visa Information',
                 'Immigration FAQ',
                 'Immigration Assistance',
-                'ImmiEx Testimonials',
+                'EduVista Testimonials',
                 'Contact Us',
                 'Terms and Conditions',
               ].map((link) => (
@@ -155,9 +154,9 @@ const Footer2 = () => {
             </div>
             <div>
               <div className="font-bold text-[#25345d] text-base leading-tight" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                Immi<span className="text-[#ff4d15]">Ex</span>
+                Edu<span className="text-[#ff4d15]">Vista</span>
               </div>
-              <div className="text-[9px] text-gray-400 tracking-widest uppercase">Immigration Consulting</div>
+              <div className="text-[9px] text-gray-400 tracking-widest uppercase">International Profile</div>
             </div>
           </a>
 
@@ -165,7 +164,7 @@ const Footer2 = () => {
           <div className="flex flex-col sm:flex-row items-center gap-2 text-[11px] text-gray-400">
             <span>
               © Copyright{' '}
-              <strong className="text-gray-600 font-semibold">ImmiEx 2019</strong>{' '}
+              <strong className="text-gray-600 font-semibold">EduVista International 2026</strong>{' '}
               All Rights Reserved
             </span>
             <div className="hidden sm:flex items-center gap-2">

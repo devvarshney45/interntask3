@@ -20,7 +20,7 @@ const CourseDetails = () => {
           className="text-3xl font-extrabold text-[#25345d] mb-6"
           style={{ fontFamily: 'Poppins, sans-serif' }}
         >
-          IELTS / Language Training
+          IELTS &amp; Language Proficiency Training
         </h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
@@ -28,28 +28,28 @@ const CourseDetails = () => {
           <div className="lg:col-span-8 space-y-8 text-xs text-gray-500 leading-relaxed">
             {/* Metadata Badges */}
             <div className="flex flex-wrap items-center gap-4 bg-gray-50 p-4 rounded border border-gray-100 font-bold text-gray-700">
-              <span className="flex items-center gap-1.5">⏱ Duration: <strong className="text-[#ff4d15]">40 Hours</strong></span>
+              <span className="flex items-center gap-1.5">⏱ Duration: <strong className="text-[#ff4d15]">Flexible Batches</strong></span>
               <span className="text-gray-200">|</span>
-              <span className="flex items-center gap-1.5">📝 Assessment: <strong className="text-[#ff4d15]">Yes</strong></span>
+              <span className="flex items-center gap-1.5">📝 Weekly Mock Exams: <strong className="text-[#ff4d15]">Yes</strong></span>
               <span className="text-gray-200">|</span>
-              <span className="flex items-center gap-1.5">🎓 Certification: <strong className="text-[#ff4d15]">Yes</strong></span>
+              <span className="flex items-center gap-1.5">🎓 Comprehensive Materials: <strong className="text-[#ff4d15]">Yes</strong></span>
             </div>
 
             <div className="space-y-4">
               <h3 className="text-sm font-bold text-[#25345d]" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                About IELTS Exam
+                About Our Language Prep Programs
               </h3>
               <p>
-                Aliquam nullam blandit tempor sapien gravida donec ipsum, at porta justo. Velna vitae auctor congue magna tempor sodales sapien. Semper lacus cursus porta, feugiat primis ligula risus auctor and rhoncus in ultrce ligula purus ipsum primis in cubilia.
+                Eduvista International offers expert coaching tailored to help students succeed in essential international language proficiency and academic standardized tests. Our curriculum is designed by experienced instructors who focus on building confidence, speed, and accuracy across all test modules.
               </p>
             </div>
 
             {/* IELTS Brand Motif */}
             <div className="bg-gray-50 p-8 rounded-md border border-gray-100 flex items-center justify-center">
               <div className="text-center space-y-2">
-                <span className="text-5xl font-black tracking-widest text-[#ff4d15] block">IELTS™</span>
+                <span className="text-5xl font-black tracking-widest text-[#ff4d15] block">TEST PREP™</span>
                 <span className="text-[10px] text-gray-400 uppercase tracking-widest block font-bold">
-                  International English Language Testing System
+                  IELTS • TOEFL • PTE • DUOLINGO • GRE • GMAT • SAT
                 </span>
               </div>
             </div>
@@ -70,13 +70,13 @@ const CourseDetails = () => {
 
             <div className="space-y-4">
               <h3 className="text-sm font-bold text-[#25345d]" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                IELTS Tips &amp; Tricks
+                Key Language Offerings
               </h3>
               <ul className="list-disc pl-5 space-y-2">
-                <li>Understand the test format and score mapping guides thoroughly.</li>
-                <li>Practice under timed conditions to improve your pacing.</li>
-                <li>Develop strategies for scanning details in the Reading test.</li>
-                <li>Improve vocabulary and sentence structure variety for Writing.</li>
+                <li><strong>IELTS &amp; TOEFL:</strong> Regular vocabulary builds, accent practice, essay structure breakdowns.</li>
+                <li><strong>PTE &amp; Duolingo:</strong> Mock exams simulating exact computer-based scoring systems.</li>
+                <li><strong>GRE / GMAT:</strong> Quantitative shortcuts, verbal tricks, and time-management practice.</li>
+                <li><strong>SAT / ACT:</strong> Fundamental prep maps for college study abroad seeking candidates.</li>
               </ul>
             </div>
           </div>
@@ -85,23 +85,24 @@ const CourseDetails = () => {
           <div className="lg:col-span-4 space-y-8">
             {/* Categories */}
             <div className="bg-gray-50 p-6 rounded-md border border-gray-100 space-y-4">
-              <h3 className="text-xs font-bold text-[#25345d] uppercase tracking-wider">Course Categories</h3>
+              <h3 className="text-xs font-bold text-[#25345d] uppercase tracking-wider">Test Prep Programs</h3>
               <ul className="space-y-2.5 text-xs text-gray-600 font-semibold">
-                <li className="hover:text-[#ff4d15] cursor-pointer transition-colors">TOEFL</li>
-                <li className="text-[#ff4d15] cursor-pointer font-bold border-l-2 border-[#ff4d15] pl-2">IELTS Training</li>
-                <li className="hover:text-[#ff4d15] cursor-pointer transition-colors">SAT Prep</li>
-                <li className="hover:text-[#ff4d15] cursor-pointer transition-colors">GRE Prep</li>
+                <li className="text-[#ff4d15] cursor-pointer font-bold border-l-2 border-[#ff4d15] pl-2">IELTS Coaching</li>
+                <li className="hover:text-[#ff4d15] cursor-pointer transition-colors">TOEFL Preparation</li>
+                <li className="hover:text-[#ff4d15] cursor-pointer transition-colors">PTE Academic</li>
+                <li className="hover:text-[#ff4d15] cursor-pointer transition-colors">GRE &amp; GMAT Prep</li>
+                <li className="hover:text-[#ff4d15] cursor-pointer transition-colors">SAT &amp; ACT Prep</li>
               </ul>
             </div>
 
             {/* Countries Widget */}
             <div className="bg-gray-50 p-6 rounded-md border border-gray-100 space-y-4">
-              <h3 className="text-xs font-bold text-[#25345d] uppercase tracking-wider">Popular Countries</h3>
+              <h3 className="text-xs font-bold text-[#25345d] uppercase tracking-wider">Opportunities in</h3>
               <div className="space-y-3">
                 {[
-                  { name: 'Canada', img: '/assets/sydney_hero_bg.png' },
+                  { name: 'United States', img: '/assets/sydney_hero_bg.png' },
                   { name: 'United Kingdom', img: '/assets/advisor_laptop.png' },
-                  { name: 'United States', img: '/assets/couple_travel.png' },
+                  { name: 'Canada', img: '/assets/couple_travel.png' },
                 ].map((country, idx) => (
                   <div key={idx} className="relative h-20 rounded overflow-hidden group">
                     <img src={country.img} alt={country.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />

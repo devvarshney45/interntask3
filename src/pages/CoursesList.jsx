@@ -3,14 +3,14 @@ import PopularCourses from '../components/PopularCourses';
 import OverseasEducation from '../components/OverseasEducation';
 
 const courseItems = [
-  { id: 1, title: 'Basic English Grammar', desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat', bg: 'bg-[#9254c8]/10 text-[#9254c8]', border: 'border-[#9254c8]/20' },
-  { id: 2, title: 'Speaking And Writing English Effectively', desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat', bg: 'bg-[#e28743]/10 text-[#e28743]', border: 'border-[#e28743]/20' },
-  { id: 3, title: 'Learn English: Intermediate Grammar', desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat', bg: 'bg-[#1e81b0]/10 text-[#1e81b0]', border: 'border-[#1e81b0]/20' },
-  { id: 4, title: 'English for Career Development', desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat', bg: 'bg-gray-100 text-gray-700', border: 'border-gray-200' },
-  { id: 5, title: 'Fundamentals of English Grammar', desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat', bg: 'bg-red-50 text-red-600', border: 'border-red-100' },
-  { id: 6, title: 'English Grammar and Punctuation', desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat', bg: 'bg-blue-50 text-blue-600', border: 'border-blue-100' },
-  { id: 7, title: 'Business English: Marketing and Sales', desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat', bg: 'bg-purple-50 text-purple-600', border: 'border-purple-100' },
-  { id: 8, title: 'Business English: Communication Skills', desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat', bg: 'bg-indigo-50 text-indigo-600', border: 'border-indigo-100' },
+  { id: 1, title: 'IELTS Preparation Course', desc: 'Comprehensive coaching covering listening, reading, writing, and speaking modules with practice resources.', bg: 'bg-[#9254c8]/10 text-[#9254c8]', border: 'border-[#9254c8]/20' },
+  { id: 2, title: 'TOEFL Preparation', desc: 'Strategic preparation to excel in the Test of English as a Foreign Language with simulated mock exams.', bg: 'bg-[#e28743]/10 text-[#e28743]', border: 'border-[#e28743]/20' },
+  { id: 3, title: 'PTE Academic Coaching', desc: 'Focus on Pearson Test of English modules with computer-based practice and scoring guidance.', bg: 'bg-[#1e81b0]/10 text-[#1e81b0]', border: 'border-[#1e81b0]/20' },
+  { id: 4, title: 'Duolingo English Test Prep', desc: 'Online preparation for the modern, fast, and convenient language proficiency test.', bg: 'bg-green-50 text-green-700', border: 'border-green-200' },
+  { id: 5, title: 'GRE & GMAT Prep Course', desc: 'Advanced quantitative and verbal reasoning strategies for business school and graduate admissions.', bg: 'bg-red-50 text-red-600', border: 'border-red-100' },
+  { id: 6, title: 'SAT & ACT Preparation', desc: 'Targeted study plans, logic training, and mock tests for undergraduate study abroad seekers.', bg: 'bg-blue-50 text-blue-600', border: 'border-blue-100' },
+  { id: 7, title: 'Spoken English & Proficiency', desc: 'Development of fluency, public speaking, conversational grammar, and active communication skills.', bg: 'bg-purple-50 text-purple-600', border: 'border-purple-100' },
+  { id: 8, title: 'Career & Professional Development', desc: 'Profile optimization, resume/CV reviews, statement of purpose (SOP) guidance, and interview prep.', bg: 'bg-indigo-50 text-indigo-600', border: 'border-indigo-100' },
 ];
 
 const listFaqs = [

@@ -2,31 +2,24 @@ import React, { useState } from 'react';
 import BannerConsultationCall from '../components/BannerConsultationCall';
 
 const generalFaqs = [
-  { id: 1, q: '1. Which payment methods do you accept?', a: 'Nullam rutrum eget nunc varius etiam mollis risus congue aliquam etiam sapien egestas, congue gestas posuere cubilia congue and ipsum mauris lectus laoreet gestas neque vitae auctor eros dolor luctus odio tempor sapien gravida donec and ipsum porta.' },
-  { id: 2, q: '2. What is the registration process?', a: 'Semper lacus cursus porta, feugiat primis ligula risus auctor and rhoncus in ultrce ligula purus ipsum primis in cubilia.' },
-  { id: 3, q: '3. How can I update my personal information?', a: 'An magnis nulla dolor sapien augue erat iaculis. Our helpdesk team can update your registration files instantly upon verification.' },
+  { id: 1, q: '1. What services does EduVista International offer?', a: 'We offer professional educational consultancy including university selection, application processing, Statement of Purpose (SOP) guidance, scholarship search matching, visa processing, pre-departure briefings, and post-arrival accommodation assistance.' },
+  { id: 2, q: '2. Which countries do you assist with for study options?', a: 'We support admissions to top universities and colleges across 15+ destination countries including the USA, Canada, UK, Australia, New Zealand, Germany, Sweden, Denmark, Netherlands, Ireland, Hungary, Finland, Italy, France, and Malaysia.' },
+  { id: 3, q: '3. Do you offer English test preparation coaching?', a: 'Yes, we provide specialized training programs for IELTS, TOEFL, PTE, Duolingo English Test, as well as academic test preps like GRE, GMAT, SAT, and ACT.' },
 ];
 
 const prFaqs = [
-  { id: 1, q: '1. How can ImmiEx help me?', a: 'ImmiEx provides expert legal advice and visa document preparation assistance to help you secure permanent residency.' },
-  { id: 2, q: '2. What should I expect from Initial Consultation?', a: 'We will review your qualification profile, points test viability, and suggest candidate pathways for your target country.' },
-  { id: 3, q: '3. What can prevent me from coming to Australia?', a: 'Health issues, criminal history, background checks, or failing to meet minimum point thresholds can result in refusal.' },
-  { id: 4, q: '4. Who is Authorized Representative?', a: 'Registered MARA agents or lawyers certified to legally represent visa applications to the immigration department.' },
+  { id: 1, q: '1. How do you help with university selection and application?', a: 'Our counselors review your academic history, budget, and career goals to suggest compatible colleges. We then assist with full application submissions, letter of recommendation layouts, and credit transfer guidance.' },
+  { id: 2, q: '2. What is the process for Statement of Purpose (SOP) guidance?', a: 'We help draft and refine your SOPs and motivation letters to showcase your unique profile strengths and align them with university selection criteria.' },
 ];
 
 const touristFaqs = [
-  { id: 1, q: '1. Qualification for a Canada Tourist Visa?', a: 'Proof of sufficient travel funds, proof of ties to home country (job/property), clean record, and valid passport.' },
-  { id: 2, q: '2. Do you guarantee a visa approval?', a: 'No agency can guarantee approval as the final decision rests solely with consular officers.' },
-  { id: 3, q: '3. How long does the application process take?', a: 'Typically 2 to 6 weeks depending on the visa office processing queues and document completeness.' },
+  { id: 1, q: '1. What visa support services do you provide?', a: 'We provide full visa documentation assistance, interview prep, financial document guidelines, and mock visa interview rounds to maximize your success probability.' },
+  { id: 2, q: '2. Do you offer pre-departure and post-arrival assistance?', a: 'Yes! We conduct pre-departure briefing sessions and assist with travel arrangements, airport pickup coordination, accommodation booking, and health insurance registration.' },
 ];
 
 const workingFaqs = [
-  { id: 1, q: '1. How do I get started?', a: 'Submit your resume and academic transcripts for a pre-assessment evaluation by our migration consultants.' },
-  { id: 2, q: '2. What is meant by the "locked-in" date?', a: 'The date on which your child or partner age is fixed for dependency calculations under local immigration laws.' },
-  { id: 3, q: '3. What can prevent me from coming to Canada?', a: 'Security grounds, medical inadmissibility, or misrepresentation in visa documents.' },
-  { id: 4, q: '4. What is the registration process?', a: 'Expression of Interest (EOI) submission followed by provincial nomination invitations.' },
-  { id: 5, q: '5. In what currency must I pay the government fees?', a: 'Typically paid online in the destination country currency via credit card portal.' },
-  { id: 6, q: '6. In what currency must I pay the government fees?', a: 'Typically paid online in the destination country currency via credit card portal.' },
+  { id: 1, q: '1. How do I initiate a consultation with EduVista?', a: 'You can book an appointment by contacting us via phone (+91 6282002268), emailing eduvasta50@gmail.com, or visiting our office at Jodhpur Gardens, Kolkata.' },
+  { id: 2, q: '2. Do you charge fees for initial profile evaluations?', a: 'Please contact our front desk for active consultation terms and specialized package details.' },
 ];
 
 const AccordionGroup = ({ title, items }) => {

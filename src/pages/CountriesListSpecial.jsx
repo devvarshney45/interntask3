@@ -3,12 +3,21 @@ import ImmigrationOpportunities from '../components/ImmigrationOpportunities';
 import BannerConsultationCall from '../components/BannerConsultationCall';
 
 const countriesSpecialList = [
-  { id: 'canada', name: 'Canada', flag: '🇨🇦', desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat' },
-  { id: 'australia', name: 'Australia', flag: '🇦🇺', desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat' },
-  { id: 'singapore', name: 'Singapore', flag: '🇸🇬', desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat' },
-  { id: 'uk', name: 'United Kingdom', flag: '🇬🇧', desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat' },
-  { id: 'usa', name: 'United States', flag: '🇺🇸', desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat' },
-  { id: 'nz', name: 'New Zealand', flag: '🇳🇿', desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat' },
+  { id: 'usa', name: 'USA', flag: '🇺🇸', desc: 'Leading global study destination with world-renowned universities and innovative programs.' },
+  { id: 'canada', name: 'Canada', flag: '🇨🇦', desc: 'High-quality education, welcoming environment, and post-graduation work opportunities.' },
+  { id: 'uk', name: 'United Kingdom', flag: '🇬🇧', desc: 'Historic academic institutions offering prestigious degrees and rich cultural exposure.' },
+  { id: 'australia', name: 'Australia', flag: '🇦🇺', desc: 'World-class universities, excellent lifestyle, and diverse career prospects.' },
+  { id: 'new-zealand', name: 'New Zealand', flag: '🇳🇿', desc: 'Safe environment, excellent research facilities, and globally recognized qualifications.' },
+  { id: 'germany', name: 'Germany', flag: '🇩🇪', desc: 'Tuition-free options, state-of-the-art engineering, and strong industrial connections.' },
+  { id: 'sweden', name: 'Sweden', flag: '🇸🇪', desc: 'Focus on innovation, critical thinking, and sustainable education paths.' },
+  { id: 'denmark', name: 'Denmark', flag: '🇩🇰', desc: 'Student-centered learning, safe environments, and highly ranked institutions.' },
+  { id: 'netherlands', name: 'Netherlands', flag: '🇳🇱', desc: 'Pioneer in English-taught programs and diverse international student culture.' },
+  { id: 'ireland', name: 'Ireland', flag: '🇮🇪', desc: 'European tech hub offering fantastic graduate employment programs and friendly community.' },
+  { id: 'malaysia', name: 'Malaysia', flag: '🇲🇾', desc: 'Affordable quality education and partner campus pathways in Southeast Asia.' },
+  { id: 'hungary', name: 'Hungary', flag: '🇭🇺', desc: 'Rich cultural history, affordable living cost, and internationally recognized medical programs.' },
+  { id: 'finland', name: 'Finland', flag: '🇫🇮', desc: 'World-class primary and higher education models emphasizing well-being and research.' },
+  { id: 'italy', name: 'Italy', flag: '🇮🇹', desc: 'Historic arts, design, fashion, architecture, and globally recognized business schools.' },
+  { id: 'france', name: 'France', flag: '🇫🇷', desc: 'Prestigious grandes écoles, rich heritage, and excellent business and culinary education.' },
 ];
 
 const CountriesListSpecial = () => {

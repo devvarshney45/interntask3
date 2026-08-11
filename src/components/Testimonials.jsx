@@ -32,7 +32,7 @@ const testimonials = [
     avatar: null,
     initials: 'MS',
     color: '#2e7d52',
-    text: 'Porta semper lacus cursus, feugiat primis augue suscipit egestas magna. The team at ImmiEx made my visa process completely stress-free. I got my Australia student visa within 3 weeks and now studying at Melbourne University.',
+    text: 'Porta semper lacus cursus, feugiat primis augue suscipit egestas magna. The team at EduVista made my visa process completely stress-free. I got my Australia student visa within 3 weeks and now studying at Melbourne University.',
   },
   {
     name: 'James Chen',
@@ -40,7 +40,7 @@ const testimonials = [
     avatar: null,
     initials: 'JC',
     color: '#7e3fa8',
-    text: 'Incredible service! The consultants were always available to answer my questions. My UK student visa was approved on the first attempt. ImmiEx guided me through every step of the university selection and visa process.',
+    text: 'Incredible service! The consultants were always available to answer my questions. My UK student visa was approved on the first attempt. EduVista guided me through every step of the university selection and visa process.',
   },
 ];
 

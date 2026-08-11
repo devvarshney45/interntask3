@@ -27,11 +27,10 @@ const WhyChooseUs = () => {
             className="text-3xl md:text-4xl font-bold mb-4"
             style={{ fontFamily: 'Poppins, sans-serif' }}
           >
-            Why Choose ImmiEx
+            Why Choose EduVista
           </h2>
           <p className="text-gray-300 text-sm max-w-xl mx-auto leading-relaxed">
-            Cursus porta, feugiat primis in ultrce ligula risus auctor tempus dolor feugiat, felis
-            lacinia risus interdum auctor id viverra dolor iaculis luctus placerat and massa
+            Professional & experienced consultancy services, personalized student counseling, transparent & ethical services, strong university partnerships, and pre-departure briefings.
           </p>
         </div>
 

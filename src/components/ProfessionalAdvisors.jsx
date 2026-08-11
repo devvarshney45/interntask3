@@ -119,7 +119,7 @@ const ProfessionalAdvisors = () => {
               <div>
                 <div className="text-5xl mb-4">▶</div>
                 <p className="text-lg font-semibold" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                  About ImmiEx – Immigration Consulting
+                  About EduVista – International Education Consulting
                 </p>
                 <p className="text-gray-400 text-sm mt-2">Video demo – add your YouTube embed URL here</p>
               </div>
