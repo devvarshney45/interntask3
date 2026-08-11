@@ -32,8 +32,7 @@ const ContactStyle3 = () => {
             Have Questions? Get in Touch
           </h2>
           <p className="text-gray-400 text-xs max-w-xl mx-auto leading-relaxed">
-            Cursus porta, feugiat primis in ultrce ligula risus auctor tempus dolor feugiat, felis
-            lacinia risus interdum.
+            Reach out to our experts to get answers to all your global study queries.
           </p>
         </div>
 
@@ -42,15 +41,15 @@ const ContactStyle3 = () => {
           <div className="md:col-span-4 bg-gray-50/50 p-8 border border-gray-100/60 rounded-md space-y-6">
             <div className="space-y-1">
               <h4 className="font-bold text-[#25345d] text-xs">Our Location</h4>
-              <p className="text-[10px] text-gray-400">121 King St, Melbourne VIC 3000 Australia</p>
+              <p className="text-[10px] text-gray-400">236, Jodhpur Gardens, Ground Floor, Flat No. G2, P.S. Lake, Kolkata – 700045</p>
             </div>
             <div className="space-y-1 border-t border-gray-100 pt-4">
               <h4 className="font-bold text-[#25345d] text-xs">Let's Talk</h4>
-              <p className="text-[10px] text-gray-400">P: +12 3 3456 7890<br />F: +12 3 0987 6543</p>
+              <p className="text-[10px] text-gray-400">P: +91 8282002268<br />M: +91 8282002258</p>
             </div>
             <div className="space-y-1 border-t border-gray-100 pt-4">
               <h4 className="font-bold text-[#25345d] text-xs">Drop a Line</h4>
-              <p className="text-[10px] text-gray-400">hello@domain.com<br />career@domain.com</p>
+              <p className="text-[10px] text-gray-400">info@eduvastaint.com<br />eduvasta50@gmail.com</p>
             </div>
           </div>
 
@@ -82,7 +81,8 @@ const ContactStyle3 = () => {
               >
                 <option value="">Your Question About...</option>
                 <option value="student">Student Visa</option>
-                <option value="pr">PR Visa</option>
+                <option value="scholarship">Scholarship Assistance</option>
+                <option value="university">University Application</option>
                 <option value="other">Other Query</option>
               </select>
               <textarea
@@ -109,13 +109,13 @@ const ContactStyle3 = () => {
       {/* Large Map Banner at bottom */}
       <div className="w-full h-80 bg-gray-100 border-t border-gray-100">
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835837651586!2d144.9537363153403!3d-37.81720997975171!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d4c2b349649%3A0xb6899234e561db11!2s121%20King%20St%2C%20Melbourne%20VIC%203000%2C%20Australia!5e0!3m2!1sen!2sin!4v1628178129184!5m2!1sen!2sin"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3686.0743603417726!2d88.36440621183186!3d22.50140227945037!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a0276a084c8a245%3A0xc383c31ff735ccfd!2s236%2C%20Jodhpur%20Gardens%20Rd%2C%20Lake%20Gardens%2C%20Kolkata%2C%20West%20Bengal%20700045!5e0!3m2!1sen!2sin!4v1689000000000!5m2!1sen!2sin"
           width="100%"
           height="100%"
           style={{ border: 0 }}
           allowFullScreen=""
           loading="lazy"
-          title="Melbourne Location"
+          title="Kolkata Location"
         />
       </div>
     </div>

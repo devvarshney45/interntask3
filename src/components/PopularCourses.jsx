@@ -1,159 +1,209 @@
-import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const courses = [
   {
     id: 1,
-    title: 'Academic Writing',
-    desc: 'Cursus porta feugiat primis and ultrce risus auctor, tempus dolor feugiat felis lobortis.',
-    category: 'WRITING',
-    bgFrom: '#5b7fe0',
-    bgTo: '#7c58cb',
+    title: 'University Admissions Counseling',
+    desc: 'Expert guidance on selecting the right university and program tailored to your academic profile and career goals.',
+    img: '/assets/advisor_laptop.png',
+    tag: 'ADMISSIONS',
   },
   {
     id: 2,
-    title: 'English for Career Development',
-    desc: 'Cursus porta feugiat primis and ultrce risus auctor, tempus dolor feugiat felis lobortis.',
-    category: 'CAREER',
-    bgFrom: '#e05b8f',
-    bgTo: '#c04fd8',
+    title: 'Student Visa Documentation',
+    desc: 'Complete assistance with visa application documentation, financial proofs, and interview preparation support.',
+    img: '/assets/advisors_table.png',
+    tag: 'VISA SUPPORT',
   },
   {
     id: 3,
-    title: 'IELTS Course',
-    desc: 'Cursus porta feugiat primis and ultrce risus auctor, tempus dolor feugiat felis lobortis.',
-    category: 'IELTS',
-    bgFrom: '#31aadb',
-    bgTo: '#1fd5cf',
+    title: 'IELTS & English Proficiency',
+    desc: 'Preparation guidance for IELTS and other English language proficiency requirements for top universities worldwide.',
+    img: '/assets/couple_travel.png',
+    tag: 'LANGUAGE',
   },
   {
     id: 4,
-    title: 'English Grammar and Punctuation',
-    desc: 'Cursus porta feugiat primis and ultrce risus auctor, tempus dolor feugiat felis lobortis.',
-    category: 'GRAMMAR',
-    bgFrom: '#f57c36',
-    bgTo: '#f5be38',
+    title: 'Scholarship Assistance',
+    desc: 'Comprehensive scholarship search, eligibility assessment, and application support to minimize tuition cost.',
+    img: '/assets/sydney_hero_bg.png',
+    tag: 'SCHOLARSHIP',
   },
   {
     id: 5,
-    title: 'Spoken English Mastery',
-    desc: 'Cursus porta feugiat primis and ultrce risus auctor, tempus dolor feugiat felis lobortis.',
-    category: 'SPOKEN',
-    bgFrom: '#3cbe7a',
-    bgTo: '#2dd4c4',
+    title: 'Career Development Planning',
+    desc: 'Career counseling and planning sessions to map your study path to your long-term professional aspirations.',
+    img: '/assets/advisor_laptop.png',
+    tag: 'CAREER',
   },
   {
     id: 6,
-    title: 'Study Abroad Preparation',
-    desc: 'Cursus porta feugiat primis and ultrce risus auctor, tempus dolor feugiat felis lobortis.',
-    category: 'ABROAD',
-    bgFrom: '#f5a632',
-    bgTo: '#f5c842',
+    title: 'Pre-Departure Briefing',
+    desc: 'Comprehensive pre-departure sessions covering accommodation, culture, transport, and student life abroad.',
+    img: '/assets/couple_travel.png',
+    tag: 'PRE-DEPARTURE',
+  },
+  {
+    id: 7,
+    title: 'SOP & Application Writing',
+    desc: 'Professional guidance on crafting compelling Statements of Purpose, recommendation letters, and application essays.',
+    img: '/assets/advisors_table.png',
+    tag: 'DOCUMENTATION',
+  },
+  {
+    id: 8,
+    title: 'Post-Arrival Support',
+    desc: 'Ongoing support after landing — from bank account setup and local registration to academic induction guidance.',
+    img: '/assets/sydney_hero_bg.png',
+    tag: 'POST-ARRIVAL',
   },
 ];
 
-const VISIBLE = 4;
-
-const CourseCard = ({ course }) => (
-  <div className="bg-white border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 group flex flex-col overflow-hidden">
-    {/* Colored header image area */}
-    <div
-      className="relative flex items-end justify-start overflow-hidden"
-      style={{
-        height: '160px',
-        background: `linear-gradient(135deg, ${course.bgFrom} 0%, ${course.bgTo} 100%)`,
-      }}
-    >
-      {/* Decorative SVG illustration inside banner */}
-      <svg className="absolute inset-0 w-full h-full" viewBox="0 0 240 160" preserveAspectRatio="xMidYMid slice">
-        {/* Abstract blobs */}
-        <circle cx="200" cy="30" r="55" fill="white" opacity="0.08"/>
-        <circle cx="50" cy="130" r="40" fill="white" opacity="0.07"/>
-        {/* Lines pattern */}
-        {[0,1,2,3].map(i => (
-          <line key={i} x1={30 + i*50} y1="0" x2={i*50} y2="160" stroke="white" strokeWidth="0.5" opacity="0.15"/>
-        ))}
-        {/* Book icon */}
-        <rect x="85" y="45" width="70" height="80" rx="3" fill="white" opacity="0.15"/>
-        <rect x="90" y="50" width="60" height="70" rx="2" fill="white" opacity="0.15"/>
-        <line x1="120" y1="50" x2="120" y2="120" stroke="white" strokeWidth="1" opacity="0.3"/>
-      </svg>
-      <div className="absolute bottom-3 left-4 text-[10px] font-bold text-white/70 tracking-widest">
-        {course.category}
-      </div>
-    </div>
-
-    {/* Card content */}
-    <div className="p-5 flex flex-col flex-1">
-      <h3
-        className="font-bold text-[#25345d] text-[13px] leading-snug mb-2 group-hover:text-[#ff4d15] transition-colors"
-        style={{ fontFamily: 'Poppins, sans-serif' }}
-      >
-        {course.title}
-      </h3>
-      <p className="text-gray-400 text-[11px] leading-relaxed flex-1">{course.desc}</p>
-      <a
-        href="#"
-        className="inline-flex items-center gap-1 text-[10px] font-bold tracking-wider uppercase text-[#25345d] hover:text-[#ff4d15] transition-colors mt-3"
-      >
-        READ MORE ›
-      </a>
-    </div>
-  </div>
-);
+const allCourses = [...courses, ...courses];
 
 const PopularCourses = () => {
-  const [start, setStart] = useState(0);
-  const maxIdx = courses.length - VISIBLE;
-  const visible = courses.slice(start, start + VISIBLE);
+  const trackRef = useRef(null);
+  const posRef = useRef(0);
+  const rafRef = useRef(null);
+  const isPausedRef = useRef(false);
+  const [isPaused, setIsPaused] = useState(false);
+
+  const CARD_W = 260;
+  const GAP = 24;
+  const STEP = 0.7;
+  const singleSetWidth = courses.length * (CARD_W + GAP);
+
+  useEffect(() => {
+    const animate = () => {
+      if (!isPausedRef.current) {
+        posRef.current += STEP;
+        if (posRef.current >= singleSetWidth) {
+          posRef.current = 0;
+        }
+        if (trackRef.current) {
+          trackRef.current.style.transform = `translateX(-${posRef.current}px)`;
+        }
+      }
+      rafRef.current = requestAnimationFrame(animate);
+    };
+    rafRef.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [singleSetWidth]);
+
+  const handleMouseEnter = () => {
+    isPausedRef.current = true;
+    setIsPaused(true);
+  };
+  const handleMouseLeave = () => {
+    isPausedRef.current = false;
+    setIsPaused(false);
+  };
 
   return (
-    <section className="py-20 px-4 bg-white border-t border-gray-100">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h2
-            className="text-3xl md:text-4xl font-bold text-[#25345d] mb-4"
-            style={{ fontFamily: 'Poppins, sans-serif' }}
-          >
-            Our Most Popular Courses
-          </h2>
-          <p className="text-gray-400 text-sm max-w-lg mx-auto leading-relaxed">
-            Cursus porta, feugiat primis in ultrce ligula risus auctor tempus dolor feugiat, felis
-            lacinia risus interdum auctor id viverra dolor iaculis luctus placerat and massa.
-          </p>
-        </div>
+    <section className="py-20 bg-white overflow-hidden">
+      <div className="text-center px-4 mb-12">
+        <h2
+          className="text-3xl md:text-4xl font-extrabold text-[#25345d] mb-3"
+          style={{ fontFamily: 'Poppins, sans-serif' }}
+        >
+          Our Most Popular Services
+        </h2>
+        <p className="text-gray-500 text-sm max-w-2xl mx-auto leading-relaxed">
+          From university admissions and visa support to career planning and pre-departure briefings —
+          EduVista International guides you through every step of your global education journey.
+        </p>
+      </div>
 
-        {/* Course Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
-          {visible.map(course => <CourseCard key={course.id} course={course} />)}
-        </div>
+      <div
+        className="relative w-full overflow-hidden"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <div
+          className="absolute left-0 top-0 bottom-0 z-10 pointer-events-none"
+          style={{ width: '80px', background: 'linear-gradient(to right, white, transparent)' }}
+        />
+        <div
+          className="absolute right-0 top-0 bottom-0 z-10 pointer-events-none"
+          style={{ width: '80px', background: 'linear-gradient(to left, white, transparent)' }}
+        />
 
-        {/* Navigation */}
-        <div className="flex items-center justify-center gap-3">
-          <button
-            onClick={() => setStart(i => Math.max(i - 1, 0))}
-            disabled={start === 0}
-            className={`w-7 h-7 border border-gray-300 flex items-center justify-center transition-all text-gray-500 ${start === 0 ? 'opacity-30 cursor-not-allowed' : 'hover:border-[#25345d] hover:text-[#25345d]'}`}
-          >
-            <ChevronLeft size={14} />
-          </button>
-          <div className="flex gap-1.5">
-            {Array.from({ length: maxIdx + 1 }).map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setStart(i)}
-                className={`h-1.5 rounded-full transition-all duration-200 ${i === start ? 'bg-[#ff4d15] w-5' : 'bg-gray-300 w-1.5'}`}
-              />
-            ))}
-          </div>
-          <button
-            onClick={() => setStart(i => Math.min(i + 1, maxIdx))}
-            disabled={start >= maxIdx}
-            className={`w-7 h-7 border border-gray-300 flex items-center justify-center transition-all text-gray-500 ${start >= maxIdx ? 'opacity-30 cursor-not-allowed' : 'hover:border-[#25345d] hover:text-[#25345d]'}`}
-          >
-            <ChevronRight size={14} />
-          </button>
+        <div
+          ref={trackRef}
+          style={{
+            display: 'flex',
+            gap: `${GAP}px`,
+            willChange: 'transform',
+            paddingLeft: '40px',
+            paddingRight: '40px',
+          }}
+        >
+          {allCourses.map((course, idx) => (
+            <div
+              key={`${course.id}-${idx}`}
+              style={{
+                minWidth: `${CARD_W}px`,
+                maxWidth: `${CARD_W}px`,
+                flexShrink: 0,
+                border: '1px solid #e8e8e8',
+                background: '#fff',
+              }}
+              className="hover:shadow-lg transition-shadow duration-200 group"
+            >
+              <div style={{ height: '170px', overflow: 'hidden' }}>
+                <img
+                  src={course.img}
+                  alt={course.title}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  className="group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div style={{ padding: '18px 18px 20px' }}>
+                <span
+                  style={{
+                    fontSize: '9px',
+                    fontWeight: '700',
+                    letterSpacing: '0.15em',
+                    textTransform: 'uppercase',
+                    color: '#ff4d15',
+                    display: 'block',
+                    marginBottom: '6px',
+                  }}
+                >
+                  {course.tag}
+                </span>
+                <h3
+                  style={{
+                    fontFamily: 'Poppins, sans-serif',
+                    fontWeight: '700',
+                    fontSize: '14px',
+                    color: '#25345d',
+                    lineHeight: '1.4',
+                    marginBottom: '8px',
+                  }}
+                >
+                  {course.title}
+                </h3>
+                <p style={{ fontSize: '12px', color: '#888', lineHeight: '1.7', marginBottom: '12px' }}>
+                  {course.desc}
+                </p>
+                <a
+                  href="#"
+                  style={{
+                    fontSize: '11px',
+                    fontWeight: '700',
+                    color: '#25345d',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.08em',
+                    textDecoration: 'none',
+                  }}
+                  className="hover:text-[#ff4d15] transition-colors"
+                >
+                  READ MORE »
+                </a>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

@@ -4,25 +4,25 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 const slides = [
   {
     id: 1,
-    subtitle: 'Welcome to ImmiEx Agency',
-    title: 'WE MAKE THE VISA PROCESS FASTER',
-    desc: 'Feugiat primis ligula risus auctor egestas augue mauri viverra tortor in iaculis placerat eugiat mauris ipsum in viverra tortor and gravida purus lorem in tortor',
+    subtitle: 'Welcome to EduVista International',
+    title: 'YOUR GATEWAY TO GLOBAL EDUCATION',
+    desc: 'Dedicated to helping students achieve their academic and career aspirations through quality global education opportunities. We provide expert guidance at every stage of the study abroad journey.',
     buttonText: 'DISCOVER MORE',
     bg: '/assets/sydney_hero_bg.png',
   },
   {
     id: 2,
-    subtitle: 'High-Class Professionals',
-    title: "WE'RE MOST TRUSTED IMMIGRATION AGENCY",
-    desc: 'Feugiat primis ligula risus auctor egestas augue mauri viverra tortor in iaculis placerat eugiat mauris ipsum in viverra tortor and gravida purus lorem in tortor',
+    subtitle: 'Personalized Student Counseling',
+    title: 'EMPOWERING STUDENTS FOR INTERNATIONAL SUCCESS',
+    desc: 'From choosing the right course and university to securing admission, scholarships, visas, and successful overseas transition — we guide you every step of the way.',
     buttonText: 'WHAT WE DO',
     bg: '/assets/advisor_laptop.png',
   },
   {
     id: 3,
-    subtitle: 'We have 20+ years experience in',
-    title: 'IMMIGRATION & VISA CONSULTATION',
-    desc: 'Feugiat primis ligula risus auctor egestas augue mauri viverra tortor in iaculis placerat eugiat mauris ipsum in viverra tortor and gravida purus lorem in tortor',
+    subtitle: 'Expert Guidance & Strong University Partnerships',
+    title: 'GUIDING DREAMS, BUILDING FUTURES WORLDWIDE',
+    desc: 'Our team of experienced counselors provides honest, student-first guidance ensuring every applicant finds a pathway suited to their academic goals, budget, and career aspirations.',
     buttonText: 'BOOK CONSULTATION NOW',
     bg: '/assets/advisors_table.png',
   },
@@ -81,7 +81,7 @@ const HeroSection2 = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 6000);
+    }, 2500);
     return () => clearInterval(timer);
   }, []);
 
@@ -96,12 +96,12 @@ const HeroSection2 = () => {
   const slide = slides[currentSlide];
 
   const featureCards = [
-    { icon: <UniversityIcon />, title: 'Education Visa', desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat' },
-    { icon: <WalletIcon />, title: 'Business Immigration', desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat' },
-    { icon: <WrenchIcon />, title: 'Skilled Immigration', desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat' },
-    { icon: <FamilyIcon />, title: 'Spouse/Family Visa', desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat' },
-    { icon: <LuggageIcon />, title: 'Tourist & Visitor Visa', desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat' },
-    { icon: <GlobeIcon />, title: 'Language Courses', desc: 'Porta semper lacus cursus a feugiat primis an ultrce dolor undo congue placerat' },
+    { icon: <UniversityIcon />, title: 'University Admissions', desc: 'End-to-end application support for top universities across 15+ countries globally.' },
+    { icon: <WalletIcon />, title: 'Scholarship Assistance', desc: 'Merit-based and need-based scholarship search, matching, and application support.' },
+    { icon: <WrenchIcon />, title: 'Visa Processing Support', desc: 'Visa documentation, interview preparation, financial guidance and student visa processing.' },
+    { icon: <FamilyIcon />, title: 'Student Counseling', desc: 'Personalized career guidance, university selection, and course matching for every student.' },
+    { icon: <LuggageIcon />, title: 'Pre & Post Arrival', desc: 'Accommodation guidance, airport pickup coordination, travel arrangements and student orientation.' },
+    { icon: <GlobeIcon />, title: 'Global Opportunities', desc: 'Study destinations in USA, Canada, UK, Australia, Germany, France, and more.' },
   ];
 
   return (

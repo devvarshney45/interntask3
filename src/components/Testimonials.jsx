@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useEffect, useRef } from 'react';
 
 const testimonials = [
   {
@@ -8,7 +7,7 @@ const testimonials = [
     avatar: '/assets/testimonial_evelyn.png',
     initials: 'EW',
     color: '#25345d',
-    text: 'Sapien sem accumsan vitae at purus diam integer congue magna sodales. Magna vitae and aenean mauris tempor augue in cubilia lacreet magna suscipit magna ipsum vitae purus ipsum primis cubilia lacreet and augue ultrce ligula egestas magna suscipit lectus gestas at magna viverra dolor neque gravida.',
+    text: 'EduVista made my Canada student visa process completely smooth. Their team guided me through every step — from university selection to visa documentation. I couldn\'t have done it without them!',
   },
   {
     name: 'Leslie Serpas',
@@ -16,7 +15,7 @@ const testimonials = [
     avatar: '/assets/testimonial_leslie.png',
     initials: 'LS',
     color: '#4a7eb5',
-    text: 'Etiam sapien gravida and donec sagittis congue. Augue cubilia lacreet at magna suscipit egestas magna an ipsum vitae and purus ipsum primis undo cubilia lacreet augue ultrce ligula and egestas suscipit magna lectus gestas magna as viverra neque est gravida.',
+    text: 'Incredible consultancy! The team at EduVista is highly professional, always available, and gave me very honest advice. My Singapore PR was approved on the first attempt thanks to their expert guidance.',
   },
   {
     name: 'Dan Hodges',
@@ -24,7 +23,7 @@ const testimonials = [
     avatar: null,
     initials: 'DH',
     color: '#ff4d15',
-    text: 'An augue in cubilia lacreet undo magna suscipit egestas magna ipsum egestas vitae purus ipsum primis cubilia lacreet augue ultrce ligula egestas and magna suscipit lectus gestas magna a viverra dolor neque est gravida.',
+    text: 'The scholarship assistance I received from EduVista was outstanding. They found scholarships I never knew existed and helped me apply successfully. Now I\'m studying in the USA with 60% tuition covered!',
   },
   {
     name: 'Maria Santos',
@@ -32,7 +31,7 @@ const testimonials = [
     avatar: null,
     initials: 'MS',
     color: '#2e7d52',
-    text: 'Porta semper lacus cursus, feugiat primis augue suscipit egestas magna. The team at EduVista made my visa process completely stress-free. I got my Australia student visa within 3 weeks and now studying at Melbourne University.',
+    text: 'EduVista\'s pre-departure briefing was so thorough — from accommodation to local transport, banking to student registration. I felt fully prepared when I landed in Melbourne. Truly exceptional service!',
   },
   {
     name: 'James Chen',
@@ -40,20 +39,52 @@ const testimonials = [
     avatar: null,
     initials: 'JC',
     color: '#7e3fa8',
-    text: 'Incredible service! The consultants were always available to answer my questions. My UK student visa was approved on the first attempt. EduVista guided me through every step of the university selection and visa process.',
+    text: 'The team was always available to answer my questions at any hour. My UK student visa was approved first attempt. EduVista guided me through every step of the university selection and visa process.',
+  },
+  {
+    name: 'Priya Sharma',
+    visa: 'Germany Student Visa',
+    avatar: null,
+    initials: 'PS',
+    color: '#c0392b',
+    text: 'I had a very complex case but EduVista handled everything with ease. Their knowledge of German university requirements and visa regulations is impeccable. I am now pursuing my Masters in Berlin!',
   },
 ];
 
-const CARDS_PER_VIEW = 3;
+// Duplicate for seamless infinite loop
+const allTestimonials = [...testimonials, ...testimonials];
+
+const CARD_W = 360;
+const GAP = 24;
+const STEP = 1.4; // faster than courses – ~84px/sec @ 60fps
 
 const Testimonials = () => {
-  const [idx, setIdx] = useState(0);
-  const maxIdx = testimonials.length - CARDS_PER_VIEW;
-  const visible = testimonials.slice(idx, idx + CARDS_PER_VIEW);
+  const trackRef = useRef(null);
+  const posRef = useRef(0);
+  const rafRef = useRef(null);
+  const isPausedRef = useRef(false);
+  const singleSetWidth = testimonials.length * (CARD_W + GAP);
+
+  useEffect(() => {
+    const animate = () => {
+      if (!isPausedRef.current) {
+        posRef.current += STEP;
+        if (posRef.current >= singleSetWidth) {
+          posRef.current = 0;
+        }
+        if (trackRef.current) {
+          trackRef.current.style.transform = `translateX(-${posRef.current}px)`;
+        }
+      }
+      rafRef.current = requestAnimationFrame(animate);
+    };
+    rafRef.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [singleSetWidth]);
 
   return (
     <section
-      className="relative py-20 px-4 overflow-hidden"
+      className="relative py-20 overflow-hidden"
       style={{ background: 'linear-gradient(to bottom, #f5f7fc 0%, #edf0f8 100%)' }}
     >
       {/* City skyline watermark */}
@@ -67,9 +98,9 @@ const Testimonials = () => {
         </svg>
       </div>
 
-      <div className="relative max-w-7xl mx-auto">
+      <div className="relative">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 px-4">
           <h2
             className="text-3xl md:text-4xl font-bold text-[#25345d] mb-4"
             style={{ fontFamily: 'Poppins, sans-serif' }}
@@ -77,89 +108,127 @@ const Testimonials = () => {
             Students Share Their Stories...
           </h2>
           <p className="text-gray-400 text-sm max-w-lg mx-auto leading-relaxed">
-            Cursus porta, feugiat primis in ultrce ligula risus auctor tempus dolor feugiat, felis
-            lacinia risus interdum auctor id viverra dolor iaculis luctus placerat and massa.
+            Hear directly from our students — their journeys, successes, and experiences with EduVista International.
           </p>
         </div>
 
-        {/* Testimonial Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-          {visible.map((t) => (
-            <div
-              key={t.name}
-              className="bg-white rounded-sm shadow-md p-6 flex flex-col gap-4 border border-gray-100 hover:shadow-lg transition-shadow duration-300 relative"
-            >
-              {/* Large quote mark */}
-              <div
-                className="absolute top-5 right-5 text-5xl leading-none font-serif opacity-[0.06] text-[#25345d]"
-                style={{ fontFamily: 'Georgia, serif' }}
-              >
-                "
-              </div>
+        {/* Infinite scrolling testimonials */}
+        <div
+          className="w-full overflow-hidden relative"
+          onMouseEnter={() => { isPausedRef.current = true; }}
+          onMouseLeave={() => { isPausedRef.current = false; }}
+        >
+          {/* Left fade */}
+          <div
+            className="absolute left-0 top-0 bottom-0 z-10 pointer-events-none"
+            style={{ width: '100px', background: 'linear-gradient(to right, #f0f3fa, transparent)' }}
+          />
+          {/* Right fade */}
+          <div
+            className="absolute right-0 top-0 bottom-0 z-10 pointer-events-none"
+            style={{ width: '100px', background: 'linear-gradient(to left, #edf0f8, transparent)' }}
+          />
 
-              {/* Author */}
-              <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-full overflow-hidden shrink-0 border-2 border-gray-100">
-                  {t.avatar ? (
-                    <img src={t.avatar} alt={t.name} className="w-full h-full object-cover object-top"/>
-                  ) : (
-                    <div
-                      className="w-full h-full flex items-center justify-center text-white font-bold text-xs"
-                      style={{ background: t.color }}
-                    >
-                      {t.initials}
-                    </div>
-                  )}
-                </div>
-                <div>
-                  <p className="font-bold text-[#25345d] text-sm" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                    {t.name}
-                  </p>
-                  <p className="text-[11px] text-gray-400">({t.visa})</p>
-                </div>
-              </div>
-
-              <div className="border-t border-gray-100" />
-
-              <p className="text-gray-500 text-[12px] leading-relaxed italic">
-                {t.text}
-              </p>
-
-              {/* Rating stars */}
-              <div className="flex gap-0.5">
-                {[1,2,3,4,5].map(s => (
-                  <span key={s} className="text-yellow-400 text-xs">★</span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Navigation */}
-        <div className="flex items-center justify-center gap-3">
-          <button
-            onClick={() => setIdx(i => Math.max(i - 1, 0))}
-            disabled={idx === 0}
-            className={`w-8 h-8 border border-gray-300 flex items-center justify-center transition-all ${idx === 0 ? 'opacity-30 cursor-not-allowed text-gray-400' : 'hover:border-[#25345d] hover:text-[#25345d] text-gray-500'}`}
+          {/* Track */}
+          <div
+            ref={trackRef}
+            style={{
+              display: 'flex',
+              gap: `${GAP}px`,
+              willChange: 'transform',
+              paddingLeft: '40px',
+              paddingRight: '40px',
+              alignItems: 'stretch',
+            }}
           >
-            <ChevronLeft size={15}/>
-          </button>
-          <div className="flex gap-1.5">
-            {Array.from({ length: maxIdx + 1 }).map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setIdx(i)}
-                className={`h-1.5 rounded-full transition-all duration-200 ${i === idx ? 'bg-[#ff4d15] w-5' : 'bg-gray-300 w-1.5'}`}
-              />
+            {allTestimonials.map((t, idx) => (
+              <div
+                key={`${t.name}-${idx}`}
+                style={{
+                  minWidth: `${CARD_W}px`,
+                  maxWidth: `${CARD_W}px`,
+                  flexShrink: 0,
+                  background: '#fff',
+                  border: '1px solid #e8edf5',
+                  padding: '24px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '16px',
+                  position: 'relative',
+                }}
+                className="hover:shadow-lg transition-shadow duration-300"
+              >
+                {/* Quote mark */}
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '16px',
+                    right: '20px',
+                    fontSize: '52px',
+                    lineHeight: 1,
+                    fontFamily: 'Georgia, serif',
+                    opacity: 0.06,
+                    color: '#25345d',
+                  }}
+                >
+                  "
+                </div>
+
+                {/* Author */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <div
+                    style={{
+                      width: '44px',
+                      height: '44px',
+                      borderRadius: '50%',
+                      overflow: 'hidden',
+                      flexShrink: 0,
+                      border: '2px solid #e8edf5',
+                    }}
+                  >
+                    {t.avatar ? (
+                      <img src={t.avatar} alt={t.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} />
+                    ) : (
+                      <div
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          background: t.color,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: '#fff',
+                          fontWeight: '700',
+                          fontSize: '13px',
+                        }}
+                      >
+                        {t.initials}
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <p style={{ fontFamily: 'Poppins, sans-serif', fontWeight: '700', color: '#25345d', fontSize: '14px' }}>
+                      {t.name}
+                    </p>
+                    <p style={{ fontSize: '11px', color: '#999' }}>({t.visa})</p>
+                  </div>
+                </div>
+
+                <div style={{ borderTop: '1px solid #f0f0f0' }} />
+
+                <p style={{ color: '#666', fontSize: '12.5px', lineHeight: '1.75', fontStyle: 'italic', flex: 1 }}>
+                  {t.text}
+                </p>
+
+                {/* Stars */}
+                <div style={{ display: 'flex', gap: '2px' }}>
+                  {[1,2,3,4,5].map(s => (
+                    <span key={s} style={{ color: '#f5a623', fontSize: '14px' }}>★</span>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
-          <button
-            onClick={() => setIdx(i => Math.min(i + 1, maxIdx))}
-            disabled={idx >= maxIdx}
-            className={`w-8 h-8 border border-gray-300 flex items-center justify-center transition-all ${idx >= maxIdx ? 'opacity-30 cursor-not-allowed text-gray-400' : 'hover:border-[#25345d] hover:text-[#25345d] text-gray-500'}`}
-          >
-            <ChevronRight size={15}/>
-          </button>
         </div>
       </div>
     </section>

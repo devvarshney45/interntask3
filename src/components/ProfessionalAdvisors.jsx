@@ -1,8 +1,20 @@
 import React, { useState } from 'react';
-import { X } from 'lucide-react';
+import { X, CheckCircle2 } from 'lucide-react';
 
 const ProfessionalAdvisors = () => {
   const [videoOpen, setVideoOpen] = useState(false);
+
+  const whyChoose = [
+    'Professional and experienced consultancy services',
+    'Personalized Student Counseling',
+    'Transparent & Ethical Services',
+    'Scholarship Assistance',
+    'Strong University Partnerships',
+    'End-to-End Application Support',
+    'Visa Success Guidance',
+    'Pre-Departure Briefing',
+    'Post-Arrival Assistance',
+  ];
 
   return (
     <section className="py-20 px-4 bg-white">
@@ -12,20 +24,26 @@ const ProfessionalAdvisors = () => {
           {/* Left: Text */}
           <div>
             <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-[0.2em] mb-3">
-              Professional Advisors
+              Why Choose EduVista International
             </p>
             <h2
               className="text-3xl md:text-4xl font-bold text-[#25345d] leading-tight mb-5"
               style={{ fontFamily: 'Poppins, sans-serif' }}
             >
-              Get guarantee success<br />with our advisors
+              Get guaranteed success<br />with our expert advisors
             </h2>
-            <p className="text-gray-500 text-sm leading-relaxed mb-4">
-              Semper lacus cursus porta, feugiat primis ligula risus auctor and rhoncus in ultrce ligula urus ipsum primis in cubilia augue vitae lacreet augue in cubilia augue egestas an ipsum turpis.
+            <p className="text-gray-500 text-sm leading-relaxed mb-6">
+              Our team brings together experienced counselors who provide honest, student-first guidance, ensuring every applicant finds a pathway suited to their academic goals, budget, and career aspirations.
             </p>
-            <p className="text-gray-500 text-sm leading-relaxed mb-8">
-              Cursus risus lacreet auctor, varius augue. Nulla color and sapien risus nec. luctus mauris donec diam sapien neque in cubilia an ligula quaerat ipsum volute turpis sodales sapien vitae donec ipsum.
-            </p>
+
+            <ul className="space-y-2 mb-8">
+              {whyChoose.map((item, i) => (
+                <li key={i} className="flex items-center gap-2 text-gray-600 text-sm">
+                  <CheckCircle2 size={15} className="text-[#ff4d15] shrink-0" />
+                  {item}
+                </li>
+              ))}
+            </ul>
 
             <a
               href="#contact"
@@ -35,7 +53,7 @@ const ProfessionalAdvisors = () => {
             </a>
           </div>
 
-          {/* Right: Image + Play */}
+          {/* Right: Director Photo + Play */}
           <div className="relative flex justify-center">
             {/* Dot pattern */}
             <div
@@ -56,23 +74,37 @@ const ProfessionalAdvisors = () => {
               <svg viewBox="0 0 100 100" width="100" height="100">
                 <circle cx="50" cy="50" r="45" fill="none" stroke="#25345d" strokeWidth="3" strokeDasharray="5 4"/>
                 <circle cx="50" cy="50" r="38" fill="none" stroke="#25345d" strokeWidth="1.5"/>
-                <text x="50" y="44" textAnchor="middle" fontSize="7.5" fill="#25345d" fontWeight="bold" letterSpacing="1.5">IMMIGRATION</text>
+                <text x="50" y="44" textAnchor="middle" fontSize="7.5" fill="#25345d" fontWeight="bold" letterSpacing="1.5">EDUCATION</text>
                 <text x="50" y="55" textAnchor="middle" fontSize="7.5" fill="#25345d" fontWeight="bold" letterSpacing="1.5">CONSULTING</text>
-                <text x="50" y="66" textAnchor="middle" fontSize="6.5" fill="#25345d" letterSpacing="1">SINCE 2005</text>
+                <text x="50" y="66" textAnchor="middle" fontSize="6.5" fill="#25345d" letterSpacing="1">KOLKATA</text>
               </svg>
             </div>
 
-            {/* Main photo */}
+            {/* Main director photo */}
             <div
-              className="relative rounded overflow-hidden shadow-2xl z-10"
-              style={{ width: '370px', height: '320px' }}
+              className="relative rounded-lg overflow-hidden shadow-2xl z-10"
+              style={{ width: '370px', height: '420px' }}
             >
-              <img
-                src="/assets/couple_travel.png"
-                alt="Students studying abroad"
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/15 to-transparent" />
+              <div className="w-full h-full bg-gradient-to-br from-[#25345d] to-[#1b2646] flex items-center justify-center">
+                <img
+                  src="/assets/saswati_rakshit.jpeg"
+                  alt="Saswati Rakshit – Managing Director"
+                  className="w-full h-full object-cover object-top"
+                  onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
+                />
+                <div className="absolute inset-0 flex-col items-center justify-center text-white hidden" style={{display: 'none'}}>
+                  <div className="w-24 h-24 rounded-full bg-white/20 flex items-center justify-center text-4xl font-bold mb-3">SR</div>
+                  <p className="text-lg font-bold">Saswati Rakshit</p>
+                  <p className="text-sm text-gray-300">Managing Director</p>
+                </div>
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+
+              {/* Name card at bottom */}
+              <div className="absolute bottom-0 left-0 right-0 bg-[#25345d]/90 px-5 py-3">
+                <p className="text-white font-bold text-base" style={{ fontFamily: 'Poppins, sans-serif' }}>Saswati Rakshit</p>
+                <p className="text-[#ff9c7e] text-[11px] tracking-wider uppercase">Managing Director</p>
+              </div>
             </div>
 
             {/* Play button */}
@@ -119,7 +151,7 @@ const ProfessionalAdvisors = () => {
               <div>
                 <div className="text-5xl mb-4">▶</div>
                 <p className="text-lg font-semibold" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                  About EduVista – International Education Consulting
+                  About EduVista International – Your Gateway to Global Education
                 </p>
                 <p className="text-gray-400 text-sm mt-2">Video demo – add your YouTube embed URL here</p>
               </div>

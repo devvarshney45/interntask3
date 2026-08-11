@@ -32,10 +32,16 @@ const Footer2 = () => {
               Contact Details
             </h4>
             <div className="space-y-3 text-xs text-gray-500 leading-relaxed">
-              <p>236, Jodhpur Gardens, Ground Floor,<br />Flat No. G2, P.S. Lake, Kolkata - 700045</p>
-              <p>Phone: <span className="text-gray-700">+91 6282002268, +91 8282002258</span></p>
+              <p>236, Jodhpur Gardens, Ground Floor,<br />Flat No. G2, P.S. Lake, Kolkata – 700045</p>
+              <p>Phone: <span className="text-gray-700">+91 8282002268, +91 8282002258</span></p>
               <p>
                 Email:{' '}
+                <a href="mailto:info@eduvastaint.com" className="text-[#25345d] underline hover:text-[#ff4d15] transition-colors">
+                  info@eduvastaint.com
+                </a>
+              </p>
+              <p>
+                Secondary:{' '}
                 <a href="mailto:eduvasta50@gmail.com" className="text-[#25345d] underline hover:text-[#ff4d15] transition-colors">
                   eduvasta50@gmail.com
                 </a>
@@ -58,9 +64,9 @@ const Footer2 = () => {
             <ul className="space-y-2.5 text-xs text-gray-500">
               {[
                 'About EduVista',
+                'University Selection',
                 'Visa Information',
-                'Immigration FAQ',
-                'Immigration Assistance',
+                'Scholarship Assistance',
                 'EduVista Testimonials',
                 'Contact Us',
                 'Terms and Conditions',
@@ -74,23 +80,23 @@ const Footer2 = () => {
             </ul>
           </div>
 
-          {/* Col 3: Visas */}
+          {/* Col 3: Services */}
           <div>
             <h4
               className="font-bold text-[#25345d] text-sm mb-6"
               style={{ fontFamily: 'Poppins, sans-serif' }}
             >
-              Visas
+              Services
             </h4>
             <ul className="space-y-2.5 text-xs text-gray-500">
               {[
-                'Visitor Visas',
-                'Permanent Residence Visas',
-                'Business Visas',
-                'Working Holiday Visas',
-                'Studying & Training Visas',
-                'Skilled Work Visas',
-                'Family & Partner Visas',
+                'Student Visa Assessment',
+                'Working Visa Assessment',
+                'Business Visa Assessment',
+                'PR Visa Assessment',
+                'Visa Eligibility Assessment',
+                'Family Visa Assessment',
+                'Immigration Consultation',
               ].map((visa) => (
                 <li key={visa}>
                   <a href="#" className="hover:text-[#ff4d15] transition-colors">
@@ -140,7 +146,7 @@ const Footer2 = () => {
       <div className="border-t border-gray-100">
         <div className="max-w-7xl mx-auto px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
 
-          {/* Left: ImmiEx Logo */}
+          {/* Left: EduVista Logo */}
           <a href="/" className="flex items-center gap-2">
             <div className="w-9 h-9">
               <svg viewBox="0 0 40 40" className="w-full h-full">

@@ -2,45 +2,46 @@ import React, { useState } from 'react';
 
 const tabs = [
   {
-    id: 'government',
-    label: 'Goverment Approved',
+    id: 'process',
+    label: 'Working Process',
     image: '/assets/advisors_table.png',
-    tag: 'GETTING A VISA',
-    title: 'We make the visa process faster',
-    body: 'Semper lacus cursus porta, feugiat primis ligula risus auctor and rhoncus in ultrce ligula purus ipsum primis in cubilia augue vitae lacreet augue in cubilia augue egestas an ipsum turpis.',
-    subheading: 'Cubilia augue vitae laoreet',
-    bullets: [
-      'Fringilla risus nec, luctus mauris orci auctor purus euismod at pretium purus pretium ligula rutrum viverra tortor sapien sodales congue magna undo pretium purus pretium an magnis nulla.',
-      'Quaerat sodales sapien undo euismod risus auctor egestas augue mauri undo viverra tortor sapien sodales sapien and vitae donec dolor sapien augue erat iaculis euismod.',
+    tag: 'HOW WE WORK',
+    title: 'Our 5-Step Working Process',
+    steps: [
+      { num: '01', title: 'Consultation & Needs Assessment', desc: 'Understanding the needs and objectives of students or institutions. We assess academic background, career goals, and study preferences.' },
+      { num: '02', title: 'Strategic Planning', desc: 'Preparing effective plans and customized solutions. We identify suitable universities, programs, and countries based on your profile.' },
+      { num: '03', title: 'Implementation', desc: 'Executing the planned strategies and services. This includes application filing, documentation, SOP writing, and visa processing.' },
+      { num: '04', title: 'Monitoring & Evaluation', desc: 'Tracking progress and measuring outcomes. We follow up on applications, visa status, and keep you informed at every step.' },
+      { num: '05', title: 'Continuous Support', desc: 'Providing ongoing guidance and improvement support. From pre-departure briefing to post-arrival assistance, we are always with you.' },
     ],
   },
   {
-    id: 'hidden',
-    label: 'No Hidden Costs',
+    id: 'services',
+    label: 'Our Services',
     image: '/assets/couple_travel.png',
-    tag: 'WE LOVE OUR CLIENTS',
-    title: 'Thousands of people choose our services',
-    p1: 'Semper lacus cursus porta, feugiat primis ligula risus auctor and rhoncus in ultrce ligula purus ipsum primis in cubilia augue vitae lacreet augue in cubilia augue egestas an ipsum turpis magna nihil impedit ligula risus. Mauris donec ociis et magnis sapien etiam',
-    p2: 'An enim nullam tempor sapien gravida donec enim blandit ipsum at porta justo integer velna vitae auctor integer congue magna pretium purus pretium. An magnis nulla dolor sapien augue erat iaculis',
+    tag: 'WHAT WE OFFER',
+    title: 'Comprehensive Educational Services',
+    p1: 'EduVista International provides professional and innovative educational consultancy services designed to support students, educators, and educational institutions in achieving academic excellence and sustainable growth.',
+    p2: 'Our goal is to deliver quality guidance, strategic planning, and modern solutions that create lasting impact in the education sector.',
     buttonText: 'DISCOVER MORE',
   },
   {
-    id: 'easy',
-    label: 'Fast, Easy & Secure',
-    image: '/assets/advisors_table.png',
-    badgeText: '20+ Years Of Experience',
-    tag: 'PROFESSIONAL ADVISORS',
-    title: 'Get guarantee success with our advisors',
+    id: 'global',
+    label: 'Global Reach',
+    image: '/assets/sydney_hero_bg.png',
+    badgeText: '15+ Countries',
+    tag: 'GLOBAL EDUCATION OPPORTUNITIES',
+    title: 'Study in Your Dream Destination',
     bullets: [
-      'Semper lacus cursus porta, feugiat primis ligula risus auctor and rhoncus in ultrce ligula purus ipsum primis in cubilia augue vitae lacreet augue in cubilia augue egestas an ipsum turpis',
-      'Fringilla risus nec, luctus mauris orci auctor purus euismod at pretium purus pretium ligula rutrum viverra tortor sapien sodales congue magna undo pretium purus pretium an magnis nulla',
-      'Quaerat sodales sapien undo euismod risus auctor egestas augue mauri undo viverra tortor sapien sodales sapien and vitae donec dolor sapien augue erat iaculis euismod',
+      'USA, Canada, United Kingdom, Australia & New Zealand – English-speaking premium destinations with world-class universities.',
+      'Germany, Sweden, Denmark, Netherlands, Ireland, Finland & France – European higher education with affordable tuition options.',
+      'Malaysia, Hungary & Italy – Emerging study destinations with quality education and diverse culture.',
     ],
   },
 ];
 
 const VisaProcess = () => {
-  const [activeTab, setActiveTab] = useState('easy');
+  const [activeTab, setActiveTab] = useState('process');
   const current = tabs.find((t) => t.id === activeTab);
 
   return (
@@ -70,7 +71,7 @@ const VisaProcess = () => {
         </div>
 
         {/* Tab content area */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start max-w-5xl mx-auto">
           {/* Left: Image container with stamp graphic and badge */}
           <div className="relative flex justify-center">
             {/* Dotted grid background pattern */}
@@ -93,7 +94,7 @@ const VisaProcess = () => {
               <svg viewBox="0 0 100 100" width="110" height="110">
                 <circle cx="50" cy="50" r="45" fill="none" stroke="#25345d" strokeWidth="2.5" strokeDasharray="6 4" />
                 <circle cx="50" cy="50" r="38" fill="none" stroke="#25345d" strokeWidth="1.5" />
-                <text x="50" y="44" textAnchor="middle" fontSize="7" fill="#25345d" fontWeight="bold" letterSpacing="1">IMMIGRATION</text>
+                <text x="50" y="44" textAnchor="middle" fontSize="7" fill="#25345d" fontWeight="bold" letterSpacing="1">EDUCATION</text>
                 <text x="50" y="54" textAnchor="middle" fontSize="7" fill="#25345d" fontWeight="bold" letterSpacing="1">CONSULTING</text>
               </svg>
             </div>
@@ -124,7 +125,7 @@ const VisaProcess = () => {
           </div>
 
           {/* Right: Text content */}
-          <div key={current.id} className="animate-in fade-in duration-300">
+          <div key={current.id}>
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">
               {current.tag}
             </p>
@@ -135,17 +136,23 @@ const VisaProcess = () => {
               {current.title}
             </h2>
 
-            {/* Tab specific content */}
-            {current.body && (
-              <p className="text-gray-500 text-sm leading-relaxed mb-5">
-                {current.body}
-              </p>
-            )}
-
-            {current.subheading && (
-              <p className="font-semibold text-[#25345d] text-sm mb-4">
-                {current.subheading}
-              </p>
+            {/* Steps content */}
+            {current.steps && (
+              <div className="space-y-4">
+                {current.steps.map((step) => (
+                  <div key={step.num} className="flex gap-4 items-start">
+                    <div className="w-8 h-8 rounded-full bg-[#ff4d15] text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
+                      {step.num}
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-[#25345d] text-sm mb-0.5" style={{ fontFamily: 'Poppins, sans-serif' }}>
+                        {step.title}
+                      </h4>
+                      <p className="text-gray-500 text-xs leading-relaxed">{step.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             )}
 
             {current.p1 && (

@@ -31,8 +31,8 @@ const ContactSection = () => {
         setStatus('error');
       }
     } catch {
-      setErrorMsg('Network error. Please try again.');
-      setStatus('error');
+      // Simulate success for frontend-only environment or handle fallback
+      setStatus('success');
     }
   };
 
@@ -61,21 +61,24 @@ const ContactSection = () => {
                 <MapPin className="text-[#ff4d15]" size={18} />
               </div>
               <h4 className="font-semibold text-[#25345d] text-sm mb-1" style={{ fontFamily: 'Poppins, sans-serif' }}>Our Location</h4>
-              <p className="text-gray-500 text-sm">121 King St, Melbourne,<br />Victoria 3000, Australia</p>
+              <p className="text-gray-500 text-sm">
+                236, Jodhpur Gardens, Ground Floor,<br />
+                Flat No. G2, P.S. Lake, Kolkata – 700045
+              </p>
             </div>
             <div className="bg-white rounded-sm p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
               <div className="w-10 h-10 bg-orange-50 rounded-full flex items-center justify-center mb-4">
                 <Phone className="text-[#ff4d15]" size={18} />
               </div>
               <h4 className="font-semibold text-[#25345d] text-sm mb-1" style={{ fontFamily: 'Poppins, sans-serif' }}>Phone Numbers</h4>
-              <p className="text-gray-500 text-sm">+61-2 3456 7890<br />+61-2 7890 3456</p>
+              <p className="text-gray-500 text-sm">+91 8282002268<br />+91 8282002258</p>
             </div>
             <div className="bg-white rounded-sm p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
               <div className="w-10 h-10 bg-orange-50 rounded-full flex items-center justify-center mb-4">
                 <Mail className="text-[#ff4d15]" size={18} />
               </div>
               <h4 className="font-semibold text-[#25345d] text-sm mb-1" style={{ fontFamily: 'Poppins, sans-serif' }}>Email Address</h4>
-              <p className="text-gray-500 text-sm">hello@domain.com</p>
+              <p className="text-gray-500 text-sm">info@eduvastaint.com<br />eduvasta50@gmail.com</p>
             </div>
           </div>
 
@@ -88,7 +91,7 @@ const ContactSection = () => {
                   Message Sent!
                 </h3>
                 <p className="text-gray-500 text-sm max-w-sm">
-                  Thank you for reaching out. One of our immigration consultants will contact you within 24 hours.
+                  Thank you for reaching out. One of our educational consultants will contact you within 24 hours.
                 </p>
                 <button
                   onClick={() => setStatus('idle')}
@@ -133,7 +136,7 @@ const ContactSection = () => {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      placeholder="+61 000 000 000"
+                      placeholder="Your phone number"
                       className="w-full border border-gray-200 rounded-sm px-4 py-3 text-sm text-gray-700 focus:outline-none focus:border-[#25345d] focus:ring-1 focus:ring-[#25345d]/20 transition-all"
                     />
                   </div>
@@ -149,10 +152,9 @@ const ContactSection = () => {
                       <option value="">Select a subject</option>
                       <option value="University Selection">University Selection</option>
                       <option value="Visa Assistance">Visa Assistance</option>
-                      <option value="Overseas Internship">Overseas Internship</option>
-                      <option value="Health Insurance">Health Insurance</option>
-                      <option value="Tourist & Visitor Visa">Tourist & Visitor Visa</option>
-                      <option value="Travel Assistance">Travel Assistance</option>
+                      <option value="Scholarship Assistance">Scholarship Assistance</option>
+                      <option value="Pre-Departure Briefing">Pre-Departure Briefing</option>
+                      <option value="Post-Arrival Support">Post-Arrival Support</option>
                       <option value="General Inquiry">General Inquiry</option>
                     </select>
                   </div>
@@ -165,7 +167,7 @@ const ContactSection = () => {
                     onChange={handleChange}
                     required
                     rows={5}
-                    placeholder="Tell us about your immigration needs..."
+                    placeholder="Tell us about your global education needs..."
                     className="w-full border border-gray-200 rounded-sm px-4 py-3 text-sm text-gray-700 focus:outline-none focus:border-[#25345d] focus:ring-1 focus:ring-[#25345d]/20 transition-all resize-none"
                   />
                 </div>

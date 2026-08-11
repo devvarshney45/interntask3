@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { MapPin, Phone, Mail, ChevronDown, Menu, X } from 'lucide-react';
 
 const Header = ({ onSelectPage, currentPage }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const closeTimer = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -12,10 +13,62 @@ const Header = ({ onSelectPage, currentPage }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const homePages = [
-    'Homepage-1','Homepage-2','Homepage-3','Homepage-4','Homepage-5',
-    'Homepage-6','Homepage-7','Homepage-8','Homepage-9',
+  const openDropdown = (name) => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setActiveDropdown(name);
+  };
+  const closeDropdown = () => {
+    closeTimer.current = setTimeout(() => setActiveDropdown(null), 80);
+  };
+
+  const standardPages = [
+    { name: 'About Us', key: 'about' },
+    { name: 'Courses List', key: 'courses-list' },
+    { name: 'Course Details', key: 'course-details' },
+    { name: 'Partners & Colleges', key: 'partners' },
+    { name: 'FAQs', key: 'faqs' },
   ];
+  const specialPages = [
+    { name: 'Countries List', key: 'countries-list' },
+    { name: 'Country Details', key: 'country-details' },
+    { name: 'Visa List #1', key: 'visa-list-1' },
+    { name: 'Visa List #2', key: 'visa-list-2' },
+    { name: 'Visa Details', key: 'visa-details' },
+  ];
+  const auxiliaryPages = [
+    { name: 'Blog Listing', key: 'blog-list' },
+    { name: 'Single Blog Post', key: 'blog-post' },
+    { name: 'Contact Style #1', key: 'contact-1' },
+    { name: 'Contact Style #2', key: 'contact-2' },
+    { name: 'Contact Style #3', key: 'contact-3' },
+  ];
+
+  const megaLinks = [
+    'Student Visa Assessment',
+    'Working Visa Assessment',
+    'Business Visa Assessment',
+    'PR Visa Assessment',
+    'Visa Eligibility Assessment',
+    'Family Visa Assessment',
+    'Immigration Consultation',
+  ];
+
+  const latestNews = [
+    { title: 'Global education opportunities open for 2026 intake...', time: '2 days ago', img: '/assets/advisor_laptop.png' },
+    { title: 'Scholarship seminars for international students...', time: 'Dec 02, 2025', img: '/assets/advisors_table.png' },
+    { title: 'New university partnerships announced by EduVista...', time: 'Nov 26, 2025', img: '/assets/couple_travel.png' },
+  ];
+
+  const navLinkCls = 'flex items-center gap-0.5 px-4 py-2.5 text-[13px] font-semibold text-[#333] hover:text-[#ff4d15] transition-colors duration-150 tracking-wide whitespace-nowrap select-none cursor-pointer';
+  const dropItemCls = 'block px-5 py-2.5 text-[13px] text-gray-600 hover:text-[#ff4d15] hover:bg-gray-50 transition-colors border-b border-dashed border-gray-100 last:border-b-0 whitespace-nowrap';
+  const megaItemCls = 'block py-2 text-[13px] text-gray-600 hover:text-[#ff4d15] transition-colors border-b border-dashed border-gray-100 last:border-b-0 whitespace-nowrap';
+  const colHeadCls = 'text-[12px] font-bold text-[#25345d] uppercase tracking-widest mb-4';
+
+  const navigate = (key) => {
+    if (onSelectPage) onSelectPage(key);
+    setActiveDropdown(null);
+    setMobileOpen(false);
+  };
 
   return (
     <header className="w-full sticky top-0 z-50">
@@ -24,17 +77,17 @@ const Header = ({ onSelectPage, currentPage }) => {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-1">
           <div className="flex items-center gap-1.5">
             <MapPin size={12} className="text-gray-300" />
-            <span className="text-gray-200 text-[11px]">236, Jodhpur Gardens, Flat No. G2, Kolkata - 700045</span>
+            <span className="text-gray-200 text-[11px]">236, Jodhpur Gardens, Flat No. G2, P.S. Lake, Kolkata – 700045</span>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-5">
             <div className="flex items-center gap-1.5">
               <Phone size={11} className="text-gray-300" />
-              <span className="text-gray-200 text-[11px]">+91 6282002268, +91 8282002258</span>
+              <span className="text-gray-200 text-[11px]">+91 8282002268, +91 8282002258</span>
             </div>
             <div className="flex items-center gap-1.5">
               <Mail size={11} className="text-[#ff4d15]" />
-              <a href="mailto:eduvasta50@gmail.com" className="text-[#ff9c7e] text-[11px] hover:text-[#ff4d15] transition-colors">
-                eduvasta50@gmail.com
+              <a href="mailto:info@eduvastaint.com" className="text-[#ff9c7e] text-[11px] hover:text-[#ff4d15] transition-colors">
+                info@eduvastaint.com
               </a>
             </div>
           </div>
@@ -42,10 +95,11 @@ const Header = ({ onSelectPage, currentPage }) => {
       </div>
 
       {/* Main Navbar */}
-      <div className={`bg-white border-b border-gray-100 transition-shadow duration-300 ${scrolled ? 'shadow-md' : 'shadow-sm'}`}>
-        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div className={`bg-white transition-shadow duration-300 ${scrolled ? 'shadow-md' : 'shadow-sm'} border-b border-gray-100`}>
+        <div className="max-w-7xl mx-auto px-4 py-2.5 flex items-center justify-between">
+
           {/* Logo */}
-          <a href="/" className="flex items-center gap-2 group">
+          <a href="#" onClick={(e) => { e.preventDefault(); navigate('home'); }} className="flex items-center gap-2.5 group shrink-0">
             <div className="relative w-10 h-10">
               <svg viewBox="0 0 40 40" className="w-full h-full">
                 <circle cx="20" cy="20" r="18" fill="none" stroke="#ff4d15" strokeWidth="2.5" opacity="0.15"/>
@@ -59,235 +113,195 @@ const Header = ({ onSelectPage, currentPage }) => {
               </svg>
             </div>
             <div>
-              <div className="font-bold text-lg text-[#25345d] leading-none tracking-tight group-hover:text-[#ff4d15] transition-colors">
+              <div className="font-bold text-[18px] text-[#25345d] leading-none group-hover:text-[#ff4d15] transition-colors" style={{ fontFamily: 'Poppins, sans-serif' }}>
                 Edu<span className="text-[#ff4d15]">Vista</span>
               </div>
-              <div className="text-[8px] text-gray-400 tracking-wider uppercase font-semibold mt-0.5">
+              <div className="text-[9px] text-gray-400 tracking-widest uppercase font-semibold mt-0.5">
                 International
               </div>
             </div>
           </a>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-1">
-            {/* HOME */}
-            <div
-              className="relative"
-              onMouseEnter={() => setActiveDropdown('HOME')}
-              onMouseLeave={() => setActiveDropdown(null)}
-            >
-              <button className={`flex items-center gap-0.5 px-3 py-2 text-[13px] font-semibold transition-colors duration-200 tracking-wide ${currentPage !== 'home1' ? 'text-[#ff4d15]' : 'text-[#25345d] hover:text-[#ff4d15]'}`}>
-                HOME
-                {currentPage !== 'home1' && (
-                  <span className="text-[9px] font-bold ml-1 text-[#ff4d15] opacity-75">
-                    {currentPage.replace('home', '')}
-                  </span>
-                )}
-                <ChevronDown size={12} className={`transition-transform duration-200 ${activeDropdown === 'HOME' ? 'rotate-180' : ''}`} />
-              </button>
-              {activeDropdown === 'HOME' && (
-                <div className="absolute top-full left-0 mt-0 min-w-[180px] bg-white shadow-xl border border-gray-100 z-50 py-1">
-                  {homePages.map((sub, index) => {
-                    const pageKey = `home${index + 1}`;
-                    const isActive = currentPage === pageKey;
-                    return (
-                      <a
-                        key={sub}
-                        href="#"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          if (onSelectPage) onSelectPage(pageKey);
-                          setActiveDropdown(null);
-                        }}
-                        className={`flex items-center justify-between px-5 py-2 text-[13px] transition-colors border-b border-gray-50 last:border-b-0 ${
-                          isActive
-                            ? 'bg-orange-50 text-[#ff4d15] font-semibold'
-                            : 'text-gray-700 hover:bg-gray-50 hover:text-[#ff4d15]'
-                        }`}
-                      >
-                        <span>{sub}</span>
-                        {isActive && (
-                          <span className="text-[#ff4d15] text-xs font-bold ml-2">✓</span>
-                        )}
-                      </a>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
+          {/* Desktop Nav */}
+          <nav className="hidden lg:flex items-center">
 
-            {/* PAGES (Image 2 mega menu) */}
+            {/* HOME link */}
+            <a
+              href="#"
+              onClick={(e) => { e.preventDefault(); navigate('home'); }}
+              className={navLinkCls}
+              style={{ color: currentPage === 'home' ? '#ff4d15' : undefined }}
+            >
+              HOME
+            </a>
+
+            {/* ─── PAGES mega ─── */}
             <div
               className="relative"
-              onMouseEnter={() => setActiveDropdown('PAGES')}
-              onMouseLeave={() => setActiveDropdown(null)}
+              onMouseEnter={() => openDropdown('PAGES')}
+              onMouseLeave={closeDropdown}
             >
-              <button className="flex items-center gap-0.5 px-3 py-2 text-[13px] font-semibold text-[#25345d] hover:text-[#ff4d15] transition-colors duration-200 tracking-wide">
-                PAGES
-                <ChevronDown size={12} className={`transition-transform duration-200 ${activeDropdown === 'PAGES' ? 'rotate-180' : ''}`} />
+              <button className={navLinkCls} style={{ color: activeDropdown === 'PAGES' ? '#ff4d15' : undefined }}>
+                PAGES <ChevronDown size={13} className={`ml-0.5 transition-transform duration-150 ${activeDropdown === 'PAGES' ? 'rotate-180' : ''}`} />
               </button>
+
               {activeDropdown === 'PAGES' && (
-                <div className="absolute top-full left-[-150px] mt-0 w-[640px] bg-white shadow-2xl border border-gray-100 z-50 p-6 grid grid-cols-3 gap-6">
-                  {/* Col 1 */}
+                <div
+                  className="absolute top-full left-0 bg-white z-50"
+                  style={{
+                    width: '640px',
+                    boxShadow: '0 8px 30px rgba(0,0,0,0.12)',
+                    border: '1px solid #e8e8e8',
+                    padding: '28px 30px 24px',
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 1fr 1fr',
+                    gap: '0 24px',
+                  }}
+                  onMouseEnter={() => openDropdown('PAGES')}
+                  onMouseLeave={closeDropdown}
+                >
+                  {/* Standard Pages */}
                   <div>
-                    <h4 className="text-xs font-bold text-[#25345d] uppercase tracking-wider mb-4 border-b border-gray-100 pb-2">STANDARD PAGES:</h4>
-                    <ul className="space-y-2 text-[12px] text-gray-600">
-                      {[
-                        { name: 'About Us Page', key: 'about' },
-                        { name: 'Courses List Page', key: 'courses-list' },
-                        { name: 'Course Details Page', key: 'course-details' },
-                        { name: 'Partners & Colleges', key: 'partners' },
-                        { name: 'FAQs Page', key: 'faqs' }
-                      ].map((p) => {
-                        const isPageActive = currentPage === p.key;
-                        return (
-                          <li key={p.key}>
-                            <a
-                              href="#"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                if (onSelectPage) onSelectPage(p.key);
-                                setActiveDropdown(null);
-                              }}
-                              className={`block py-0.5 border-b border-dashed border-gray-100 transition-colors ${
-                                isPageActive ? 'text-[#ff4d15] font-bold pl-1' : 'hover:text-[#ff4d15]'
-                              }`}
-                            >
-                              {p.name} {isPageActive && '✓'}
-                            </a>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                  {/* Col 2 */}
-                  <div>
-                    <h4 className="text-xs font-bold text-[#25345d] uppercase tracking-wider mb-4 border-b border-gray-100 pb-2">SPECIAL PAGES:</h4>
-                    <ul className="space-y-2 text-[12px] text-gray-600">
-                      {[
-                        { name: 'Countries List Page', key: 'countries-list' },
-                        { name: 'Country Details Page', key: 'country-details' },
-                        { name: 'Visa List Page #1', key: 'visa-list-1' },
-                        { name: 'Visa List Page #2', key: 'visa-list-2' },
-                        { name: 'Visa Details Page', key: 'visa-details' }
-                      ].map((p) => {
-                        const isPageActive = currentPage === p.key;
-                        return (
-                          <li key={p.key}>
-                            <a
-                              href="#"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                if (onSelectPage) onSelectPage(p.key);
-                                setActiveDropdown(null);
-                              }}
-                              className={`block py-0.5 border-b border-dashed border-gray-100 transition-colors ${
-                                isPageActive ? 'text-[#ff4d15] font-bold pl-1' : 'hover:text-[#ff4d15]'
-                              }`}
-                            >
-                              {p.name} {isPageActive && '✓'}
-                            </a>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                  {/* Col 3 */}
-                  <div>
-                    <h4 className="text-xs font-bold text-[#25345d] uppercase tracking-wider mb-4 border-b border-gray-100 pb-2">AUXILIARY PAGES:</h4>
-                    <ul className="space-y-2 text-[12px] text-gray-600">
-                      {[
-                        { name: 'Blog Listing Page', key: 'blog-list' },
-                        { name: 'Single Blog Post', key: 'blog-post' },
-                        { name: 'Contact Style #1', key: 'contact-1' },
-                        { name: 'Contact Style #2', key: 'contact-2' },
-                        { name: 'Contact Style #3', key: 'contact-3' }
-                      ].map((p) => {
-                        const isPageActive = currentPage === p.key;
-                        return (
-                          <li key={p.key}>
-                            <a
-                              href="#"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                if (onSelectPage) onSelectPage(p.key);
-                                setActiveDropdown(null);
-                              }}
-                              className={`block py-0.5 border-b border-dashed border-gray-100 transition-colors ${
-                                isPageActive ? 'text-[#ff4d15] font-bold pl-1' : 'hover:text-[#ff4d15]'
-                              }`}
-                            >
-                              {p.name} {isPageActive && '✓'}
-                            </a>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* MEGA MENU (Image 3 mega menu) */}
-            <div
-              className="relative"
-              onMouseEnter={() => setActiveDropdown('MEGA MENU')}
-              onMouseLeave={() => setActiveDropdown(null)}
-            >
-              <button className="flex items-center gap-0.5 px-3 py-2 text-[13px] font-semibold text-[#25345d] hover:text-[#ff4d15] transition-colors duration-200 tracking-wide">
-                MEGA MENU
-                <ChevronDown size={12} className={`transition-transform duration-200 ${activeDropdown === 'MEGA MENU' ? 'rotate-180' : ''}`} />
-              </button>
-              {activeDropdown === 'MEGA MENU' && (
-                <div className="absolute top-full left-[-250px] mt-0 w-[720px] bg-white shadow-2xl border border-gray-100 z-50 p-6 grid grid-cols-3 gap-6">
-                  {/* Col 1 */}
-                  <div>
-                    <h4 className="text-xs font-bold text-[#25345d] uppercase tracking-wider mb-4 border-b border-gray-100 pb-2">WHAT WE OFFER:</h4>
-                    <ul className="space-y-2 text-[12px] text-gray-600">
-                      {[
-                        'Student Visa Assessment',
-                        'Working Visa Assessment',
-                        'Business Visa Assessment',
-                        'PR Visa Assessment',
-                        'Visa Eligibility Assessment',
-                        'Family Visa Assessment',
-                        'Immigration Consultation'
-                      ].map((p) => (
-                        <li key={p}>
-                          <a href="#" className="hover:text-[#ff4d15] transition-colors block py-0.5 border-b border-dashed border-gray-100">{p}</a>
+                    <div className={colHeadCls}>STANDARD PAGES:</div>
+                    <ul>
+                      {standardPages.map((p) => (
+                        <li key={p.key}>
+                          <a
+                            href="#"
+                            onClick={(e) => { e.preventDefault(); navigate(p.key); }}
+                            className={megaItemCls}
+                            style={currentPage === p.key ? { color: '#ff4d15', fontWeight: '600' } : {}}
+                          >
+                            {p.name}
+                          </a>
                         </li>
                       ))}
                     </ul>
                   </div>
-                  {/* Col 2 */}
+                  {/* Special Pages */}
                   <div>
-                    <h4 className="text-xs font-bold text-[#25345d] uppercase tracking-wider mb-4 border-b border-gray-100 pb-2">FEATURED NEWS:</h4>
-                    <div className="bg-gray-50 rounded-sm overflow-hidden border border-gray-100">
-                      <img src="/assets/couple_travel.png" alt="Featured News" className="w-full h-24 object-cover" />
-                      <div className="p-3">
-                        <h5 className="font-bold text-[#25345d] text-xs leading-snug mb-1" style={{fontFamily: 'Poppins, sans-serif'}}>
-                          We make the visa process faster
-                        </h5>
-                        <p className="text-gray-500 text-[11px] leading-tight">
-                          Porta semper lacus cursus, feugiat primis ultrice in ligula. risus auctor tempus feugiat dolor imped...
+                    <div className={colHeadCls}>SPECIAL PAGES:</div>
+                    <ul>
+                      {specialPages.map((p) => (
+                        <li key={p.key}>
+                          <a
+                            href="#"
+                            onClick={(e) => { e.preventDefault(); navigate(p.key); }}
+                            className={megaItemCls}
+                            style={currentPage === p.key ? { color: '#ff4d15', fontWeight: '600' } : {}}
+                          >
+                            {p.name}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  {/* Auxiliary Pages */}
+                  <div>
+                    <div className={colHeadCls}>AUXILIARY PAGES:</div>
+                    <ul>
+                      {auxiliaryPages.map((p) => (
+                        <li key={p.key}>
+                          <a
+                            href="#"
+                            onClick={(e) => { e.preventDefault(); navigate(p.key); }}
+                            className={megaItemCls}
+                            style={currentPage === p.key ? { color: '#ff4d15', fontWeight: '600' } : {}}
+                          >
+                            {p.name}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* ─── SERVICES mega ─── */}
+            <div
+              className="relative"
+              onMouseEnter={() => openDropdown('MEGA')}
+              onMouseLeave={closeDropdown}
+            >
+              <button className={navLinkCls} style={{ color: activeDropdown === 'MEGA' ? '#ff4d15' : undefined }}>
+                SERVICES <ChevronDown size={13} className={`ml-0.5 transition-transform duration-150 ${activeDropdown === 'MEGA' ? 'rotate-180' : ''}`} />
+              </button>
+
+              {activeDropdown === 'MEGA' && (
+                <div
+                  className="absolute top-full bg-white z-50"
+                  style={{
+                    width: '750px',
+                    right: 0,
+                    boxShadow: '0 8px 30px rgba(0,0,0,0.12)',
+                    border: '1px solid #e8e8e8',
+                    padding: '28px 30px 24px',
+                    display: 'grid',
+                    gridTemplateColumns: '210px 1fr 210px',
+                    gap: '0 28px',
+                  }}
+                  onMouseEnter={() => openDropdown('MEGA')}
+                  onMouseLeave={closeDropdown}
+                >
+                  {/* What We Offer */}
+                  <div>
+                    <div className={colHeadCls}>WHAT WE OFFER:</div>
+                    <ul>
+                      {megaLinks.map((item) => (
+                        <li key={item}>
+                          <a href="#" className={megaItemCls}>{item}</a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Featured News */}
+                  <div>
+                    <div className={colHeadCls}>FEATURED NEWS:</div>
+                    <div style={{ border: '1px solid #eee', overflow: 'hidden' }}>
+                      <img
+                        src="/assets/couple_travel.png"
+                        alt="Featured"
+                        style={{ width: '100%', height: '140px', objectFit: 'cover', display: 'block' }}
+                      />
+                      <div style={{ padding: '12px 14px' }}>
+                        <p style={{ fontWeight: '700', color: '#25345d', fontSize: '13px', marginBottom: '6px', lineHeight: '1.4', fontFamily: 'Poppins, sans-serif' }}>
+                          Your Gateway to Global Education
+                        </p>
+                        <p style={{ color: '#777', fontSize: '11px', lineHeight: '1.6' }}>
+                          EduVista International offers end-to-end guidance for students seeking admissions to top universities worldwide...
                         </p>
                       </div>
                     </div>
                   </div>
-                  {/* Col 3 */}
+
+                  {/* Latest News */}
                   <div>
-                    <h4 className="text-xs font-bold text-[#25345d] uppercase tracking-wider mb-4 border-b border-gray-100 pb-2">LATEST NEWS:</h4>
-                    <div className="space-y-3">
-                      {[
-                        { title: 'Etiam sapien risus ante auctor tempus an accumsan ...', time: '18 hours ago', img: '/assets/advisor_laptop.png' },
-                        { title: 'Blandit tempor sapien ipsum, porta risus auctor justa ...', time: 'Dec 02, 2019', img: '/assets/advisors_table.png' },
-                        { title: 'Cursus risus an auctor risus laoreet undo auctor varius ...', time: 'Nov 26, 2019', img: '/assets/couple_travel.png' },
-                      ].map((news, i) => (
-                        <div key={i} className="flex gap-2 items-center border-b border-dashed border-gray-100 pb-2 last:border-b-0">
-                          <img src={news.img} alt="thumb" className="w-10 h-10 object-cover rounded-sm shrink-0" />
+                    <div className={colHeadCls}>LATEST NEWS:</div>
+                    <div>
+                      {latestNews.map((n, i) => (
+                        <div
+                          key={i}
+                          style={{
+                            display: 'flex',
+                            gap: '10px',
+                            alignItems: 'flex-start',
+                            paddingBottom: '12px',
+                            marginBottom: '12px',
+                            borderBottom: i < latestNews.length - 1 ? '1px dashed #e5e5e5' : 'none',
+                          }}
+                        >
+                          <img
+                            src={n.img}
+                            alt=""
+                            style={{ width: '50px', height: '40px', objectFit: 'cover', flexShrink: 0 }}
+                          />
                           <div>
-                            <p className="text-[11px] font-semibold text-[#25345d] leading-tight hover:text-[#ff4d15] transition-colors">{news.title}</p>
-                            <span className="text-[10px] text-gray-400">{news.time}</span>
+                            <p style={{ fontSize: '12px', fontWeight: '600', color: '#25345d', lineHeight: '1.4', marginBottom: '3px' }}>
+                              {n.title}
+                            </p>
+                            <span style={{ fontSize: '11px', color: '#999' }}>{n.time}</span>
                           </div>
                         </div>
                       ))}
@@ -297,18 +311,37 @@ const Header = ({ onSelectPage, currentPage }) => {
               )}
             </div>
 
-            {/* SIMPLE LINK */}
-            <a href="#" className="px-3 py-2 text-[13px] font-semibold text-[#25345d] hover:text-[#ff4d15] transition-colors duration-200 tracking-wide">
-              SIMPLE LINK
+            {/* ABOUT */}
+            <a
+              href="#"
+              onClick={(e) => { e.preventDefault(); navigate('about'); }}
+              className={navLinkCls}
+              style={{ color: currentPage === 'about' ? '#ff4d15' : undefined }}
+            >
+              ABOUT
             </a>
 
+            {/* GET CONSULTATION */}
             <a
               href="#"
               onClick={(e) => {
                 e.preventDefault();
-                if (onSelectPage) onSelectPage('contact-2');
+                navigate('contact-2');
               }}
-              className="ml-3 px-5 py-2.5 bg-[#ff4d15] text-white text-[13px] font-semibold rounded-sm hover:bg-[#e03e08] transition-all duration-200 hover:shadow-lg hover:shadow-orange-200 tracking-wide uppercase"
+              style={{
+                marginLeft: '12px',
+                padding: '10px 22px',
+                background: '#ff4d15',
+                color: '#fff',
+                fontSize: '13px',
+                fontWeight: '700',
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase',
+                whiteSpace: 'nowrap',
+                transition: 'background 0.2s',
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = '#e03e08'}
+              onMouseLeave={(e) => e.currentTarget.style.background = '#ff4d15'}
             >
               GET CONSULTATION
             </a>
@@ -325,19 +358,37 @@ const Header = ({ onSelectPage, currentPage }) => {
 
         {/* Mobile Nav */}
         {mobileOpen && (
-          <div className="lg:hidden border-t border-gray-100 bg-white px-4 py-4 flex flex-col gap-2">
-            <a href="#" className="py-2 px-3 text-sm font-semibold text-[#25345d] hover:text-[#ff4d15] border-b border-gray-50">HOME</a>
-            <a href="#" className="py-2 px-3 text-sm font-semibold text-[#25345d] hover:text-[#ff4d15] border-b border-gray-50">PAGES</a>
-            <a href="#" className="py-2 px-3 text-sm font-semibold text-[#25345d] hover:text-[#ff4d15] border-b border-gray-50">MEGA MENU</a>
-            <a href="#" className="py-2 px-3 text-sm font-semibold text-[#25345d] hover:text-[#ff4d15] border-b border-gray-50">SIMPLE LINK</a>
+          <div className="lg:hidden border-t border-gray-100 bg-white px-4 py-4 flex flex-col gap-1">
             <a
               href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                setMobileOpen(false);
-                if (onSelectPage) onSelectPage('contact-2');
-              }}
-              className="mt-2 text-center py-2.5 bg-[#ff4d15] text-white text-sm font-semibold rounded-sm hover:bg-[#e03e08] transition-colors block"
+              onClick={(e) => { e.preventDefault(); navigate('home'); }}
+              className="py-2 px-3 text-sm text-gray-700 hover:text-[#ff4d15] border-b border-gray-50 font-semibold"
+            >
+              Home
+            </a>
+            <a
+              href="#"
+              onClick={(e) => { e.preventDefault(); navigate('about'); }}
+              className="py-2 px-3 text-sm text-gray-700 hover:text-[#ff4d15] border-b border-gray-50"
+            >
+              About Us
+            </a>
+            <div className="border-t border-gray-100 mt-2 pt-2">
+              {[...standardPages, ...specialPages, ...auxiliaryPages].map((p) => (
+                <a
+                  key={p.key}
+                  href="#"
+                  onClick={(e) => { e.preventDefault(); navigate(p.key); }}
+                  className="block py-2 px-3 text-sm text-gray-700 hover:text-[#ff4d15] border-b border-gray-50"
+                >
+                  {p.name}
+                </a>
+              ))}
+            </div>
+            <a
+              href="#"
+              onClick={(e) => { e.preventDefault(); navigate('contact-2'); }}
+              className="mt-3 text-center py-2.5 bg-[#ff4d15] text-white text-sm font-semibold uppercase tracking-wide"
             >
               GET CONSULTATION
             </a>
