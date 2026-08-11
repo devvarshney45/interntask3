@@ -1,91 +1,97 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const filterTabs = [
-  'All Countries',
-  'Canada',
-  'Australia',
-  'USA',
-  'United Kingdom',
-  'New Zealand',
-  'China',
-  'South Korea',
-];
+// Recreated SVG partner logo emblems exactly matching standard mockup designs (AllTV, Sicmork, Green Grass, GSI, CBC, 100% Organic, Health Brand, etc.)
+const LogoAllTV = () => (
+  <svg viewBox="0 0 100 40" className="w-24 h-10 opacity-40 hover:opacity-100 transition-opacity">
+    <rect width="100" height="40" fill="none" />
+    <text x="50" y="26" textAnchor="middle" fontFamily="Poppins, sans-serif" fontSize="20" fontWeight="800" fill="#25345d" letterSpacing="1">alltv</text>
+  </svg>
+);
+const LogoSicmork = () => (
+  <svg viewBox="0 0 100 40" className="w-24 h-10 opacity-40 hover:opacity-100 transition-opacity">
+    <text x="50" y="26" textAnchor="middle" fontFamily="Georgia, serif" fontSize="20" fontWeight="bold" fontStyle="italic" fill="#25345d">Sicmork</text>
+  </svg>
+);
+const LogoGreenGrass = () => (
+  <svg viewBox="0 0 100 40" className="w-24 h-10 opacity-40 hover:opacity-100 transition-opacity">
+    <text x="50" y="26" textAnchor="middle" fontFamily="Poppins, sans-serif" fontSize="15" fontWeight="700" fill="#25345d" letterSpacing="2">GREEN GRASS</text>
+  </svg>
+);
+const LogoGSI = () => (
+  <svg viewBox="0 0 100 40" className="w-24 h-10 opacity-40 hover:opacity-100 transition-opacity">
+    <text x="50" y="26" textAnchor="middle" fontFamily="Impact, Arial Black" fontSize="24" fontWeight="bold" fill="#25345d" letterSpacing="1">GSI</text>
+  </svg>
+);
+const LogoCBC = () => (
+  <svg viewBox="0 0 100 40" className="w-24 h-10 opacity-40 hover:opacity-100 transition-opacity">
+    <text x="50" y="26" textAnchor="middle" fontFamily="Arial, sans-serif" fontSize="24" fontWeight="900" fill="#25345d" letterSpacing="-1">cbc</text>
+  </svg>
+);
+const LogoOrganic = () => (
+  <svg viewBox="0 0 100 40" className="w-24 h-10 opacity-40 hover:opacity-100 transition-opacity">
+    <text x="50" y="26" textAnchor="middle" fontFamily="Courier, monospace" fontSize="18" fontWeight="bold" fill="#25345d">organic</text>
+  </svg>
+);
+const LogoHealth = () => (
+  <svg viewBox="0 0 100 40" className="w-24 h-10 opacity-40 hover:opacity-100 transition-opacity">
+    <circle cx="20" cy="20" r="8" fill="none" stroke="#25345d" strokeWidth="2.5" />
+    <text x="60" y="26" textAnchor="middle" fontFamily="Poppins, sans-serif" fontSize="18" fontWeight="700" fill="#25345d">health</text>
+  </svg>
+);
 
-const partnerLogos = [
-  { id: 1, name: 'AllTV' },
-  { id: 2, name: 'Sicmork' },
-  { id: 3, name: 'Green Grass' },
-  { id: 4, name: 'GSI Construction' },
-  { id: 5, name: 'cbc' },
-  { id: 6, name: '100% Organic' },
-  { id: 7, name: 'Health Brand' },
-  { id: 8, name: 'Sicmork' },
-  { id: 9, name: 'AllTV' },
-  { id: 10, name: 'Sicmork' },
-  { id: 11, name: 'Green Grass' },
-  { id: 12, name: 'GSI Construction' },
-  { id: 13, name: 'cbc' },
-  { id: 14, name: '100% Organic' },
-  { id: 15, name: 'Health Brand' },
+const partnersList = [
+  <LogoAllTV />,
+  <LogoSicmork />,
+  <LogoGreenGrass />,
+  <LogoGSI />,
+  <LogoCBC />,
+  <LogoOrganic />,
+  <LogoHealth />,
+  <LogoSicmork />,
 ];
 
 const PartnerUniversitiesFilter = () => {
-  const [activeTab, setActiveTab] = useState('All Countries');
-
   return (
-    <section className="py-20 px-4 bg-white">
-      <div className="max-w-7xl mx-auto">
-        {/* Section Header */}
-        <div className="text-center mb-10">
+    <section className="py-16 px-4 bg-white border-t border-gray-100">
+      <div className="max-w-6xl mx-auto">
+        
+        {/* Title */}
+        <div className="text-center mb-12">
+          <span className="text-[#ff4d15] text-[11px] font-bold uppercase tracking-[0.2em] block mb-2">
+            PARTNERS
+          </span>
           <h2
-            className="text-3xl md:text-4xl font-bold text-[#25345d] mb-4"
+            className="text-3xl font-extrabold text-[#25345d]"
             style={{ fontFamily: 'Poppins, sans-serif' }}
           >
-            Partner Institutes &amp; Universities
+            Our Partner Institutions
           </h2>
-          <p className="text-gray-500 text-sm max-w-xl mx-auto leading-relaxed">
-            Cursus porta, feugiat primis in ultrce ligula risus auctor tempus dolor feugiat, felis
-            lacinia risus interdum auctor id viverra dolor iaculis luctus placerat and massa
+          <p className="text-gray-400 text-xs max-w-lg mx-auto mt-3 leading-relaxed">
+            We partner with leading universities and institutions globally to offer student admissions counseling, visa guidance, and career planning.
           </p>
         </div>
 
-        {/* Country Filter Navigation Links */}
-        <div className="flex flex-wrap items-center justify-center gap-2 md:gap-4 mb-14 text-xs font-semibold text-gray-500">
-          {filterTabs.map((tab, idx) => (
-            <React.Fragment key={tab}>
-              {idx > 0 && <span className="text-gray-300">/</span>}
-              <button
-                onClick={() => setActiveTab(tab)}
-                className={`transition-colors py-1 ${
-                  activeTab === tab ? 'text-[#ff4d15] font-bold' : 'hover:text-[#25345d]'
-                }`}
-              >
-                {tab}
-              </button>
-            </React.Fragment>
-          ))}
+        {/* 2 Rows of Partner Logos exactly matching the mockup */}
+        <div className="flex flex-col gap-10 max-w-4xl mx-auto">
+          {/* Row 1: 4 logos */}
+          <div className="flex flex-wrap items-center justify-around gap-6">
+            {partnersList.slice(0, 4).map((logo, i) => (
+              <div key={i} className="flex items-center justify-center min-w-[120px]">
+                {logo}
+              </div>
+            ))}
+          </div>
+
+          {/* Row 2: 4 logos */}
+          <div className="flex flex-wrap items-center justify-around gap-6">
+            {partnersList.slice(4, 8).map((logo, i) => (
+              <div key={i} className="flex items-center justify-center min-w-[120px]">
+                {logo}
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* 15 Partner Cards Grid (3 rows x 5 columns) */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5">
-          {partnerLogos.map((item) => (
-            <div
-              key={item.id}
-              className="bg-white border border-gray-100 rounded-sm p-6 flex flex-col items-center justify-center text-center shadow-xs hover:shadow-md hover:border-orange-200 transition-all duration-300 group cursor-pointer"
-              style={{ minHeight: '130px' }}
-            >
-              {/* Logo text / icon */}
-              <div className="font-bold text-gray-400 text-lg group-hover:text-[#25345d] transition-colors mb-3">
-                {item.name}
-              </div>
-
-              {/* Text label underneath */}
-              <div className="text-[11px] text-gray-400 font-normal">
-                Enter University Name Here
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
     </section>
   );

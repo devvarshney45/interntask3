@@ -1,199 +1,240 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const slides = [
   {
     id: 1,
-    subtitle: 'Welcome to EduVista International',
-    title: 'YOUR GATEWAY TO GLOBAL EDUCATION',
-    desc: 'Dedicated to helping students achieve their academic and career aspirations through quality global education opportunities. We provide expert guidance at every stage of the study abroad journey.',
-    buttonText: 'DISCOVER MORE',
-    bg: '/assets/sydney_hero_bg.png',
+    preTitle: 'Study Abroad with',
+    title: 'EDUVISTA',
+    titleSub: 'INTERNATIONAL',
+    desc: 'No IELTS | No Age Limit | Top Ranked Universities | Work Allowed and many more...',
+    bg: '/assets/s1.jpg',
   },
   {
     id: 2,
-    subtitle: 'Personalized Student Counseling',
-    title: 'EMPOWERING STUDENTS FOR INTERNATIONAL SUCCESS',
-    desc: 'From choosing the right course and university to securing admission, scholarships, visas, and successful overseas transition — we guide you every step of the way.',
-    buttonText: 'WHAT WE DO',
-    bg: '/assets/advisor_laptop.png',
+    preTitle: 'Top Ranked',
+    title: 'UNIVERSITIES',
+    titleSub: '',
+    desc: 'USA, Canada, UK, Australia, Germany, Sweden, Netherlands, Ireland, Malaysia, Hungary, Finland',
+    bg: '/assets/s2.jpg',
   },
   {
     id: 3,
-    subtitle: 'Expert Guidance & Strong University Partnerships',
-    title: 'GUIDING DREAMS, BUILDING FUTURES WORLDWIDE',
-    desc: 'Our team of experienced counselors provides honest, student-first guidance ensuring every applicant finds a pathway suited to their academic goals, budget, and career aspirations.',
-    buttonText: 'BOOK CONSULTATION NOW',
-    bg: '/assets/advisors_table.png',
+    preTitle: 'Your Gateway to',
+    title: 'GLOBAL EDUCATION',
+    titleSub: '',
+    desc: 'Expert Guidance | Scholarship Assistance | Visa Support | Pre & Post Arrival Help',
+    bg: '/assets/s3.jpg',
   },
 ];
 
+// Orange icon SVGs matching the mockup exactly
+const CheckIcon = () => (
+  <svg viewBox="0 0 40 40" fill="none" style={{ width: 36, height: 36 }}>
+    <circle cx="20" cy="20" r="18" stroke="#ff4d15" strokeWidth="2" />
+    <path d="M12 20l6 6 10-12" stroke="#ff4d15" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
 const UniversityIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="#6c757d" strokeWidth="1.5" className="w-8 h-8">
-    <path d="M3 21h18M6 21V10M18 21V10M12 3L2 10h20L12 3z" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M9 21V14h6v7" strokeLinecap="round" strokeLinejoin="round"/>
+  <svg viewBox="0 0 40 40" fill="none" style={{ width: 36, height: 36 }}>
+    <path d="M6 34h28M10 34V20M30 34V20M20 6L4 18h32L20 6z" stroke="#ff4d15" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M16 34V26h8v8" stroke="#ff4d15" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+const DocumentIcon = () => (
+  <svg viewBox="0 0 40 40" fill="none" style={{ width: 36, height: 36 }}>
+    <rect x="8" y="4" width="24" height="32" rx="2" stroke="#ff4d15" strokeWidth="2"/>
+    <line x1="14" y1="14" x2="26" y2="14" stroke="#ff4d15" strokeWidth="2" strokeLinecap="round"/>
+    <line x1="14" y1="20" x2="26" y2="20" stroke="#ff4d15" strokeWidth="2" strokeLinecap="round"/>
+    <line x1="14" y1="26" x2="20" y2="26" stroke="#ff4d15" strokeWidth="2" strokeLinecap="round"/>
   </svg>
 );
 
-const WalletIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="#6c757d" strokeWidth="1.5" className="w-8 h-8">
-    <rect x="2" y="5" width="20" height="14" rx="2"/>
-    <path d="M16 12h4v.01" strokeLinecap="round"/>
-    <path d="M2 9h20"/>
-  </svg>
-);
-
-const WrenchIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="#6c757d" strokeWidth="1.5" className="w-8 h-8">
-    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
-  </svg>
-);
-
-const FamilyIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="#6c757d" strokeWidth="1.5" className="w-8 h-8">
-    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" strokeLinecap="round"/>
-    <circle cx="9" cy="7" r="4"/>
-    <path d="M23 21v-2a4 4 0 0 0-3-3.87" strokeLinecap="round"/>
-    <path d="M16 3.13a4 4 0 0 1 0 7.75" strokeLinecap="round"/>
-  </svg>
-);
-
-const LuggageIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="#6c757d" strokeWidth="1.5" className="w-8 h-8">
-    <rect x="6" y="8" width="12" height="13" rx="2"/>
-    <path d="M9 8V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v3"/>
-    <line x1="10" y1="12" x2="10" y2="17" strokeLinecap="round"/>
-    <line x1="14" y1="12" x2="14" y2="17" strokeLinecap="round"/>
-  </svg>
-);
-
-const GlobeIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="#6c757d" strokeWidth="1.5" className="w-8 h-8">
-    <circle cx="12" cy="12" r="10"/>
-    <line x1="2" y1="12" x2="22" y2="12"/>
-    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-  </svg>
-);
+const featureCards = [
+  {
+    icon: <CheckIcon />,
+    title: 'Overseas Education and Study Visa Consultants',
+    desc: 'Porta semper lacus cursus, feugiat primis ultrce and ligula risus auctor tempus feugiat dolor and lacinia.',
+  },
+  {
+    icon: <UniversityIcon />,
+    title: 'Guaranteed Admission in Top Ranked Universities',
+    desc: 'Porta semper lacus cursus, feugiat primis ultrce and ligula risus auctor tempus feugiat dolor and lacinia.',
+  },
+  {
+    icon: <DocumentIcon />,
+    title: 'No IELTS Required for Australian Study Visa',
+    desc: 'Porta semper lacus cursus, feugiat primis ultrce and ligula risus auctor tempus feugiat dolor and lacinia.',
+  },
+];
 
 const HeroSection2 = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setCurrentSlide((prev) => (prev + 1) % slides.length);
+        setIsTransitioning(false);
+      }, 400);
     }, 2500);
     return () => clearInterval(timer);
   }, []);
 
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
-  };
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
-  };
-
   const slide = slides[currentSlide];
-
-  const featureCards = [
-    { icon: <UniversityIcon />, title: 'University Admissions', desc: 'End-to-end application support for top universities across 15+ countries globally.' },
-    { icon: <WalletIcon />, title: 'Scholarship Assistance', desc: 'Merit-based and need-based scholarship search, matching, and application support.' },
-    { icon: <WrenchIcon />, title: 'Visa Processing Support', desc: 'Visa documentation, interview preparation, financial guidance and student visa processing.' },
-    { icon: <FamilyIcon />, title: 'Student Counseling', desc: 'Personalized career guidance, university selection, and course matching for every student.' },
-    { icon: <LuggageIcon />, title: 'Pre & Post Arrival', desc: 'Accommodation guidance, airport pickup coordination, travel arrangements and student orientation.' },
-    { icon: <GlobeIcon />, title: 'Global Opportunities', desc: 'Study destinations in USA, Canada, UK, Australia, Germany, France, and more.' },
-  ];
 
   return (
     <section className="relative w-full overflow-hidden">
-      {/* Background Banner */}
+      {/* ── HERO BANNER ── */}
       <div
-        className="relative w-full flex items-center justify-center transition-all duration-700 ease-in-out"
-        style={{
-          minHeight: '460px',
-          backgroundImage: `url('${slide.bg}')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
+        className="relative w-full flex items-center"
+        style={{ minHeight: '520px' }}
       >
-        {/* Dark Blue Overlay */}
+        {/* Background image with smooth fade transition */}
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 transition-opacity duration-500"
           style={{
-            background: 'linear-gradient(to right, rgba(15,25,50,0.88) 0%, rgba(20,32,65,0.78) 50%, rgba(15,25,50,0.88) 100%)',
+            backgroundImage: `url('${slide.bg}')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center top',
+            opacity: isTransitioning ? 0 : 1,
           }}
         />
 
-        {/* Slide Content */}
-        <div className="relative z-10 max-w-4xl mx-auto px-4 py-16 text-center text-white flex flex-col items-center">
+        {/* Dark left-heavy overlay — same as mockup */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(to right, rgba(10,20,50,0.82) 0%, rgba(15,30,65,0.65) 55%, rgba(5,15,40,0.35) 100%)',
+          }}
+        />
+
+        {/* Slide content — LEFT aligned, exactly matching mockup */}
+        <div
+          className="relative z-10 w-full px-8 md:px-16 lg:px-24 py-20"
+          style={{ maxWidth: '660px' }}
+        >
+          {/* Pre-title: normal weight, white, 22-24px */}
           <p
-            className="text-gray-300 text-sm md:text-base font-medium mb-3 tracking-wide"
-            style={{ fontFamily: 'Poppins, sans-serif' }}
+            style={{
+              fontFamily: 'Poppins, sans-serif',
+              fontSize: '22px',
+              fontWeight: '400',
+              color: '#ffffff',
+              marginBottom: '6px',
+              lineHeight: 1.3,
+              opacity: isTransitioning ? 0 : 1,
+              transition: 'opacity 0.4s ease',
+            }}
           >
-            {slide.subtitle}
+            {slide.preTitle}
           </p>
 
+          {/* Main BIG BOLD UPPERCASE title */}
           <h1
-            className="font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl uppercase leading-tight mb-5 max-w-3xl tracking-tight"
-            style={{ fontFamily: 'Poppins, sans-serif' }}
+            style={{
+              fontFamily: 'Poppins, sans-serif',
+              fontSize: 'clamp(40px, 6vw, 72px)',
+              fontWeight: '900',
+              color: '#ffffff',
+              textTransform: 'uppercase',
+              lineHeight: 1.05,
+              margin: '0 0 4px',
+              letterSpacing: '-0.5px',
+              opacity: isTransitioning ? 0 : 1,
+              transition: 'opacity 0.4s ease',
+            }}
           >
             {slide.title}
           </h1>
 
-          <p className="text-gray-300 text-xs sm:text-sm max-w-2xl leading-relaxed mb-8">
+          {/* Optional sub bold line */}
+          {slide.titleSub && (
+            <h2
+              style={{
+                fontFamily: 'Poppins, sans-serif',
+                fontSize: 'clamp(22px, 3.5vw, 36px)',
+                fontWeight: '800',
+                color: '#ffffff',
+                textTransform: 'uppercase',
+                lineHeight: 1.2,
+                marginBottom: '16px',
+                opacity: isTransitioning ? 0 : 1,
+                transition: 'opacity 0.4s ease',
+              }}
+            >
+              {slide.titleSub}
+            </h2>
+          )}
+
+          {/* Description — white, 15-16px, normal weight */}
+          <p
+            style={{
+              fontFamily: 'Poppins, sans-serif',
+              fontSize: '15px',
+              fontWeight: '400',
+              color: '#ffffff',
+              marginTop: '14px',
+              lineHeight: 1.65,
+              maxWidth: '520px',
+              opacity: isTransitioning ? 0 : 1,
+              transition: 'opacity 0.4s ease',
+            }}
+          >
             {slide.desc}
           </p>
-
-          <a
-            href="#contact"
-            className="inline-block bg-[#ff4d15] text-white font-bold text-xs uppercase tracking-widest px-8 py-3.5 rounded-sm hover:bg-[#e03e08] transition-all duration-200 shadow-lg hover:shadow-orange-900/50 mb-6"
-          >
-            {slide.buttonText}
-          </a>
-
-          {/* Arrows */}
-          <div className="flex items-center justify-center gap-4">
-            <button onClick={prevSlide} className="text-white/70 hover:text-white p-1">
-              <ChevronLeft size={22} />
-            </button>
-            <div className="flex gap-2">
-              {slides.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setCurrentSlide(idx)}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    idx === currentSlide ? 'bg-[#ff4d15] w-6' : 'bg-white/40 w-2'
-                  }`}
-                />
-              ))}
-            </div>
-            <button onClick={nextSlide} className="text-white/70 hover:text-white p-1">
-              <ChevronRight size={22} />
-            </button>
-          </div>
         </div>
       </div>
 
-      {/* Floating 6 Feature Cards Grid (Homepage 2 Specific) */}
-      <div className="relative z-20 max-w-6xl mx-auto px-4 -mt-16 mb-16">
-        <div className="bg-white shadow-xl rounded-sm grid grid-cols-1 md:grid-cols-3 border border-gray-100 divide-y md:divide-y-0 divide-gray-100">
+      {/* ── THREE FEATURE CARDS — overlapping bottom of hero, matching mockup ── */}
+      <div
+        className="relative z-20 mx-auto px-4"
+        style={{ maxWidth: '900px', marginTop: '-60px', marginBottom: '0' }}
+      >
+        <div
+          className="grid grid-cols-1 md:grid-cols-3 bg-white shadow-xl divide-y md:divide-y-0 md:divide-x divide-gray-100"
+        >
           {featureCards.map((card, idx) => (
             <div
               key={idx}
-              className={`p-6 flex items-start gap-4 hover:bg-gray-50 transition-colors duration-200 ${
-                idx % 3 !== 2 ? 'md:border-r border-gray-100' : ''
-              } ${idx < 3 ? 'border-b border-gray-100' : ''}`}
+              style={{
+                padding: '28px 24px 28px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '12px',
+              }}
+              className="hover:bg-gray-50 transition-colors duration-200"
             >
-              <div className="shrink-0 pt-0.5">{card.icon}</div>
-              <div>
-                <h3
-                  className="font-bold text-[#25345d] text-sm leading-snug mb-1"
-                  style={{ fontFamily: 'Poppins, sans-serif' }}
-                >
-                  {card.title}
-                </h3>
-                <p className="text-gray-400 text-xs leading-relaxed">{card.desc}</p>
-              </div>
+              {/* Orange icon */}
+              <div>{card.icon}</div>
+
+              {/* Bold orange title */}
+              <h3
+                style={{
+                  fontFamily: 'Poppins, sans-serif',
+                  fontWeight: '700',
+                  fontSize: '14px',
+                  color: '#ff4d15',
+                  lineHeight: '1.4',
+                  margin: 0,
+                }}
+              >
+                {card.title}
+              </h3>
+
+              {/* Gray description */}
+              <p
+                style={{
+                  fontFamily: 'Poppins, sans-serif',
+                  fontSize: '12.5px',
+                  color: '#888',
+                  lineHeight: '1.65',
+                  margin: 0,
+                }}
+              >
+                {card.desc}
+              </p>
             </div>
           ))}
         </div>

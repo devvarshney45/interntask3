@@ -358,37 +358,60 @@ const Header = ({ onSelectPage, currentPage }) => {
 
         {/* Mobile Nav */}
         {mobileOpen && (
-          <div className="lg:hidden border-t border-gray-100 bg-white px-4 py-4 flex flex-col gap-1">
+          <div className="lg:hidden border-t border-gray-100 bg-white max-h-[80vh] overflow-y-auto px-4 py-4 flex flex-col gap-2">
             <a
               href="#"
               onClick={(e) => { e.preventDefault(); navigate('home'); }}
-              className="py-2 px-3 text-sm text-gray-700 hover:text-[#ff4d15] border-b border-gray-50 font-semibold"
+              className="py-2.5 px-3 text-sm font-bold text-[#25345d] hover:text-[#ff4d15] border-b border-gray-100 block"
             >
-              Home
+              HOME
             </a>
+            
+            {/* Pages Section */}
+            <div className="border-b border-gray-100 pb-2">
+              <div className="py-2 px-3 text-xs font-bold text-[#ff4d15] tracking-widest uppercase">
+                PAGES
+              </div>
+              <div className="grid grid-cols-2 gap-1 pl-3">
+                {[...standardPages, ...specialPages, ...auxiliaryPages].map((p) => (
+                  <a
+                    key={p.key}
+                    href="#"
+                    onClick={(e) => { e.preventDefault(); navigate(p.key); }}
+                    className="py-1.5 text-xs text-gray-600 hover:text-[#ff4d15]"
+                  >
+                    {p.name}
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Services Section */}
+            <div className="border-b border-gray-100 pb-2">
+              <div className="py-2 px-3 text-xs font-bold text-[#ff4d15] tracking-widest uppercase">
+                SERVICES
+              </div>
+              <div className="grid grid-cols-1 gap-1 pl-3">
+                {megaLinks.slice(0, 4).map((link) => (
+                  <a key={link} href="#" className="py-1.5 text-xs text-gray-600 hover:text-[#ff4d15]">
+                    {link}
+                  </a>
+                ))}
+              </div>
+            </div>
+
             <a
               href="#"
               onClick={(e) => { e.preventDefault(); navigate('about'); }}
-              className="py-2 px-3 text-sm text-gray-700 hover:text-[#ff4d15] border-b border-gray-50"
+              className="py-2.5 px-3 text-sm font-bold text-[#25345d] hover:text-[#ff4d15] border-b border-gray-100 block"
             >
-              About Us
+              ABOUT US
             </a>
-            <div className="border-t border-gray-100 mt-2 pt-2">
-              {[...standardPages, ...specialPages, ...auxiliaryPages].map((p) => (
-                <a
-                  key={p.key}
-                  href="#"
-                  onClick={(e) => { e.preventDefault(); navigate(p.key); }}
-                  className="block py-2 px-3 text-sm text-gray-700 hover:text-[#ff4d15] border-b border-gray-50"
-                >
-                  {p.name}
-                </a>
-              ))}
-            </div>
+
             <a
               href="#"
               onClick={(e) => { e.preventDefault(); navigate('contact-2'); }}
-              className="mt-3 text-center py-2.5 bg-[#ff4d15] text-white text-sm font-semibold uppercase tracking-wide"
+              className="mt-3 text-center py-3 bg-[#ff4d15] text-white text-xs font-bold uppercase tracking-widest hover:bg-[#e03e08] transition-colors"
             >
               GET CONSULTATION
             </a>

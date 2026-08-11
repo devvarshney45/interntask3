@@ -7,14 +7,14 @@ const AboutAgency = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
 
           {/* Left Column: Overlapping 3-Image Block exactly matching the mockup */}
-          <div className="lg:col-span-5 relative flex items-center justify-center">
+          <div className="lg:col-span-5 relative flex items-center justify-center mb-10 lg:mb-0">
             {/* Base block container */}
-            <div className="relative w-full max-w-[380px] h-[360px]">
+            <div className="relative w-full max-w-[380px] aspect-[38/36] h-[360px] xs:h-auto">
               
-              {/* Image 1: Top-Left (Vertical portrait) */}
+              {/* Image 1: Top-Left */}
               <div 
                 className="absolute top-0 left-0 rounded-sm overflow-hidden shadow-md z-20 border-2 border-white"
-                style={{ width: '180px', height: '170px' }}
+                style={{ width: '48%', height: '47%' }}
               >
                 <img
                   src="/assets/advisor_laptop.png"
@@ -23,10 +23,10 @@ const AboutAgency = () => {
                 />
               </div>
 
-              {/* Image 2: Bottom-Left (Horizontal/Square) */}
+              {/* Image 2: Bottom-Left */}
               <div 
                 className="absolute bottom-0 left-0 rounded-sm overflow-hidden shadow-md z-30 border-2 border-white"
-                style={{ width: '180px', height: '170px' }}
+                style={{ width: '48%', height: '47%' }}
               >
                 <img
                   src="/assets/advisors_table.png"
@@ -37,8 +37,8 @@ const AboutAgency = () => {
 
               {/* Image 3: Right Side (Tall vertical block) */}
               <div 
-                className="absolute top-[30px] right-0 rounded-sm overflow-hidden shadow-md z-10 border-2 border-white"
-                style={{ width: '185px', height: '300px' }}
+                className="absolute top-[8%] right-0 rounded-sm overflow-hidden shadow-md z-10 border-2 border-white"
+                style={{ width: '49%', height: '83%' }}
               >
                 <img
                   src="/assets/couple_travel.png"
