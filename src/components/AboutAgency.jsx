@@ -2,7 +2,7 @@ import React from 'react';
 
 const AboutAgency = () => {
   return (
-    <section className="py-20 px-4 bg-white">
+    <section className="pb-20 pt-48 px-4 bg-white">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
 
