@@ -3,6 +3,14 @@ import React, { useState, useEffect } from 'react';
 const slides = [
   {
     id: 1,
+    preTitle: 'Study in',
+    title: 'AUSTRALIA',
+    titleSub: '',
+    desc: 'Travel & Tourism, Engineering, Business, Health, Science, IT and many more...',
+    bg: '/assets/s1.jpg',
+  },
+  {
+    id: 2,
     preTitle: 'Top Ranked',
     title: 'UNIVERSITIES',
     titleSub: '',
@@ -10,7 +18,7 @@ const slides = [
     bg: '/assets/s2.jpg',
   },
   {
-    id: 2,
+    id: 3,
     preTitle: 'Your Gateway to',
     title: 'GLOBAL EDUCATION',
     titleSub: '',
@@ -160,10 +168,9 @@ const HeroSection2 = () => {
         </div>
       </div>
 
-      {/* ── THREE FEATURE CARDS — overlapping bottom of hero, matching mockup ── */}
       <div
-        className="relative z-20 px-6 md:px-12 lg:px-20"
-        style={{ marginTop: '-250px', marginBottom: '0' }}
+        className="relative z-20 mx-auto px-6 md:px-12"
+        style={{ maxWidth: '1120px', marginTop: '-150px', marginBottom: '0' }}
       >
         <div
           className="grid grid-cols-1 md:grid-cols-3 bg-white shadow-[0_15px_45px_rgba(0,0,0,0.18)] border border-gray-100"
@@ -172,7 +179,7 @@ const HeroSection2 = () => {
             <div
               key={idx}
               style={{
-                padding: '40px 32px 42px',
+                padding: '10px 32px 12px',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '14px',
