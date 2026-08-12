@@ -1,11 +1,31 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { MapPin, Phone, Mail, ChevronDown, Menu, X } from 'lucide-react';
+import { MapPin, Phone, Mail, ChevronDown, Menu, X, Settings } from 'lucide-react';
+
+const COLOR_SCHEMES = [
+  { name: 'orange', primary: '#ff4d15', label: 'Orange' },
+  { name: 'coral', primary: '#f45b5b', label: 'Coral' },
+  { name: 'blue', primary: '#1a73e8', label: 'Blue' },
+  { name: 'red', primary: '#d32f2f', label: 'Red' },
+  { name: 'green', primary: '#388e3c', label: 'Green' },
+  { name: 'maroon', primary: '#880e4f', label: 'Maroon' },
+  { name: 'teal', primary: '#00796b', label: 'Teal' },
+  { name: 'amber', primary: '#f59e0b', label: 'Amber' },
+  { name: 'lime', primary: '#84cc16', label: 'Lime' },
+];
+const DEFAULT_COLOR = '#ff4d15';
 
 const Header = ({ onSelectPage, currentPage }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [schemeOpen, setSchemeOpen] = useState(false);
+  const [accentColor, setAccentColor] = useState(DEFAULT_COLOR);
   const closeTimer = useRef(null);
+
+  useEffect(() => {
+    // Set --color-orange dynamically so all components/icons update
+    document.documentElement.style.setProperty('--color-orange', accentColor);
+  }, [accentColor]);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -73,8 +93,8 @@ const Header = ({ onSelectPage, currentPage }) => {
   return (
     <header className="w-full sticky top-0 z-50">
       {/* Top Bar */}
-      <div className="bg-[#25345d] text-white text-xs py-2 px-4">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-1">
+      <div className="bg-[#25345d] text-white text-xs py-4 px-4">
+        <div className="max-w-[1400px] mx-auto flex flex-col sm:flex-row justify-between items-center gap-1">
           <div className="flex items-center gap-1.5">
             <MapPin size={12} className="text-gray-300" />
             <span className="text-gray-200 text-[11px]">236, Jodhpur Gardens, Flat No. G2, P.S. Lake, Kolkata – 700045</span>
@@ -96,20 +116,20 @@ const Header = ({ onSelectPage, currentPage }) => {
 
       {/* Main Navbar */}
       <div className={`bg-white transition-shadow duration-300 ${scrolled ? 'shadow-md' : 'shadow-sm'} border-b border-gray-100`}>
-        <div className="max-w-7xl mx-auto px-4 py-2.5 flex items-center justify-between">
+        <div className="max-w-[1400px] mx-auto px-4 py-6 flex items-center justify-between">
 
           {/* Logo */}
           <a href="#" onClick={(e) => { e.preventDefault(); navigate('home'); }} className="flex items-center gap-2.5 group shrink-0">
             <div className="relative w-10 h-10">
               <svg viewBox="0 0 40 40" className="w-full h-full">
-                <circle cx="20" cy="20" r="18" fill="none" stroke="#ff4d15" strokeWidth="2.5" opacity="0.15"/>
-                <path d="M20 4 A16 16 0 0 1 36 20" stroke="#ff4d15" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                <path d="M20 4 A16 16 0 0 0 4 20" stroke="#b0c4e8" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                <path d="M4 20 A16 16 0 0 0 20 36" stroke="#ff4d15" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                <path d="M20 36 A16 16 0 0 0 36 20" stroke="#b0c4e8" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                <line x1="20" y1="4" x2="20" y2="36" stroke="#25345d" strokeWidth="1.5" opacity="0.5"/>
-                <line x1="4" y1="20" x2="36" y2="20" stroke="#25345d" strokeWidth="1.5" opacity="0.5"/>
-                <ellipse cx="20" cy="20" rx="8" ry="16" stroke="#25345d" strokeWidth="1" fill="none" opacity="0.4"/>
+                <circle cx="20" cy="20" r="18" fill="none" stroke="#ff4d15" strokeWidth="2.5" opacity="0.15" />
+                <path d="M20 4 A16 16 0 0 1 36 20" stroke="#ff4d15" strokeWidth="3" fill="none" strokeLinecap="round" />
+                <path d="M20 4 A16 16 0 0 0 4 20" stroke="#b0c4e8" strokeWidth="3" fill="none" strokeLinecap="round" />
+                <path d="M4 20 A16 16 0 0 0 20 36" stroke="#ff4d15" strokeWidth="3" fill="none" strokeLinecap="round" />
+                <path d="M20 36 A16 16 0 0 0 36 20" stroke="#b0c4e8" strokeWidth="3" fill="none" strokeLinecap="round" />
+                <line x1="20" y1="4" x2="20" y2="36" stroke="#25345d" strokeWidth="1.5" opacity="0.5" />
+                <line x1="4" y1="20" x2="36" y2="20" stroke="#25345d" strokeWidth="1.5" opacity="0.5" />
+                <ellipse cx="20" cy="20" rx="8" ry="16" stroke="#25345d" strokeWidth="1" fill="none" opacity="0.4" />
               </svg>
             </div>
             <div>
@@ -321,7 +341,7 @@ const Header = ({ onSelectPage, currentPage }) => {
               ABOUT
             </a>
 
-            {/* GET CONSULTATION */}
+            {/* GET CONSULTATION — uses accentColor */}
             <a
               href="#"
               onClick={(e) => {
@@ -331,7 +351,7 @@ const Header = ({ onSelectPage, currentPage }) => {
               style={{
                 marginLeft: '12px',
                 padding: '10px 22px',
-                background: '#ff4d15',
+                background: accentColor,
                 color: '#fff',
                 fontSize: '13px',
                 fontWeight: '700',
@@ -340,8 +360,8 @@ const Header = ({ onSelectPage, currentPage }) => {
                 whiteSpace: 'nowrap',
                 transition: 'background 0.2s',
               }}
-              onMouseEnter={(e) => e.currentTarget.style.background = '#e03e08'}
-              onMouseLeave={(e) => e.currentTarget.style.background = '#ff4d15'}
+              onMouseEnter={(e) => e.currentTarget.style.background = '#111'}
+              onMouseLeave={(e) => e.currentTarget.style.background = accentColor}
             >
               GET CONSULTATION
             </a>
@@ -356,6 +376,47 @@ const Header = ({ onSelectPage, currentPage }) => {
           </button>
         </div>
 
+        {/* ── COLOR SCHEME SWITCHER PANEL (fixed right side matching mockup) ── */}
+        <div className="fixed right-0 top-[22%] z-[9999] flex items-start">
+          {/* Gear tab */}
+          <button
+            onClick={() => setSchemeOpen(!schemeOpen)}
+            className="flex items-center justify-center w-10 h-10 shadow-lg rounded-l-md hover:scale-105 transition-transform"
+            style={{ background: accentColor }}
+            title="Color Scheme"
+          >
+            <Settings size={18} color="#fff" className="animate-spin" style={{ animationDuration: '6s' }} />
+          </button>
+
+          {/* Panel */}
+          {schemeOpen && (
+            <div className="bg-white shadow-2xl border border-gray-200 p-4 rounded-l-md" style={{ width: '180px', marginLeft: '-1px' }}>
+              <p className="text-[11px] font-bold text-[#25345d] uppercase tracking-widest mb-3 text-center">Color Scheme</p>
+              <div className="grid grid-cols-3 gap-2 mb-4">
+                {COLOR_SCHEMES.map((scheme) => (
+                  <button
+                    key={scheme.name}
+                    onClick={() => setAccentColor(scheme.primary)}
+                    title={scheme.label}
+                    className="w-10 h-10 rounded-full border-2 hover:scale-110 transition-transform"
+                    style={{
+                      background: scheme.primary,
+                      borderColor: accentColor === scheme.primary ? '#25345d' : 'transparent',
+                    }}
+                  />
+                ))}
+              </div>
+              <button
+                onClick={() => setAccentColor(DEFAULT_COLOR)}
+                className="w-full py-1.5 text-white text-[11px] font-bold uppercase tracking-wider rounded-sm hover:opacity-90"
+                style={{ background: accentColor }}
+              >
+                RESET COLOR
+              </button>
+            </div>
+          )}
+        </div>
+
         {/* Mobile Nav */}
         {mobileOpen && (
           <div className="lg:hidden border-t border-gray-100 bg-white max-h-[80vh] overflow-y-auto px-4 py-4 flex flex-col gap-2">
@@ -366,7 +427,7 @@ const Header = ({ onSelectPage, currentPage }) => {
             >
               HOME
             </a>
-            
+
             {/* Pages Section */}
             <div className="border-b border-gray-100 pb-2">
               <div className="py-2 px-3 text-xs font-bold text-[#ff4d15] tracking-widest uppercase">

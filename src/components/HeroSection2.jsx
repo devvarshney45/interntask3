@@ -30,22 +30,22 @@ const slides = [
 // Orange icon SVGs matching the mockup exactly
 const CheckIcon = () => (
   <svg viewBox="0 0 40 40" fill="none" style={{ width: 36, height: 36 }}>
-    <circle cx="20" cy="20" r="18" stroke="#ff4d15" strokeWidth="2" />
-    <path d="M12 20l6 6 10-12" stroke="#ff4d15" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+    <circle cx="20" cy="20" r="18" stroke="var(--color-orange, #ff4d15)" strokeWidth="2" />
+    <path d="M12 20l6 6 10-12" stroke="var(--color-orange, #ff4d15)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 const UniversityIcon = () => (
   <svg viewBox="0 0 40 40" fill="none" style={{ width: 36, height: 36 }}>
-    <path d="M6 34h28M10 34V20M30 34V20M20 6L4 18h32L20 6z" stroke="#ff4d15" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M16 34V26h8v8" stroke="#ff4d15" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M6 34h28M10 34V20M30 34V20M20 6L4 18h32L20 6z" stroke="var(--color-orange, #ff4d15)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M16 34V26h8v8" stroke="var(--color-orange, #ff4d15)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 const DocumentIcon = () => (
   <svg viewBox="0 0 40 40" fill="none" style={{ width: 36, height: 36 }}>
-    <rect x="8" y="4" width="24" height="32" rx="2" stroke="#ff4d15" strokeWidth="2" />
-    <line x1="14" y1="14" x2="26" y2="14" stroke="#ff4d15" strokeWidth="2" strokeLinecap="round" />
-    <line x1="14" y1="20" x2="26" y2="20" stroke="#ff4d15" strokeWidth="2" strokeLinecap="round" />
-    <line x1="14" y1="26" x2="20" y2="26" stroke="#ff4d15" strokeWidth="2" strokeLinecap="round" />
+    <rect x="8" y="4" width="24" height="32" rx="2" stroke="var(--color-orange, #ff4d15)" strokeWidth="2" />
+    <line x1="14" y1="14" x2="26" y2="14" stroke="var(--color-orange, #ff4d15)" strokeWidth="2" strokeLinecap="round" />
+    <line x1="14" y1="20" x2="26" y2="20" stroke="var(--color-orange, #ff4d15)" strokeWidth="2" strokeLinecap="round" />
+    <line x1="14" y1="26" x2="20" y2="26" stroke="var(--color-orange, #ff4d15)" strokeWidth="2" strokeLinecap="round" />
   </svg>
 );
 
@@ -89,7 +89,7 @@ const HeroSection2 = () => {
       {/* ── HERO BANNER ── */}
       <div
         className="relative w-full flex items-center"
-        style={{ minHeight: '85vh' }}
+        style={{ minHeight: '77vh' }}
       >
         {/* Background image with smooth fade transition */}
         <div
