@@ -150,7 +150,6 @@ const Header = ({ onSelectPage, currentPage }) => {
               href="#"
               onClick={(e) => { e.preventDefault(); navigate('home'); }}
               className={navLinkCls}
-              style={{ color: currentPage === 'home' ? 'var(--color-orange)' : undefined }}
             >
               HOME
             </a>
@@ -161,7 +160,7 @@ const Header = ({ onSelectPage, currentPage }) => {
               onMouseEnter={() => openDropdown('PAGES')}
               onMouseLeave={closeDropdown}
             >
-              <button className={navLinkCls} style={{ color: activeDropdown === 'PAGES' ? 'var(--color-orange)' : undefined }}>
+              <button className={navLinkCls}>
                 PAGES <ChevronDown size={13} className={`ml-0.5 transition-transform duration-150 ${activeDropdown === 'PAGES' ? 'rotate-180' : ''}`} />
               </button>
 
@@ -190,7 +189,7 @@ const Header = ({ onSelectPage, currentPage }) => {
                             href="#"
                             onClick={(e) => { e.preventDefault(); navigate(p.key); }}
                             className={megaItemCls}
-                            style={currentPage === p.key ? { color: 'var(--color-orange)', fontWeight: '600' } : {}}
+                            style={currentPage === p.key ? { fontWeight: '600' } : {}}
                           >
                             {p.name}
                           </a>
@@ -208,7 +207,7 @@ const Header = ({ onSelectPage, currentPage }) => {
                             href="#"
                             onClick={(e) => { e.preventDefault(); navigate(p.key); }}
                             className={megaItemCls}
-                            style={currentPage === p.key ? { color: 'var(--color-orange)', fontWeight: '600' } : {}}
+                            style={currentPage === p.key ? { fontWeight: '600' } : {}}
                           >
                             {p.name}
                           </a>
@@ -226,7 +225,7 @@ const Header = ({ onSelectPage, currentPage }) => {
                             href="#"
                             onClick={(e) => { e.preventDefault(); navigate(p.key); }}
                             className={megaItemCls}
-                            style={currentPage === p.key ? { color: 'var(--color-orange)', fontWeight: '600' } : {}}
+                            style={currentPage === p.key ? { fontWeight: '600' } : {}}
                           >
                             {p.name}
                           </a>
@@ -244,7 +243,7 @@ const Header = ({ onSelectPage, currentPage }) => {
               onMouseEnter={() => openDropdown('MEGA')}
               onMouseLeave={closeDropdown}
             >
-              <button className={navLinkCls} style={{ color: activeDropdown === 'MEGA' ? 'var(--color-orange)' : undefined }}>
+              <button className={navLinkCls}>
                 SERVICES <ChevronDown size={13} className={`ml-0.5 transition-transform duration-150 ${activeDropdown === 'MEGA' ? 'rotate-180' : ''}`} />
               </button>
 
@@ -336,7 +335,6 @@ const Header = ({ onSelectPage, currentPage }) => {
               href="#"
               onClick={(e) => { e.preventDefault(); navigate('about'); }}
               className={navLinkCls}
-              style={{ color: currentPage === 'about' ? 'var(--color-orange)' : undefined }}
             >
               ABOUT
             </a>
