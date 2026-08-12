@@ -12,7 +12,7 @@ const COLOR_SCHEMES = [
   { name: 'amber', primary: '#f59e0b', label: 'Amber' },
   { name: 'lime', primary: '#84cc16', label: 'Lime' },
 ];
-const DEFAULT_COLOR = '#ff4d15';
+const DEFAULT_COLOR = '#1a73e8';
 
 const Header = ({ onSelectPage, currentPage }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -79,9 +79,9 @@ const Header = ({ onSelectPage, currentPage }) => {
     { title: 'New university partnerships announced by EduVista...', time: 'Nov 26, 2025', img: '/assets/couple_travel.png' },
   ];
 
-  const navLinkCls = 'flex items-center gap-0.5 px-4 py-2.5 text-[13px] font-semibold text-[#333] hover:text-[#ff4d15] transition-colors duration-150 tracking-wide whitespace-nowrap select-none cursor-pointer';
-  const dropItemCls = 'block px-5 py-2.5 text-[13px] text-gray-600 hover:text-[#ff4d15] hover:bg-gray-50 transition-colors border-b border-dashed border-gray-100 last:border-b-0 whitespace-nowrap';
-  const megaItemCls = 'block py-2 text-[13px] text-gray-600 hover:text-[#ff4d15] transition-colors border-b border-dashed border-gray-100 last:border-b-0 whitespace-nowrap';
+  const navLinkCls = 'flex items-center gap-0.5 px-4 py-2.5 text-[13px] font-semibold text-[#333] hover:text-[var(--color-orange)] transition-colors duration-150 tracking-wide whitespace-nowrap select-none cursor-pointer';
+  const dropItemCls = 'block px-5 py-2.5 text-[13px] text-gray-600 hover:text-[var(--color-orange)] hover:bg-gray-50 transition-colors border-b border-dashed border-gray-100 last:border-b-0 whitespace-nowrap';
+  const megaItemCls = 'block py-2 text-[13px] text-gray-600 hover:text-[var(--color-orange)] transition-colors border-b border-dashed border-gray-100 last:border-b-0 whitespace-nowrap';
   const colHeadCls = 'text-[12px] font-bold text-[#25345d] uppercase tracking-widest mb-4';
 
   const navigate = (key) => {
@@ -122,10 +122,10 @@ const Header = ({ onSelectPage, currentPage }) => {
           <a href="#" onClick={(e) => { e.preventDefault(); navigate('home'); }} className="flex items-center gap-2.5 group shrink-0">
             <div className="relative w-10 h-10">
               <svg viewBox="0 0 40 40" className="w-full h-full">
-                <circle cx="20" cy="20" r="18" fill="none" stroke="#ff4d15" strokeWidth="2.5" opacity="0.15" />
-                <path d="M20 4 A16 16 0 0 1 36 20" stroke="#ff4d15" strokeWidth="3" fill="none" strokeLinecap="round" />
+                <circle cx="20" cy="20" r="18" fill="none" stroke="var(--color-orange)" strokeWidth="2.5" opacity="0.15" />
+                <path d="M20 4 A16 16 0 0 1 36 20" stroke="var(--color-orange)" strokeWidth="3" fill="none" strokeLinecap="round" />
                 <path d="M20 4 A16 16 0 0 0 4 20" stroke="#b0c4e8" strokeWidth="3" fill="none" strokeLinecap="round" />
-                <path d="M4 20 A16 16 0 0 0 20 36" stroke="#ff4d15" strokeWidth="3" fill="none" strokeLinecap="round" />
+                <path d="M4 20 A16 16 0 0 0 20 36" stroke="var(--color-orange)" strokeWidth="3" fill="none" strokeLinecap="round" />
                 <path d="M20 36 A16 16 0 0 0 36 20" stroke="#b0c4e8" strokeWidth="3" fill="none" strokeLinecap="round" />
                 <line x1="20" y1="4" x2="20" y2="36" stroke="#25345d" strokeWidth="1.5" opacity="0.5" />
                 <line x1="4" y1="20" x2="36" y2="20" stroke="#25345d" strokeWidth="1.5" opacity="0.5" />
@@ -133,8 +133,8 @@ const Header = ({ onSelectPage, currentPage }) => {
               </svg>
             </div>
             <div>
-              <div className="font-bold text-[18px] text-[#25345d] leading-none group-hover:text-[#ff4d15] transition-colors" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                Edu<span className="text-[#ff4d15]">Vista</span>
+              <div className="font-bold text-[18px] text-[#25345d] leading-none group-hover:text-[var(--color-orange)] transition-colors" style={{ fontFamily: 'Poppins, sans-serif' }}>
+                Edu<span className="text-[var(--color-orange)]">Vista</span>
               </div>
               <div className="text-[9px] text-gray-400 tracking-widest uppercase font-semibold mt-0.5">
                 International
@@ -150,7 +150,7 @@ const Header = ({ onSelectPage, currentPage }) => {
               href="#"
               onClick={(e) => { e.preventDefault(); navigate('home'); }}
               className={navLinkCls}
-              style={{ color: currentPage === 'home' ? '#ff4d15' : undefined }}
+              style={{ color: currentPage === 'home' ? 'var(--color-orange)' : undefined }}
             >
               HOME
             </a>
@@ -161,7 +161,7 @@ const Header = ({ onSelectPage, currentPage }) => {
               onMouseEnter={() => openDropdown('PAGES')}
               onMouseLeave={closeDropdown}
             >
-              <button className={navLinkCls} style={{ color: activeDropdown === 'PAGES' ? '#ff4d15' : undefined }}>
+              <button className={navLinkCls} style={{ color: activeDropdown === 'PAGES' ? 'var(--color-orange)' : undefined }}>
                 PAGES <ChevronDown size={13} className={`ml-0.5 transition-transform duration-150 ${activeDropdown === 'PAGES' ? 'rotate-180' : ''}`} />
               </button>
 
@@ -190,7 +190,7 @@ const Header = ({ onSelectPage, currentPage }) => {
                             href="#"
                             onClick={(e) => { e.preventDefault(); navigate(p.key); }}
                             className={megaItemCls}
-                            style={currentPage === p.key ? { color: '#ff4d15', fontWeight: '600' } : {}}
+                            style={currentPage === p.key ? { color: 'var(--color-orange)', fontWeight: '600' } : {}}
                           >
                             {p.name}
                           </a>
@@ -208,7 +208,7 @@ const Header = ({ onSelectPage, currentPage }) => {
                             href="#"
                             onClick={(e) => { e.preventDefault(); navigate(p.key); }}
                             className={megaItemCls}
-                            style={currentPage === p.key ? { color: '#ff4d15', fontWeight: '600' } : {}}
+                            style={currentPage === p.key ? { color: 'var(--color-orange)', fontWeight: '600' } : {}}
                           >
                             {p.name}
                           </a>
@@ -226,7 +226,7 @@ const Header = ({ onSelectPage, currentPage }) => {
                             href="#"
                             onClick={(e) => { e.preventDefault(); navigate(p.key); }}
                             className={megaItemCls}
-                            style={currentPage === p.key ? { color: '#ff4d15', fontWeight: '600' } : {}}
+                            style={currentPage === p.key ? { color: 'var(--color-orange)', fontWeight: '600' } : {}}
                           >
                             {p.name}
                           </a>
@@ -244,7 +244,7 @@ const Header = ({ onSelectPage, currentPage }) => {
               onMouseEnter={() => openDropdown('MEGA')}
               onMouseLeave={closeDropdown}
             >
-              <button className={navLinkCls} style={{ color: activeDropdown === 'MEGA' ? '#ff4d15' : undefined }}>
+              <button className={navLinkCls} style={{ color: activeDropdown === 'MEGA' ? 'var(--color-orange)' : undefined }}>
                 SERVICES <ChevronDown size={13} className={`ml-0.5 transition-transform duration-150 ${activeDropdown === 'MEGA' ? 'rotate-180' : ''}`} />
               </button>
 
@@ -336,7 +336,7 @@ const Header = ({ onSelectPage, currentPage }) => {
               href="#"
               onClick={(e) => { e.preventDefault(); navigate('about'); }}
               className={navLinkCls}
-              style={{ color: currentPage === 'about' ? '#ff4d15' : undefined }}
+              style={{ color: currentPage === 'about' ? 'var(--color-orange)' : undefined }}
             >
               ABOUT
             </a>
