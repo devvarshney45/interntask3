@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Footer2 from './components/Footer2';
 import FloatingUI from './components/FloatingUI';
@@ -27,12 +27,38 @@ import ContactStyle1 from './pages/ContactStyle1';
 import ContactStyle2 from './pages/ContactStyle2';
 import ContactStyle3 from './pages/ContactStyle3';
 
+// Admin
+import AdminBlog from './pages/AdminBlog';
+
+// Secret hash key to open admin panel (URL: yoursite.com/#admin-eduvista2025)
+const ADMIN_HASH = '#admin-eduvista2025';
+
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  // On load, check if the URL hash matches the secret key
+  useEffect(() => {
+    const checkHash = () => {
+      if (window.location.hash === ADMIN_HASH) {
+        setIsAdmin(true);
+      } else {
+        setIsAdmin(false);
+      }
+    };
+
+    checkHash();
+    window.addEventListener('hashchange', checkHash);
+    return () => window.removeEventListener('hashchange', checkHash);
+  }, []);
+
+  // If the admin hash is detected, show only the admin panel (no header/footer)
+  if (isAdmin) {
+    return <AdminBlog />;
+  }
 
   return (
     <>
-
       <FloatingUI />
       <Header onSelectPage={(page) => setCurrentPage(page)} currentPage={currentPage} />
 
