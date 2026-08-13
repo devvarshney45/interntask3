@@ -251,19 +251,16 @@ const Header = ({ onSelectPage, currentPage }) => {
                 <div
                   className="absolute top-full bg-white z-50"
                   style={{
-                    width: '750px',
+                    width: '240px',
                     right: 0,
                     boxShadow: '0 8px 30px rgba(0,0,0,0.12)',
                     border: '1px solid #e8e8e8',
                     padding: '28px 30px 24px',
-                    display: 'grid',
-                    gridTemplateColumns: '210px 1fr 210px',
-                    gap: '0 28px',
                   }}
                   onMouseEnter={() => openDropdown('MEGA')}
                   onMouseLeave={closeDropdown}
                 >
-                  {/* What We Offer */}
+                  {/* What We Offer only */}
                   <div>
                     <div className={colHeadCls}>WHAT WE OFFER:</div>
                     <ul>
@@ -273,58 +270,6 @@ const Header = ({ onSelectPage, currentPage }) => {
                         </li>
                       ))}
                     </ul>
-                  </div>
-
-                  {/* Featured News */}
-                  <div>
-                    <div className={colHeadCls}>FEATURED NEWS:</div>
-                    <div style={{ border: '1px solid #eee', overflow: 'hidden' }}>
-                      <img
-                        src="/assets/couple_travel.png"
-                        alt="Featured"
-                        style={{ width: '100%', height: '140px', objectFit: 'cover', display: 'block' }}
-                      />
-                      <div style={{ padding: '12px 14px' }}>
-                        <p style={{ fontWeight: '700', color: '#25345d', fontSize: '13px', marginBottom: '6px', lineHeight: '1.4', fontFamily: 'Poppins, sans-serif' }}>
-                          Your Gateway to Global Education
-                        </p>
-                        <p style={{ color: '#777', fontSize: '11px', lineHeight: '1.6' }}>
-                          EduVista International offers end-to-end guidance for students seeking admissions to top universities worldwide...
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Latest News */}
-                  <div>
-                    <div className={colHeadCls}>LATEST NEWS:</div>
-                    <div>
-                      {latestNews.map((n, i) => (
-                        <div
-                          key={i}
-                          style={{
-                            display: 'flex',
-                            gap: '10px',
-                            alignItems: 'flex-start',
-                            paddingBottom: '12px',
-                            marginBottom: '12px',
-                            borderBottom: i < latestNews.length - 1 ? '1px dashed #e5e5e5' : 'none',
-                          }}
-                        >
-                          <img
-                            src={n.img}
-                            alt=""
-                            style={{ width: '50px', height: '40px', objectFit: 'cover', flexShrink: 0 }}
-                          />
-                          <div>
-                            <p style={{ fontSize: '12px', fontWeight: '600', color: '#25345d', lineHeight: '1.4', marginBottom: '3px' }}>
-                              {n.title}
-                            </p>
-                            <span style={{ fontSize: '11px', color: '#999' }}>{n.time}</span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
                   </div>
                 </div>
               )}
@@ -348,14 +293,7 @@ const Header = ({ onSelectPage, currentPage }) => {
               PARTNERS
             </a>
 
-            {/* FAQs */}
-            <a
-              href="#"
-              onClick={(e) => { e.preventDefault(); navigate('faqs'); }}
-              className={navLinkCls}
-            >
-              FAQS
-            </a>
+
 
             {/* BLOG */}
             <a

@@ -106,27 +106,12 @@ const BlogListing = () => {
       </div>
 
       <div className="max-w-6xl mx-auto px-4 py-12">
-        {/* Tabs */}
+        {/* Tabs — Latest only */}
         <div className="flex border-b border-gray-200 mb-8">
           <button
-            onClick={() => setActiveTab('latest')}
-            className={`py-3 px-6 text-xs font-bold uppercase tracking-wider border-b-2 transition-all ${
-              activeTab === 'latest'
-                ? 'border-[#ff4d15] text-[#ff4d15]'
-                : 'border-transparent text-gray-500 hover:text-gray-700'
-            }`}
+            className="py-3 px-6 text-xs font-bold uppercase tracking-wider border-b-2 border-[#ff4d15] text-[#ff4d15]"
           >
             Latest Blogs
-          </button>
-          <button
-            onClick={() => setActiveTab('featured')}
-            className={`py-3 px-6 text-xs font-bold uppercase tracking-wider border-b-2 transition-all ${
-              activeTab === 'featured'
-                ? 'border-[#ff4d15] text-[#ff4d15]'
-                : 'border-transparent text-gray-500 hover:text-gray-700'
-            }`}
-          >
-            Featured Blogs
           </button>
         </div>
 
@@ -150,10 +135,16 @@ const BlogListing = () => {
                       alt={article.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-                    {/* Date badge overlay on top of the image */}
+                    {/* Date badge — top left */}
                     <span className="absolute top-3 left-3 bg-[#ff4d15] text-white text-[10px] font-bold uppercase px-3 py-1.5 shadow-md rounded-sm tracking-wider">
                       {article.date}
                     </span>
+                    {/* FEATURED badge — top right, only on first card */}
+                    {filteredBlogs.indexOf(article) === 0 && (
+                      <span className="absolute top-3 right-3 bg-[#25345d] text-white text-[10px] font-bold uppercase px-3 py-1.5 shadow-md rounded-sm tracking-wider">
+                        ⭐ Featured
+                      </span>
+                    )}
                   </div>
 
                   {/* Card Content */}

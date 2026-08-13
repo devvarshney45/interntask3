@@ -1,5 +1,49 @@
 import React, { useState } from 'react';
-import { ArrowUp } from 'lucide-react';
+import { ArrowUp, ChevronDown } from 'lucide-react';
+
+const faqs = [
+  { q: 'What services does EduVista International offer?', a: 'EduVista International provides end-to-end study abroad services including university selection, student visa documentation, IELTS/English proficiency preparation, scholarship assistance, SOP & application writing, pre-departure briefing, and post-arrival support.' },
+  { q: 'How do I apply to a university through EduVista?', a: 'Simply book a free consultation with our advisors. We assess your academic profile, shortlist suitable universities, guide you through documentation, and submit your application on your behalf.' },
+  { q: 'Which countries do you assist with for study abroad?', a: 'We assist students wishing to study in the USA, UK, Canada, Australia, New Zealand, Germany, France, Ireland, Netherlands, Malaysia, and many more destinations across the globe.' },
+  { q: 'Is there a fee for initial consultation?', a: 'No, your initial consultation with our expert advisors is completely free. We only charge service fees after you confirm your enrollment with us.' },
+  { q: 'How long does the visa process take?', a: 'Visa processing times vary by country and visa type. On average it takes 4–12 weeks. Our team starts your visa preparation early to ensure timely submission and avoid delays.' },
+  { q: 'Can EduVista help with scholarships?', a: 'Yes! Our scholarship assistance service helps you identify and apply for merit-based, need-based, and country-specific scholarships to reduce your tuition costs.' },
+];
+
+const FaqAccordion = () => {
+  const [openId, setOpenId] = useState(null);
+  return (
+    <div className="space-y-3">
+      {faqs.map((faq, i) => {
+        const isOpen = openId === i;
+        return (
+          <div key={i} className="bg-white border border-gray-200 rounded-md overflow-hidden shadow-xs">
+            <button
+              onClick={() => setOpenId(isOpen ? null : i)}
+              className={`w-full flex items-center justify-between px-5 py-4 text-left text-sm font-semibold transition-colors ${
+                isOpen ? 'text-[#ff4d15] bg-orange-50' : 'text-[#25345d] hover:text-[#ff4d15]'
+              }`}
+              style={{ fontFamily: 'Poppins, sans-serif' }}
+            >
+              <span>{faq.q}</span>
+              <ChevronDown
+                size={16}
+                className={`shrink-0 ml-3 transition-transform duration-200 ${
+                  isOpen ? 'rotate-180 text-[#ff4d15]' : 'text-gray-400'
+                }`}
+              />
+            </button>
+            {isOpen && (
+              <div className="px-5 pb-4 pt-1 text-xs text-gray-500 leading-relaxed border-t border-gray-100 bg-orange-50">
+                {faq.a}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
 
 const Footer2 = () => {
   const [email, setEmail] = useState('');
@@ -139,6 +183,24 @@ const Footer2 = () => {
               </form>
             )}
           </div>
+        </div>
+      </div>
+
+      {/* FAQ Section — above bottom bar */}
+      <div className="bg-[#f8f9fb] border-t border-gray-100 py-14 px-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-10">
+            <span className="text-[#ff4d15] text-[11px] font-bold uppercase tracking-[0.2em] block mb-2">
+              GOT QUESTIONS?
+            </span>
+            <h2
+              className="text-2xl font-extrabold text-[#25345d]"
+              style={{ fontFamily: 'Poppins, sans-serif' }}
+            >
+              Frequently Asked Questions
+            </h2>
+          </div>
+          <FaqAccordion />
         </div>
       </div>
 
