@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
-import { Lock, LogOut, Trash2, Pencil, Star, StarOff, PlusCircle } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Lock, LogOut, Trash2, Pencil, Star, StarOff, PlusCircle, UploadCloud, X } from 'lucide-react';
+
+// ─── Cloudinary config (unsigned upload only — no secret exposed) ─
+const CLOUD_NAME = 'dxaww50be';
+const UPLOAD_PRESET = 'eduvista_uploads'; // create this unsigned preset in Cloudinary dashboard
 
 // ─── Secret key ─────────────────────────────────────────
 const ADMIN_KEY = 'eduvista@2025';
@@ -76,7 +80,6 @@ const AdminBlog = () => {
 
   const [blogs, setBlogs] = useState(loadBlogs);
 
-  // Form
   const [editingId, setEditingId] = useState(null);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -85,6 +88,51 @@ const AdminBlog = () => {
   const [image, setImage] = useState('');
   const [isFeatured, setIsFeatured] = useState(false);
   const [showForm, setShowForm] = useState(false);
+
+  // Image upload state
+  const [imageUploading, setImageUploading] = useState(false);
+  const [imageUploadError, setImageUploadError] = useState('');
+  const fileInputRef = useRef(null);
+
+  // Upload image to Cloudinary (unsigned)
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      setImageUploadError('Please select an image file.');
+      return;
+    }
+    // Validate size (max 5 MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setImageUploadError('Image must be under 5 MB.');
+      return;
+    }
+
+    setImageUploading(true);
+    setImageUploadError('');
+
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', UPLOAD_PRESET);
+      formData.append('folder', 'eduvista_blogs');
+
+      const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+        { method: 'POST', body: formData }
+      );
+
+      if (!res.ok) throw new Error('Upload failed');
+      const data = await res.json();
+      setImage(data.secure_url);
+    } catch (err) {
+      setImageUploadError('Upload failed. Check your Cloudinary upload preset.');
+    } finally {
+      setImageUploading(false);
+    }
+  };
 
   // Auth
   const handleLogin = (e) => {
@@ -150,6 +198,8 @@ const AdminBlog = () => {
     setImage('');
     setIsFeatured(false);
     setShowForm(false);
+    setImageUploadError('');
+    if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   const handleEdit = (blog) => {
@@ -296,15 +346,55 @@ const AdminBlog = () => {
                   className="w-full border border-gray-200 rounded px-3 py-2 text-sm"
                 />
               </div>
-              <div>
-                <label className="block text-xs font-bold text-gray-600 mb-1">Image URL / Path</label>
-                <input
-                  type="text"
-                  value={image}
-                  onChange={(e) => setImage(e.target.value)}
-                  placeholder="/assets/couple_travel.png"
-                  className="w-full border border-gray-200 rounded px-3 py-2 text-sm"
-                />
+              <div className="md:col-span-2">
+                <label className="block text-xs font-bold text-gray-600 mb-2">Blog Image *</label>
+
+                {/* Image upload area */}
+                <div
+                  className="relative border-2 border-dashed border-gray-200 rounded-lg p-4 text-center hover:border-[#25345d] transition-colors cursor-pointer"
+                  onClick={() => !imageUploading && fileInputRef.current?.click()}
+                >
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                  />
+
+                  {imageUploading ? (
+                    <div className="flex flex-col items-center gap-2 py-4">
+                      <div className="w-8 h-8 border-2 border-[#25345d] border-t-transparent rounded-full animate-spin" />
+                      <p className="text-xs text-gray-500">Uploading to Cloudinary...</p>
+                    </div>
+                  ) : image ? (
+                    <div className="relative inline-block">
+                      <img
+                        src={image}
+                        alt="Preview"
+                        className="max-h-40 max-w-full rounded object-cover mx-auto"
+                      />
+                      <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); setImage(''); if (fileInputRef.current) fileInputRef.current.value = ''; }}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center hover:bg-red-600"
+                      >
+                        <X size={12} />
+                      </button>
+                      <p className="text-xs text-gray-400 mt-2">Click to change image</p>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center gap-2 py-4">
+                      <UploadCloud size={28} className="text-gray-300" />
+                      <p className="text-sm font-semibold text-gray-500">Click to select image</p>
+                      <p className="text-xs text-gray-400">PNG, JPG, WEBP · max 5 MB</p>
+                    </div>
+                  )}
+                </div>
+
+                {imageUploadError && (
+                  <p className="text-red-500 text-xs mt-1.5">{imageUploadError}</p>
+                )}
               </div>
               <div className="flex items-center gap-2">
                 <input
