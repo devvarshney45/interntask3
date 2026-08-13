@@ -55,25 +55,35 @@ const BlogListing = () => {
   const [activeTab, setActiveTab] = useState('latest');
 
   // Load from localStorage (synced with admin panel)
-  useEffect(() => {
+  const refreshBlogs = () => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
-      setBlogs(saved ? JSON.parse(saved) : defaultBlogs);
+      if (saved) {
+        setBlogs(JSON.parse(saved));
+      } else {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultBlogs));
+        setBlogs(defaultBlogs);
+      }
     } catch {
       setBlogs(defaultBlogs);
     }
-  }, []);
+  };
 
-  // Listen for storage changes (when admin saves)
   useEffect(() => {
-    const handleStorage = () => {
-      try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) setBlogs(JSON.parse(saved));
-      } catch {}
+    refreshBlogs();
+  }, [activeTab]);
+
+  // Listen for storage changes and page focus to keep in sync
+  useEffect(() => {
+    window.addEventListener('storage', refreshBlogs);
+    window.addEventListener('focus', refreshBlogs);
+    // Interval fallback to sync updates instantly on the same tab
+    const interval = setInterval(refreshBlogs, 1500);
+    return () => {
+      window.removeEventListener('storage', refreshBlogs);
+      window.removeEventListener('focus', refreshBlogs);
+      clearInterval(interval);
     };
-    window.addEventListener('storage', handleStorage);
-    return () => window.removeEventListener('storage', handleStorage);
   }, []);
 
   const filteredBlogs =
@@ -120,69 +130,61 @@ const BlogListing = () => {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-          {/* Articles */}
-          <div className="lg:col-span-8 space-y-10">
-            {filteredBlogs.length === 0 ? (
-              <p className="text-sm text-gray-400 py-12 text-center">
-                No blogs in this section yet.
-              </p>
-            ) : (
-              filteredBlogs.map((article) => (
+        {/* Blog Cards Grid */}
+        <div className="max-w-[1400px] mx-auto">
+          {filteredBlogs.length === 0 ? (
+            <p className="text-sm text-gray-400 py-12 text-center">
+              No blogs in this section yet.
+            </p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {filteredBlogs.map((article) => (
                 <div
                   key={article.id}
-                  className="space-y-4 border-b border-gray-100 pb-8 last:border-b-0"
+                  className="bg-white rounded-lg border border-gray-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col overflow-hidden group"
                 >
-                  <div className="relative h-64 rounded overflow-hidden bg-gray-50">
+                  {/* Card Image Wrapper */}
+                  <div className="relative h-56 bg-slate-50 flex items-center justify-center overflow-hidden">
                     <img
                       src={article.image}
                       alt={article.title}
-                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-                    <span className="absolute top-3 left-3 bg-[#ff4d15] text-white text-[10px] font-bold uppercase px-2.5 py-1">
-                      {article.category}
+                    {/* Date badge overlay on top of the image */}
+                    <span className="absolute top-3 left-3 bg-[#ff4d15] text-white text-[10px] font-bold uppercase px-3 py-1.5 shadow-md rounded-sm tracking-wider">
+                      {article.date}
                     </span>
                   </div>
-                  <div className="space-y-2 text-xs">
-                    <div className="flex items-center gap-3 text-gray-400 font-medium">
+
+                  {/* Card Content */}
+                  <div className="p-5 flex flex-col flex-1">
+                    <div className="flex items-center gap-2 text-gray-400 text-[11px] mb-2 font-medium">
+                      <span className="text-[#ff4d15] font-bold uppercase tracking-wider">{article.category || 'Visa Details'}</span>
+                      <span>•</span>
                       <span>{article.readTime}</span>
                     </div>
-                    <h2
-                      className="text-base font-bold text-[#25345d] hover:text-[#ff4d15] cursor-pointer transition-colors"
+
+                    <h3
+                      className="font-bold text-[#25345d] text-[15px] leading-snug mb-3 group-hover:text-[#ff4d15] transition-colors line-clamp-2"
                       style={{ fontFamily: 'Poppins, sans-serif' }}
                     >
                       {article.title}
-                    </h2>
-                    <p className="text-gray-500 text-xs leading-relaxed max-w-2xl">
+                    </h3>
+
+                    <p className="text-gray-500 text-[12px] leading-relaxed mb-4 flex-1 line-clamp-3">
                       {article.description}
                     </p>
-                    <div className="flex items-center gap-2 text-gray-400 pt-1">
+
+                    <div className="border-t border-gray-100 pt-3 flex items-center justify-between text-[11px] text-gray-400">
                       <span>
-                        By <strong className="text-gray-600">{article.author}</strong>
+                        By <strong className="text-gray-600 font-semibold">{article.author}</strong>
                       </span>
-                      <span>•</span>
-                      <span>{article.date}</span>
                     </div>
                   </div>
                 </div>
-              ))
-            )}
-          </div>
-
-          {/* Sidebar */}
-          <div className="lg:col-span-4 space-y-8">
-            <div className="bg-gray-50 p-6 rounded border border-gray-100 space-y-3">
-              <h3 className="text-xs font-bold text-[#25345d] uppercase tracking-wider">
-                Categories
-              </h3>
-              <ul className="space-y-2 text-xs text-gray-600 font-medium">
-                <li className="hover:text-[#ff4d15] cursor-pointer">Education Visa</li>
-                <li className="hover:text-[#ff4d15] cursor-pointer">Skilled Work Visa</li>
-                <li className="hover:text-[#ff4d15] cursor-pointer">Work Permit Visa</li>
-                <li className="hover:text-[#ff4d15] cursor-pointer">PR &amp; Migrate Visa</li>
-              </ul>
+              ))}
             </div>
-          </div>
+          )}
         </div>
       </div>
 

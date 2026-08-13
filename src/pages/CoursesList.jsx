@@ -1,16 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PopularCourses from '../components/PopularCourses';
 import OverseasEducation from '../components/OverseasEducation';
 
-const courseItems = [
-  { id: 1, title: 'IELTS Preparation Course', desc: 'Comprehensive coaching covering listening, reading, writing, and speaking modules with practice resources.', bg: 'bg-[#9254c8]/10 text-[#9254c8]', border: 'border-[#9254c8]/20' },
-  { id: 2, title: 'TOEFL Preparation', desc: 'Strategic preparation to excel in the Test of English as a Foreign Language with simulated mock exams.', bg: 'bg-[#e28743]/10 text-[#e28743]', border: 'border-[#e28743]/20' },
-  { id: 3, title: 'PTE Academic Coaching', desc: 'Focus on Pearson Test of English modules with computer-based practice and scoring guidance.', bg: 'bg-[#1e81b0]/10 text-[#1e81b0]', border: 'border-[#1e81b0]/20' },
-  { id: 4, title: 'Duolingo English Test Prep', desc: 'Online preparation for the modern, fast, and convenient language proficiency test.', bg: 'bg-green-50 text-green-700', border: 'border-green-200' },
-  { id: 5, title: 'GRE & GMAT Prep Course', desc: 'Advanced quantitative and verbal reasoning strategies for business school and graduate admissions.', bg: 'bg-red-50 text-red-600', border: 'border-red-100' },
-  { id: 6, title: 'SAT & ACT Preparation', desc: 'Targeted study plans, logic training, and mock tests for undergraduate study abroad seekers.', bg: 'bg-blue-50 text-blue-600', border: 'border-blue-100' },
-  { id: 7, title: 'Spoken English & Proficiency', desc: 'Development of fluency, public speaking, conversational grammar, and active communication skills.', bg: 'bg-purple-50 text-purple-600', border: 'border-purple-100' },
-  { id: 8, title: 'Career & Professional Development', desc: 'Profile optimization, resume/CV reviews, statement of purpose (SOP) guidance, and interview prep.', bg: 'bg-indigo-50 text-indigo-600', border: 'border-indigo-100' },
+const COURSES_KEY = 'eduvista_courses';
+
+const colorPalette = [
+  { bg: 'bg-[#9254c8]/10 text-[#9254c8]', border: 'border-[#9254c8]/20' },
+  { bg: 'bg-[#e28743]/10 text-[#e28743]', border: 'border-[#e28743]/20' },
+  { bg: 'bg-[#1e81b0]/10 text-[#1e81b0]', border: 'border-[#1e81b0]/20' },
+  { bg: 'bg-green-50 text-green-700', border: 'border-green-200' },
+  { bg: 'bg-red-50 text-red-600', border: 'border-red-100' },
+  { bg: 'bg-blue-50 text-blue-600', border: 'border-blue-100' },
+  { bg: 'bg-purple-50 text-purple-600', border: 'border-purple-100' },
+  { bg: 'bg-indigo-50 text-indigo-600', border: 'border-indigo-100' },
+];
+
+const defaultCourseItems = [
+  { id: 1, title: 'IELTS Preparation Course', desc: 'Comprehensive coaching covering listening, reading, writing, and speaking modules with practice resources.' },
+  { id: 2, title: 'TOEFL Preparation', desc: 'Strategic preparation to excel in the Test of English as a Foreign Language with simulated mock exams.' },
+  { id: 3, title: 'PTE Academic Coaching', desc: 'Focus on Pearson Test of English modules with computer-based practice and scoring guidance.' },
+  { id: 4, title: 'Duolingo English Test Prep', desc: 'Online preparation for the modern, fast, and convenient language proficiency test.' },
+  { id: 5, title: 'GRE & GMAT Prep Course', desc: 'Advanced quantitative and verbal reasoning strategies for business school and graduate admissions.' },
+  { id: 6, title: 'SAT & ACT Preparation', desc: 'Targeted study plans, logic training, and mock tests for undergraduate study abroad seekers.' },
+  { id: 7, title: 'Spoken English & Proficiency', desc: 'Development of fluency, public speaking, conversational grammar, and active communication skills.' },
+  { id: 8, title: 'Career & Professional Development', desc: 'Profile optimization, resume/CV reviews, statement of purpose (SOP) guidance, and interview prep.' },
 ];
 
 const listFaqs = [
@@ -23,6 +36,37 @@ const listFaqs = [
 
 const CoursesList = () => {
   const [openId, setOpenId] = useState(1);
+  const [courses, setCourses] = useState([]);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(COURSES_KEY);
+      if (saved) {
+        setCourses(JSON.parse(saved));
+      } else {
+        localStorage.setItem(COURSES_KEY, JSON.stringify(defaultCourseItems));
+        setCourses(defaultCourseItems);
+      }
+    } catch {
+      setCourses(defaultCourseItems);
+    }
+  }, []);
+
+  // Sync on same-tab admin updates
+  useEffect(() => {
+    const sync = () => {
+      try {
+        const saved = localStorage.getItem(COURSES_KEY);
+        if (saved) setCourses(JSON.parse(saved));
+      } catch {}
+    };
+    window.addEventListener('storage', sync);
+    const interval = setInterval(sync, 1500);
+    return () => {
+      window.removeEventListener('storage', sync);
+      clearInterval(interval);
+    };
+  }, []);
   return (
     <div className="bg-white">
       {/* Breadcrumb */}
@@ -50,22 +94,25 @@ const CoursesList = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {courseItems.map((course) => (
-            <div key={course.id} className={`p-6 rounded-md border flex flex-col justify-between ${course.border} bg-white shadow-xs hover:shadow-md transition-shadow`}>
-              <div className="space-y-3">
-                <span className={`inline-block px-2.5 py-1 text-[10px] font-bold rounded-sm uppercase tracking-wide ${course.bg}`}>
-                  Course {course.id}
-                </span>
-                <h3 className="font-bold text-[#25345d] text-sm leading-snug" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                  {course.title}
-                </h3>
-                <p className="text-gray-400 text-xs leading-relaxed">{course.desc}</p>
+          {courses.map((course, idx) => {
+            const color = colorPalette[idx % colorPalette.length];
+            return (
+              <div key={course.id} className={`p-6 rounded-md border flex flex-col justify-between ${color.border} bg-white shadow-xs hover:shadow-md transition-shadow`}>
+                <div className="space-y-3">
+                  <span className={`inline-block px-2.5 py-1 text-[10px] font-bold rounded-sm uppercase tracking-wide ${color.bg}`}>
+                    Course {idx + 1}
+                  </span>
+                  <h3 className="font-bold text-[#25345d] text-sm leading-snug" style={{ fontFamily: 'Poppins, sans-serif' }}>
+                    {course.title}
+                  </h3>
+                  <p className="text-gray-400 text-xs leading-relaxed">{course.desc}</p>
+                </div>
+                <a href="#" className="text-xs font-bold text-[#ff4d15] hover:text-[#25345d] transition-colors mt-4 block">
+                  Read More ▸
+                </a>
               </div>
-              <a href="#" className="text-xs font-bold text-[#ff4d15] hover:text-[#25345d] transition-colors mt-4 block">
-                Read More ▸
-              </a>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 

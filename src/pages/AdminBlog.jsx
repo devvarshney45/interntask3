@@ -78,7 +78,54 @@ const AdminBlog = () => {
   const [keyInput, setKeyInput] = useState('');
   const [keyError, setKeyError] = useState('');
 
+  const [adminSection, setAdminSection] = useState('blogs'); // 'blogs' | 'courses'
   const [blogs, setBlogs] = useState(loadBlogs);
+
+  // ── Courses state ──
+  const COURSES_KEY = 'eduvista_courses';
+  const defaultCourseItems = [
+    { id: 1, title: 'IELTS Preparation Course', desc: 'Comprehensive coaching covering listening, reading, writing, and speaking modules.' },
+    { id: 2, title: 'TOEFL Preparation', desc: 'Strategic preparation to excel in the Test of English as a Foreign Language.' },
+    { id: 3, title: 'PTE Academic Coaching', desc: 'Focus on Pearson Test of English modules with computer-based practice.' },
+    { id: 4, title: 'GRE & GMAT Prep Course', desc: 'Advanced quantitative and verbal reasoning strategies for admissions.' },
+  ];
+  const loadCourses = () => {
+    try {
+      const s = localStorage.getItem(COURSES_KEY);
+      return s ? JSON.parse(s) : defaultCourseItems;
+    } catch { return defaultCourseItems; }
+  };
+  const [courses, setCourses] = useState(loadCourses);
+  const [courseEditId, setCourseEditId] = useState(null);
+  const [courseTitle, setCourseTitle] = useState('');
+  const [courseDesc, setCourseDesc] = useState('');
+  const [showCourseForm, setShowCourseForm] = useState(false);
+
+  const persistCourses = (updated) => {
+    setCourses(updated);
+    localStorage.setItem(COURSES_KEY, JSON.stringify(updated));
+    window.dispatchEvent(new Event('storage'));
+  };
+
+  const handleCourseSave = (e) => {
+    e.preventDefault();
+    if (!courseTitle) return;
+    if (courseEditId) {
+      persistCourses(courses.map(c => c.id === courseEditId ? { ...c, title: courseTitle, desc: courseDesc } : c));
+    } else {
+      persistCourses([...courses, { id: Date.now(), title: courseTitle, desc: courseDesc }]);
+    }
+    setCourseEditId(null); setCourseTitle(''); setCourseDesc(''); setShowCourseForm(false);
+  };
+
+  const handleCourseEdit = (c) => {
+    setCourseEditId(c.id); setCourseTitle(c.title); setCourseDesc(c.desc);
+    setShowCourseForm(true); window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleCourseDelete = (id) => {
+    if (window.confirm('Delete this course?')) persistCourses(courses.filter(c => c.id !== id));
+  };
 
   const [editingId, setEditingId] = useState(null);
   const [title, setTitle] = useState('');
@@ -148,6 +195,8 @@ const AdminBlog = () => {
   const persistBlogs = (updated) => {
     setBlogs(updated);
     saveBlogs(updated);
+    // Dispatch a storage event manually so same-window listeners update instantly
+    window.dispatchEvent(new Event('storage'));
   };
 
   // Save blog (create or update)
@@ -271,17 +320,46 @@ const AdminBlog = () => {
       <div className="bg-[#25345d] text-white px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-lg">
         <div>
           <h1 className="text-base font-bold" style={{ fontFamily: 'Poppins, sans-serif' }}>
-            EduVista — Blog Admin
+            EduVista — Admin Portal
           </h1>
-          <p className="text-xs text-gray-300">{blogs.length} articles total</p>
+          <p className="text-xs text-gray-300">
+            {adminSection === 'blogs' ? `${blogs.length} articles` : `${courses.length} courses`}
+          </p>
         </div>
         <div className="flex gap-3 items-center">
+          {/* Section tabs */}
           <button
-            onClick={() => { setShowForm(!showForm); setEditingId(null); resetForm(); setShowForm(true); }}
-            className="flex items-center gap-2 bg-[#ff4d15] text-white text-xs font-bold px-4 py-2 rounded hover:bg-[#e03e08] transition-all"
+            onClick={() => setAdminSection('blogs')}
+            className={`text-xs font-bold px-4 py-2 rounded transition-all ${
+              adminSection === 'blogs' ? 'bg-white text-[#25345d]' : 'bg-white/10 text-white hover:bg-white/20'
+            }`}
           >
-            <PlusCircle size={14} /> New Post
+            📝 Blogs
           </button>
+          <button
+            onClick={() => setAdminSection('courses')}
+            className={`text-xs font-bold px-4 py-2 rounded transition-all ${
+              adminSection === 'courses' ? 'bg-white text-[#25345d]' : 'bg-white/10 text-white hover:bg-white/20'
+            }`}
+          >
+            📚 Courses
+          </button>
+          {adminSection === 'blogs' && (
+            <button
+              onClick={() => { setShowForm(!showForm); setEditingId(null); resetForm(); setShowForm(true); }}
+              className="flex items-center gap-2 bg-[#ff4d15] text-white text-xs font-bold px-4 py-2 rounded hover:bg-[#e03e08] transition-all"
+            >
+              <PlusCircle size={14} /> New Post
+            </button>
+          )}
+          {adminSection === 'courses' && (
+            <button
+              onClick={() => { setShowCourseForm(true); setCourseEditId(null); setCourseTitle(''); setCourseDesc(''); }}
+              className="flex items-center gap-2 bg-[#ff4d15] text-white text-xs font-bold px-4 py-2 rounded hover:bg-[#e03e08] transition-all"
+            >
+              <PlusCircle size={14} /> New Course
+            </button>
+          )}
           <button
             onClick={() => setAuthed(false)}
             className="flex items-center gap-2 bg-white/10 text-white text-xs font-bold px-4 py-2 rounded hover:bg-white/20 transition-all"
@@ -293,8 +371,114 @@ const AdminBlog = () => {
 
       <div className="max-w-6xl mx-auto px-4 py-8">
 
-        {/* Create/Edit Form */}
-        {showForm && (
+        {/* ── COURSES SECTION ── */}
+        {adminSection === 'courses' && (
+          <div>
+            {showCourseForm && (
+              <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 mb-8">
+                <h2 className="text-sm font-bold text-[#25345d] mb-5">
+                  {courseEditId ? '✏️ Edit Course' : '📚 Add New Course'}
+                </h2>
+                <form onSubmit={handleCourseSave} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="md:col-span-2">
+                    <label className="block text-xs font-bold text-gray-600 mb-1">Course Title *</label>
+                    <input
+                      type="text"
+                      value={courseTitle}
+                      onChange={(e) => setCourseTitle(e.target.value)}
+                      placeholder="e.g. IELTS Advanced Course"
+                      required
+                      className="w-full border border-gray-200 rounded px-3 py-2 text-sm"
+                    />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="block text-xs font-bold text-gray-600 mb-1">Course Description *</label>
+                    <textarea
+                      value={courseDesc}
+                      onChange={(e) => setCourseDesc(e.target.value)}
+                      placeholder="Brief description of the course..."
+                      rows={3}
+                      className="w-full border border-gray-200 rounded px-3 py-2 text-sm"
+                    />
+                  </div>
+                  <div className="md:col-span-2 flex gap-3 pt-2">
+                    <button
+                      type="submit"
+                      className="bg-[#25345d] text-white text-xs font-bold px-6 py-2.5 rounded hover:bg-[#1c2847] transition-all uppercase tracking-wider"
+                    >
+                      {courseEditId ? 'Update Course' : 'Add Course'}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => { setShowCourseForm(false); setCourseEditId(null); setCourseTitle(''); setCourseDesc(''); }}
+                      className="border border-gray-300 text-gray-600 text-xs font-bold px-6 py-2.5 rounded hover:bg-gray-50 transition-all uppercase"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              </div>
+            )}
+
+            {/* Courses Table */}
+            <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+              <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                <h2 className="text-sm font-bold text-[#25345d]">All Courses</h2>
+                <span className="text-xs text-gray-400">{courses.length} courses</span>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead className="bg-gray-50 border-b border-gray-100">
+                    <tr className="text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3">#</th>
+                      <th className="px-6 py-3">Title</th>
+                      <th className="px-6 py-3">Description</th>
+                      <th className="px-6 py-3 text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-50">
+                    {courses.length === 0 && (
+                      <tr><td colSpan={4} className="text-center text-gray-400 py-12 text-xs">No courses yet.</td></tr>
+                    )}
+                    {courses.map((c, idx) => (
+                      <tr key={c.id} className="hover:bg-gray-50/60 transition-colors">
+                        <td className="px-6 py-3 text-gray-400 text-xs font-bold">{idx + 1}</td>
+                        <td className="px-6 py-3 font-semibold text-gray-700 max-w-[200px]">
+                          <p className="truncate">{c.title}</p>
+                        </td>
+                        <td className="px-6 py-3 text-gray-400 text-xs max-w-[300px]">
+                          <p className="truncate">{c.desc}</p>
+                        </td>
+                        <td className="px-6 py-3 text-right">
+                          <div className="flex gap-2 justify-end">
+                            <button
+                              onClick={() => handleCourseEdit(c)}
+                              className="flex items-center gap-1 text-[#1a73e8] hover:bg-blue-50 px-2 py-1 rounded text-xs font-bold transition-colors"
+                            >
+                              <Pencil size={12} /> Edit
+                            </button>
+                            <button
+                              onClick={() => handleCourseDelete(c.id)}
+                              className="flex items-center gap-1 text-red-500 hover:bg-red-50 px-2 py-1 rounded text-xs font-bold transition-colors"
+                            >
+                              <Trash2 size={12} /> Delete
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── BLOGS SECTION ── */}
+        {adminSection === 'blogs' && (
+          <>
+            {/* Create/Edit Form */}
+            {showForm && (
           <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 mb-8">
             <h2 className="text-sm font-bold text-[#25345d] mb-5">
               {editingId ? '✏️ Edit Article' : '📝 Create New Article'}
@@ -311,20 +495,7 @@ const AdminBlog = () => {
                   className="w-full border border-gray-200 rounded px-3 py-2 text-sm"
                 />
               </div>
-              <div>
-                <label className="block text-xs font-bold text-gray-600 mb-1">Category *</label>
-                <select
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  className="w-full border border-gray-200 rounded px-3 py-2 text-sm"
-                >
-                  <option>Immigration Visa</option>
-                  <option>Working Visa</option>
-                  <option>PR Visa</option>
-                  <option>Student Visa</option>
-                  <option>Education News</option>
-                </select>
-              </div>
+
               <div className="md:col-span-2">
                 <label className="block text-xs font-bold text-gray-600 mb-1">Description / Content *</label>
                 <textarea
@@ -505,6 +676,8 @@ const AdminBlog = () => {
             </table>
           </div>
         </div>
+          </>
+        )} {/* end blogs section */}
       </div>
     </div>
   );

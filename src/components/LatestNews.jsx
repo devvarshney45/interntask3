@@ -34,6 +34,21 @@ const newsArticles = [
 ];
 
 const LatestNews = () => {
+  const [news, setNews] = React.useState([]);
+
+  React.useEffect(() => {
+    try {
+      const saved = localStorage.getItem('eduvista_blogs');
+      if (saved) {
+        setNews(JSON.parse(saved).slice(0, 3));
+      } else {
+        setNews(newsArticles);
+      }
+    } catch {
+      setNews(newsArticles);
+    }
+  }, []);
+
   return (
     <section className="py-20 px-4 bg-white">
       <div className="max-w-7xl mx-auto">
@@ -53,7 +68,7 @@ const LatestNews = () => {
 
         {/* 3 Articles */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {newsArticles.map((article) => (
+          {news.map((article) => (
             <article
               key={article.id}
               className="group bg-white overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col"
@@ -65,10 +80,10 @@ const LatestNews = () => {
                   alt={article.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                {/* Category chip */}
+                {/* Date Chip instead of Category */}
                 <div className="absolute top-3 left-3">
                   <span className="bg-[#ff4d15] text-white text-[9px] font-bold uppercase tracking-wider px-2.5 py-1">
-                    {article.category}
+                    {article.date}
                   </span>
                 </div>
               </div>
@@ -82,21 +97,20 @@ const LatestNews = () => {
 
                 {/* Title */}
                 <h3
-                  className="font-bold text-[#25345d] text-[15px] leading-snug mb-3 group-hover:text-[#ff4d15] transition-colors"
+                  className="font-bold text-[#25345d] text-[15px] leading-snug mb-3 group-hover:text-[#ff4d15] transition-colors line-clamp-2"
                   style={{ fontFamily: 'Poppins, sans-serif' }}
                 >
                   <a href="#">{article.title}</a>
                 </h3>
 
                 {/* Excerpt */}
-                <p className="text-gray-400 text-[12px] leading-relaxed mb-5 flex-1">
-                  {article.excerpt}
+                <p className="text-gray-400 text-[12px] leading-relaxed mb-5 flex-1 line-clamp-3">
+                  {article.description || article.excerpt}
                 </p>
 
                 {/* Author & Date */}
                 <div className="text-[11px] text-gray-400 border-t border-gray-100 pt-3 flex justify-between">
                   <span>By <strong className="text-gray-600 font-semibold">{article.author}</strong></span>
-                  <span>{article.date}</span>
                 </div>
               </div>
             </article>

@@ -15,7 +15,7 @@ const WorldMapFinder = () => {
   return (
     <section className="py-20 px-4 bg-white">
       <div className="max-w-6xl mx-auto">
-        
+
         {/* Section Header */}
         <div className="mb-14">
           <h2
@@ -32,7 +32,7 @@ const WorldMapFinder = () => {
 
         {/* 3 Columns Layout matching mockup */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-start">
-          
+
           {/* Col 1: Cities (md:col-span-3) */}
           <div className="md:col-span-3">
             <h3
@@ -90,11 +90,11 @@ const WorldMapFinder = () => {
           </div>
 
           {/* Col 3: Map Image exactly matching mockup (md:col-span-6) */}
-          <div className="md:col-span-6 flex justify-center items-center">
-            <div className="w-full max-w-[460px]">
+          <div className="md:col-span-6 flex justify-center items-start -mt-45">
+            <div className="w-full max-w-[520px]">
               <img
-                src="/assets/map.png"
-                alt="Australia Map Finder"
+                src="/assets/worldmap.png"
+                alt="World Map Consultant Finder"
                 className="w-full h-auto object-contain"
               />
             </div>
