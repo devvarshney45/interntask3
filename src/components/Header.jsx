@@ -339,6 +339,33 @@ const Header = ({ onSelectPage, currentPage }) => {
               ABOUT
             </a>
 
+            {/* PARTNERS */}
+            <a
+              href="#"
+              onClick={(e) => { e.preventDefault(); navigate('partners'); }}
+              className={navLinkCls}
+            >
+              PARTNERS
+            </a>
+
+            {/* FAQs */}
+            <a
+              href="#"
+              onClick={(e) => { e.preventDefault(); navigate('faqs'); }}
+              className={navLinkCls}
+            >
+              FAQS
+            </a>
+
+            {/* BLOG */}
+            <a
+              href="#"
+              onClick={(e) => { e.preventDefault(); navigate('blog-list'); }}
+              className={navLinkCls}
+            >
+              BLOG
+            </a>
+
             {/* GET CONSULTATION — uses accentColor */}
             <a
               href="#"
