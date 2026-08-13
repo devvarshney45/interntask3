@@ -20,7 +20,25 @@ const Header = ({ onSelectPage, currentPage }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [schemeOpen, setSchemeOpen] = useState(false);
   const [accentColor, setAccentColor] = useState(DEFAULT_COLOR);
-  const closeTimer = useRef(null);
+  const dropdownRef = useRef(null);
+
+  // Toggle active dropdown
+  const toggleDropdown = (name) => {
+    setActiveDropdown((prev) => (prev === name ? null : name));
+  };
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setActiveDropdown(null);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     // Set --color-orange dynamically so all components/icons update
@@ -32,14 +50,6 @@ const Header = ({ onSelectPage, currentPage }) => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const openDropdown = (name) => {
-    if (closeTimer.current) clearTimeout(closeTimer.current);
-    setActiveDropdown(name);
-  };
-  const closeDropdown = () => {
-    closeTimer.current = setTimeout(() => setActiveDropdown(null), 80);
-  };
 
   const standardPages = [
     { name: 'About Us', key: 'about' },
@@ -143,7 +153,7 @@ const Header = ({ onSelectPage, currentPage }) => {
           </a>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center">
+          <nav className="hidden lg:flex items-center" ref={dropdownRef}>
 
             {/* HOME link */}
             <a
@@ -155,12 +165,11 @@ const Header = ({ onSelectPage, currentPage }) => {
             </a>
 
             {/* ─── PAGES mega ─── */}
-            <div
-              className="relative"
-              onMouseEnter={() => openDropdown('PAGES')}
-              onMouseLeave={closeDropdown}
-            >
-              <button className={navLinkCls}>
+            <div className="relative">
+              <button 
+                onClick={() => toggleDropdown('PAGES')}
+                className={navLinkCls}
+              >
                 PAGES <ChevronDown size={13} className={`ml-0.5 transition-transform duration-150 ${activeDropdown === 'PAGES' ? 'rotate-180' : ''}`} />
               </button>
 
@@ -176,8 +185,6 @@ const Header = ({ onSelectPage, currentPage }) => {
                     gridTemplateColumns: '1fr 1fr 1fr',
                     gap: '0 24px',
                   }}
-                  onMouseEnter={() => openDropdown('PAGES')}
-                  onMouseLeave={closeDropdown}
                 >
                   {/* Standard Pages */}
                   <div>
@@ -238,12 +245,11 @@ const Header = ({ onSelectPage, currentPage }) => {
             </div>
 
             {/* ─── SERVICES mega ─── */}
-            <div
-              className="relative"
-              onMouseEnter={() => openDropdown('MEGA')}
-              onMouseLeave={closeDropdown}
-            >
-              <button className={navLinkCls}>
+            <div className="relative">
+              <button 
+                onClick={() => toggleDropdown('MEGA')}
+                className={navLinkCls}
+              >
                 SERVICES <ChevronDown size={13} className={`ml-0.5 transition-transform duration-150 ${activeDropdown === 'MEGA' ? 'rotate-180' : ''}`} />
               </button>
 
@@ -257,8 +263,6 @@ const Header = ({ onSelectPage, currentPage }) => {
                     border: '1px solid #e8e8e8',
                     padding: '28px 30px 24px',
                   }}
-                  onMouseEnter={() => openDropdown('MEGA')}
-                  onMouseLeave={closeDropdown}
                 >
                   {/* What We Offer only */}
                   <div>

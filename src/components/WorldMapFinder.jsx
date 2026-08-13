@@ -93,7 +93,7 @@ const WorldMapFinder = () => {
           <div className="md:col-span-6 flex justify-center items-start -mt-45">
             <div className="w-full max-w-[520px]">
               <img
-                src="/assets/worldmap.png"
+                src="/assets/worldmap1.png"
                 alt="World Map Consultant Finder"
                 className="w-full h-auto object-contain"
               />

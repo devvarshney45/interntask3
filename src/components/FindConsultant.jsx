@@ -134,9 +134,13 @@ const FindConsultant = () => {
             </a>
           </div>
 
-          {/* Australia Map */}
-          <div className="flex justify-center">
-            <AustraliaMap />
+          {/* World Map Image */}
+          <div className="flex justify-center items-center">
+            <img
+              src="/assets/worldmap1.png"
+              alt="World Map Consultant Finder"
+              className="w-full max-w-[360px] h-auto object-contain"
+            />
           </div>
         </div>
       </div>

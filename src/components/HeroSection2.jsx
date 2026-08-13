@@ -6,7 +6,7 @@ const slides = [
     preTitle: 'Study in',
     title: 'AUSTRALIA',
     titleSub: '',
-    desc: 'Travel & Tourism, Engineering, Business, Health, Science, IT and many more...',
+    desc: 'Higher Education, Engineering, Business, Health, Science, IT and many more...',
     bg: '/assets/s1.jpg',
   },
   {
