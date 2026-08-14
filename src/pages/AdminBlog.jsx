@@ -298,7 +298,7 @@ const AdminBlog = () => {
   // ── Admin Dashboard ──
   return (
     <div className="min-h-screen bg-[#080d1a] text-slate-100 flex flex-col md:flex-row">
-      
+
       {/* Sidebar navigation */}
       <aside className="w-full md:w-64 bg-slate-900 border-r border-slate-800 flex flex-col shrink-0">
         {/* Sidebar Brand header */}
@@ -317,22 +317,20 @@ const AdminBlog = () => {
           <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-2">Management</p>
           <button
             onClick={() => setAdminSection('blogs')}
-            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-bold transition-all ${
-              adminSection === 'blogs'
+            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-bold transition-all ${adminSection === 'blogs'
                 ? 'bg-[#1a73e8] text-white shadow-md shadow-[#1a73e8]/20'
                 : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
-            }`}
+              }`}
           >
             <FileText size={16} />
-            <span>📝 Articles ({blogs.length})</span>
+            <span> Articles ({blogs.length})</span>
           </button>
           <button
             onClick={() => setAdminSection('courses')}
-            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-bold transition-all ${
-              adminSection === 'courses'
+            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-bold transition-all ${adminSection === 'courses'
                 ? 'bg-[#1a73e8] text-white shadow-md shadow-[#1a73e8]/20'
                 : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
-            }`}
+              }`}
           >
             <GraduationCap size={16} />
             <span>📚 Courses ({courses.length})</span>
