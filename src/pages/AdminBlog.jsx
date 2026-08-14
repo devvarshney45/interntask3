@@ -1,15 +1,12 @@
 import React, { useState, useRef } from 'react';
-import { Lock, LogOut, Trash2, Pencil, Star, StarOff, PlusCircle, UploadCloud, X } from 'lucide-react';
+import { Lock, LogOut, Trash2, Pencil, Star, StarOff, PlusCircle, UploadCloud, X, LayoutDashboard, FileText, GraduationCap } from 'lucide-react';
 
-// ─── Cloudinary config (unsigned upload only — no secret exposed) ─
+// ─── Cloudinary config (unsigned upload only) ───
 const CLOUD_NAME = 'dxaww50be';
-const UPLOAD_PRESET = 'eduvista_uploads'; // create this unsigned preset in Cloudinary dashboard
+const UPLOAD_PRESET = 'eduvista_uploads';
 
-// ─── Secret key ─────────────────────────────────────────
+// ─── Secret key ─────────────────────────────────
 const ADMIN_KEY = 'eduvista@2025';
-
-// ─── Shared in-memory blog store (imported via window so BlogListing can read it) ──
-// We use localStorage so both AdminBlog and BlogListing share data
 const STORAGE_KEY = 'eduvista_blogs';
 
 const defaultBlogs = [
@@ -72,12 +69,10 @@ function saveBlogs(blogs) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(blogs));
 }
 
-// ─── MAIN COMPONENT ──────────────────────────────────────
 const AdminBlog = () => {
   const [authed, setAuthed] = useState(false);
   const [keyInput, setKeyInput] = useState('');
   const [keyError, setKeyError] = useState('');
-
   const [adminSection, setAdminSection] = useState('blogs'); // 'blogs' | 'courses'
   const [blogs, setBlogs] = useState(loadBlogs);
 
@@ -89,12 +84,14 @@ const AdminBlog = () => {
     { id: 3, title: 'PTE Academic Coaching', desc: 'Focus on Pearson Test of English modules with computer-based practice.' },
     { id: 4, title: 'GRE & GMAT Prep Course', desc: 'Advanced quantitative and verbal reasoning strategies for admissions.' },
   ];
+
   const loadCourses = () => {
     try {
       const s = localStorage.getItem(COURSES_KEY);
       return s ? JSON.parse(s) : defaultCourseItems;
     } catch { return defaultCourseItems; }
   };
+
   const [courses, setCourses] = useState(loadCourses);
   const [courseEditId, setCourseEditId] = useState(null);
   const [courseTitle, setCourseTitle] = useState('');
@@ -136,105 +133,86 @@ const AdminBlog = () => {
   const [isFeatured, setIsFeatured] = useState(false);
   const [showForm, setShowForm] = useState(false);
 
-  // Image upload state
   const [imageUploading, setImageUploading] = useState(false);
   const [imageUploadError, setImageUploadError] = useState('');
   const fileInputRef = useRef(null);
 
-  // Upload image to Cloudinary (unsigned)
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-
-    // Validate file type
     if (!file.type.startsWith('image/')) {
-      setImageUploadError('Please select an image file.');
+      setImageUploadError('Please select a valid image file');
       return;
     }
-    // Validate size (max 5 MB)
-    if (file.size > 5 * 1024 * 1024) {
-      setImageUploadError('Image must be under 5 MB.');
-      return;
-    }
-
     setImageUploading(true);
     setImageUploadError('');
 
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', UPLOAD_PRESET);
+
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', UPLOAD_PRESET);
-      formData.append('folder', 'eduvista_blogs');
-
-      const res = await fetch(
-        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
-        { method: 'POST', body: formData }
-      );
-
-      if (!res.ok) throw new Error('Upload failed');
+      const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
+        method: 'POST',
+        body: formData,
+      });
       const data = await res.json();
-      setImage(data.secure_url);
-    } catch (err) {
-      setImageUploadError('Upload failed. Check your Cloudinary upload preset.');
+      if (data.secure_url) {
+        setImage(data.secure_url);
+      } else {
+        setImageUploadError('Upload failed. Try again.');
+      }
+    } catch {
+      setImageUploadError('Error uploading image.');
     } finally {
       setImageUploading(false);
     }
   };
 
-  // Auth
   const handleLogin = (e) => {
     e.preventDefault();
     if (keyInput === ADMIN_KEY) {
       setAuthed(true);
       setKeyError('');
     } else {
-      setKeyError('Incorrect admin key. Please try again.');
+      setKeyError('Invalid Secret Key');
     }
   };
 
-  const persistBlogs = (updated) => {
-    setBlogs(updated);
-    saveBlogs(updated);
-    // Dispatch a storage event manually so same-window listeners update instantly
+  const persistBlogs = (newBlogs) => {
+    setBlogs(newBlogs);
+    saveBlogs(newBlogs);
     window.dispatchEvent(new Event('storage'));
   };
 
-  // Save blog (create or update)
   const handleSave = (e) => {
     e.preventDefault();
-    if (!title || !description) return;
-
-    const today = new Date().toLocaleDateString('en-US', {
-      month: 'short',
-      day: '2-digit',
-      year: 'numeric',
-    });
-
-    const imgPath = image || '/assets/couple_travel.png';
-
-    if (editingId) {
-      persistBlogs(
-        blogs.map((b) =>
-          b.id === editingId
-            ? { ...b, title, description, category, author, image: imgPath, isFeatured }
-            : b
-        )
-      );
-    } else {
-      const newBlog = {
-        id: Date.now(),
-        image: imgPath,
-        category,
-        readTime: '5 min read',
-        title,
-        author,
-        date: today,
-        description,
-        isFeatured,
-      };
-      persistBlogs([newBlog, ...blogs]);
+    if (!title || !description || !image) {
+      alert('Please fill out all required fields and upload an image.');
+      return;
     }
 
+    if (editingId) {
+      const updated = blogs.map((b) =>
+        b.id === editingId
+          ? { ...b, title, description, category, author, image, isFeatured }
+          : b
+      );
+      persistBlogs(updated);
+    } else {
+      const newB = {
+        id: Date.now(),
+        title,
+        description,
+        category,
+        author,
+        date: new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }),
+        readTime: `${Math.max(3, Math.ceil(description.split(' ').length / 150))} min read`,
+        image,
+        isFeatured,
+      };
+      persistBlogs([newB, ...blogs]);
+    }
     resetForm();
   };
 
@@ -276,36 +254,40 @@ const AdminBlog = () => {
   // ── Login screen ──
   if (!authed) {
     return (
-      <div className="min-h-screen bg-[#0f1828] flex items-center justify-center px-4">
-        <div className="bg-white rounded-xl shadow-2xl w-full max-w-md p-8">
+      <div className="min-h-screen bg-[#0a1120] flex items-center justify-center px-4 relative overflow-hidden">
+        {/* Glow Effects */}
+        <div className="absolute top-[-20%] left-[-20%] w-[60%] h-[60%] bg-[#1a73e8]/20 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-[-20%] right-[-20%] w-[60%] h-[60%] bg-[#ff4d15]/10 rounded-full blur-[120px] pointer-events-none" />
+
+        <div className="bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl w-full max-w-md p-8 relative z-10">
           <div className="flex flex-col items-center mb-8">
-            <div className="w-14 h-14 bg-[#25345d] rounded-full flex items-center justify-center mb-3">
-              <Lock size={26} color="#fff" />
+            <div className="w-16 h-16 bg-[#1a73e8]/10 border border-[#1a73e8]/30 rounded-2xl flex items-center justify-center mb-4 shadow-inner">
+              <Lock size={28} className="text-[#1a73e8]" />
             </div>
-            <h1 className="text-xl font-bold text-[#25345d]" style={{ fontFamily: 'Poppins, sans-serif' }}>
-              Admin Access
+            <h1 className="text-2xl font-black text-white tracking-tight" style={{ fontFamily: 'Poppins, sans-serif' }}>
+              Edu<span className="text-[#1a73e8]">Vista</span> Control Panel
             </h1>
-            <p className="text-xs text-gray-400 mt-1">EduVista Blog Management Portal</p>
+            <p className="text-xs text-slate-400 mt-2 font-medium">Please enter your credentials to authenticate</p>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-4">
+          <form onSubmit={handleLogin} className="space-y-5">
             <div>
-              <label className="block text-xs font-bold text-gray-600 mb-1">Admin Secret Key</label>
+              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Secret Key</label>
               <input
                 type="password"
                 value={keyInput}
                 onChange={(e) => setKeyInput(e.target.value)}
-                placeholder="Enter your secret key..."
-                className="w-full border border-gray-200 rounded px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#25345d]"
+                placeholder="••••••••••••"
+                className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-[#1a73e8] focus:ring-1 focus:ring-[#1a73e8] transition-all"
                 autoFocus
               />
-              {keyError && <p className="text-red-500 text-xs mt-1.5">{keyError}</p>}
+              {keyError && <p className="text-red-400 text-xs mt-2 font-semibold">⚠️ {keyError}</p>}
             </div>
             <button
               type="submit"
-              className="w-full bg-[#25345d] text-white py-2.5 rounded font-bold text-sm uppercase tracking-wider hover:bg-[#1c2847] transition-all"
+              className="w-full bg-[#1a73e8] text-white py-3 rounded-lg font-bold text-xs uppercase tracking-widest hover:bg-[#155cb8] active:scale-[0.98] transition-all shadow-lg shadow-[#1a73e8]/20"
             >
-              Login to Admin
+              Authenticate Portal
             </button>
           </form>
         </div>
@@ -315,370 +297,387 @@ const AdminBlog = () => {
 
   // ── Admin Dashboard ──
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Top Bar */}
-      <div className="bg-[#25345d] text-white px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-lg">
-        <div>
-          <h1 className="text-base font-bold" style={{ fontFamily: 'Poppins, sans-serif' }}>
-            EduVista — Admin Portal
-          </h1>
-          <p className="text-xs text-gray-300">
-            {adminSection === 'blogs' ? `${blogs.length} articles` : `${courses.length} courses`}
-          </p>
+    <div className="min-h-screen bg-[#080d1a] text-slate-100 flex flex-col md:flex-row">
+      
+      {/* Sidebar navigation */}
+      <aside className="w-full md:w-64 bg-slate-900 border-r border-slate-800 flex flex-col shrink-0">
+        {/* Sidebar Brand header */}
+        <div className="p-6 border-b border-slate-800 flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg bg-[#1a73e8] flex items-center justify-center text-white font-black text-sm">EV</div>
+          <div>
+            <h2 className="font-extrabold text-sm tracking-tight text-white">EduVista Admin</h2>
+            <span className="text-[10px] text-emerald-400 font-semibold flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping inline-block" /> Live Server
+            </span>
+          </div>
         </div>
-        <div className="flex gap-3 items-center">
-          {/* Section tabs */}
+
+        {/* Sidebar Section tabs */}
+        <div className="p-4 flex-1 space-y-1.5">
+          <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-2">Management</p>
           <button
             onClick={() => setAdminSection('blogs')}
-            className={`text-xs font-bold px-4 py-2 rounded transition-all ${
-              adminSection === 'blogs' ? 'bg-white text-[#25345d]' : 'bg-white/10 text-white hover:bg-white/20'
+            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-bold transition-all ${
+              adminSection === 'blogs'
+                ? 'bg-[#1a73e8] text-white shadow-md shadow-[#1a73e8]/20'
+                : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
             }`}
           >
-            📝 Blogs
+            <FileText size={16} />
+            <span>📝 Articles ({blogs.length})</span>
           </button>
           <button
             onClick={() => setAdminSection('courses')}
-            className={`text-xs font-bold px-4 py-2 rounded transition-all ${
-              adminSection === 'courses' ? 'bg-white text-[#25345d]' : 'bg-white/10 text-white hover:bg-white/20'
+            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-bold transition-all ${
+              adminSection === 'courses'
+                ? 'bg-[#1a73e8] text-white shadow-md shadow-[#1a73e8]/20'
+                : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
             }`}
           >
-            📚 Courses
+            <GraduationCap size={16} />
+            <span>📚 Courses ({courses.length})</span>
           </button>
-          {adminSection === 'blogs' && (
-            <button
-              onClick={() => { setShowForm(!showForm); setEditingId(null); resetForm(); setShowForm(true); }}
-              className="flex items-center gap-2 bg-[#ff4d15] text-white text-xs font-bold px-4 py-2 rounded hover:bg-[#e03e08] transition-all"
-            >
-              <PlusCircle size={14} /> New Post
-            </button>
-          )}
-          {adminSection === 'courses' && (
-            <button
-              onClick={() => { setShowCourseForm(true); setCourseEditId(null); setCourseTitle(''); setCourseDesc(''); }}
-              className="flex items-center gap-2 bg-[#ff4d15] text-white text-xs font-bold px-4 py-2 rounded hover:bg-[#e03e08] transition-all"
-            >
-              <PlusCircle size={14} /> New Course
-            </button>
-          )}
+        </div>
+
+        {/* Sidebar Footer */}
+        <div className="p-4 border-t border-slate-800">
           <button
             onClick={() => setAuthed(false)}
-            className="flex items-center gap-2 bg-white/10 text-white text-xs font-bold px-4 py-2 rounded hover:bg-white/20 transition-all"
+            className="w-full flex items-center justify-center gap-2 bg-slate-850 hover:bg-red-950/40 border border-slate-800 text-slate-400 hover:text-red-400 py-2.5 rounded-lg text-xs font-bold transition-all"
           >
-            <LogOut size={14} /> Logout
+            <LogOut size={14} />
+            <span>Logout Portal</span>
           </button>
         </div>
-      </div>
+      </aside>
 
-      <div className="max-w-6xl mx-auto px-4 py-8">
-
-        {/* ── COURSES SECTION ── */}
-        {adminSection === 'courses' && (
+      {/* Main Content Area */}
+      <main className="flex-1 min-w-0 bg-[#080d1a] pb-16">
+        {/* Top Sticky Header */}
+        <header className="sticky top-0 bg-[#080d1a]/85 backdrop-blur-md border-b border-slate-900 z-40 px-8 py-4 flex items-center justify-between">
           <div>
-            {showCourseForm && (
-              <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 mb-8">
-                <h2 className="text-sm font-bold text-[#25345d] mb-5">
-                  {courseEditId ? '✏️ Edit Course' : '📚 Add New Course'}
-                </h2>
-                <form onSubmit={handleCourseSave} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="md:col-span-2">
-                    <label className="block text-xs font-bold text-gray-600 mb-1">Course Title *</label>
-                    <input
-                      type="text"
-                      value={courseTitle}
-                      onChange={(e) => setCourseTitle(e.target.value)}
-                      placeholder="e.g. IELTS Advanced Course"
-                      required
-                      className="w-full border border-gray-200 rounded px-3 py-2 text-sm"
-                    />
-                  </div>
-                  <div className="md:col-span-2">
-                    <label className="block text-xs font-bold text-gray-600 mb-1">Course Description *</label>
-                    <textarea
-                      value={courseDesc}
-                      onChange={(e) => setCourseDesc(e.target.value)}
-                      placeholder="Brief description of the course..."
-                      rows={3}
-                      className="w-full border border-gray-200 rounded px-3 py-2 text-sm"
-                    />
-                  </div>
-                  <div className="md:col-span-2 flex gap-3 pt-2">
-                    <button
-                      type="submit"
-                      className="bg-[#25345d] text-white text-xs font-bold px-6 py-2.5 rounded hover:bg-[#1c2847] transition-all uppercase tracking-wider"
-                    >
-                      {courseEditId ? 'Update Course' : 'Add Course'}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => { setShowCourseForm(false); setCourseEditId(null); setCourseTitle(''); setCourseDesc(''); }}
-                      className="border border-gray-300 text-gray-600 text-xs font-bold px-6 py-2.5 rounded hover:bg-gray-50 transition-all uppercase"
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </form>
-              </div>
-            )}
-
-            {/* Courses Table */}
-            <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-              <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-                <h2 className="text-sm font-bold text-[#25345d]">All Courses</h2>
-                <span className="text-xs text-gray-400">{courses.length} courses</span>
-              </div>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead className="bg-gray-50 border-b border-gray-100">
-                    <tr className="text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
-                      <th className="px-6 py-3">#</th>
-                      <th className="px-6 py-3">Title</th>
-                      <th className="px-6 py-3">Description</th>
-                      <th className="px-6 py-3 text-right">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-50">
-                    {courses.length === 0 && (
-                      <tr><td colSpan={4} className="text-center text-gray-400 py-12 text-xs">No courses yet.</td></tr>
-                    )}
-                    {courses.map((c, idx) => (
-                      <tr key={c.id} className="hover:bg-gray-50/60 transition-colors">
-                        <td className="px-6 py-3 text-gray-400 text-xs font-bold">{idx + 1}</td>
-                        <td className="px-6 py-3 font-semibold text-gray-700 max-w-[200px]">
-                          <p className="truncate">{c.title}</p>
-                        </td>
-                        <td className="px-6 py-3 text-gray-400 text-xs max-w-[300px]">
-                          <p className="truncate">{c.desc}</p>
-                        </td>
-                        <td className="px-6 py-3 text-right">
-                          <div className="flex gap-2 justify-end">
-                            <button
-                              onClick={() => handleCourseEdit(c)}
-                              className="flex items-center gap-1 text-[#1a73e8] hover:bg-blue-50 px-2 py-1 rounded text-xs font-bold transition-colors"
-                            >
-                              <Pencil size={12} /> Edit
-                            </button>
-                            <button
-                              onClick={() => handleCourseDelete(c.id)}
-                              className="flex items-center gap-1 text-red-500 hover:bg-red-50 px-2 py-1 rounded text-xs font-bold transition-colors"
-                            >
-                              <Trash2 size={12} /> Delete
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+            <h1 className="text-lg font-black text-white tracking-tight capitalize" style={{ fontFamily: 'Poppins, sans-serif' }}>
+              {adminSection === 'blogs' ? '📝 Article Management' : '📚 Course Catalog'}
+            </h1>
+            <p className="text-[11px] text-slate-500 font-medium">Manage and dynamic-sync live site assets</p>
           </div>
-        )}
 
-        {/* ── BLOGS SECTION ── */}
-        {adminSection === 'blogs' && (
-          <>
-            {/* Create/Edit Form */}
-            {showForm && (
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 mb-8">
-            <h2 className="text-sm font-bold text-[#25345d] mb-5">
-              {editingId ? '✏️ Edit Article' : '📝 Create New Article'}
-            </h2>
-            <form onSubmit={handleSave} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-bold text-gray-600 mb-1">Title *</label>
-                <input
-                  type="text"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder="Article title..."
-                  required
-                  className="w-full border border-gray-200 rounded px-3 py-2 text-sm"
-                />
-              </div>
+          <div>
+            {adminSection === 'blogs' && (
+              <button
+                onClick={() => { resetForm(); setShowForm(true); }}
+                className="flex items-center gap-2 bg-[#ff4d15] text-white text-xs font-bold px-4 py-2.5 rounded-lg hover:bg-[#e03e08] transition-all shadow-lg shadow-[#ff4d15]/10"
+              >
+                <PlusCircle size={14} /> New Article
+              </button>
+            )}
+            {adminSection === 'courses' && (
+              <button
+                onClick={() => { setShowCourseForm(true); setCourseEditId(null); setCourseTitle(''); setCourseDesc(''); }}
+                className="flex items-center gap-2 bg-[#ff4d15] text-white text-xs font-bold px-4 py-2.5 rounded-lg hover:bg-[#e03e08] transition-all shadow-lg shadow-[#ff4d15]/10"
+              >
+                <PlusCircle size={14} /> New Course
+              </button>
+            )}
+          </div>
+        </header>
 
-              <div className="md:col-span-2">
-                <label className="block text-xs font-bold text-gray-600 mb-1">Description / Content *</label>
-                <textarea
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Write the blog content here..."
-                  required
-                  rows={4}
-                  className="w-full border border-gray-200 rounded px-3 py-2 text-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-gray-600 mb-1">Author</label>
-                <input
-                  type="text"
-                  value={author}
-                  onChange={(e) => setAuthor(e.target.value)}
-                  placeholder="Author name"
-                  className="w-full border border-gray-200 rounded px-3 py-2 text-sm"
-                />
-              </div>
-              <div className="md:col-span-2">
-                <label className="block text-xs font-bold text-gray-600 mb-2">Blog Image *</label>
-
-                {/* Image upload area */}
-                <div
-                  className="relative border-2 border-dashed border-gray-200 rounded-lg p-4 text-center hover:border-[#25345d] transition-colors cursor-pointer"
-                  onClick={() => !imageUploading && fileInputRef.current?.click()}
-                >
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    className="hidden"
-                  />
-
-                  {imageUploading ? (
-                    <div className="flex flex-col items-center gap-2 py-4">
-                      <div className="w-8 h-8 border-2 border-[#25345d] border-t-transparent rounded-full animate-spin" />
-                      <p className="text-xs text-gray-500">Uploading to Cloudinary...</p>
-                    </div>
-                  ) : image ? (
-                    <div className="relative inline-block">
-                      <img
-                        src={image}
-                        alt="Preview"
-                        className="max-h-40 max-w-full rounded object-cover mx-auto"
+        <div className="px-8 py-8">
+          {/* ── COURSES PANEL ── */}
+          {adminSection === 'courses' && (
+            <div className="space-y-8">
+              {showCourseForm && (
+                <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl max-w-3xl">
+                  <h2 className="text-xs font-bold text-white uppercase tracking-wider mb-5 flex items-center gap-1.5">
+                    {courseEditId ? '✏️ Edit Course Details' : '📚 Register New Course'}
+                  </h2>
+                  <form onSubmit={handleCourseSave} className="space-y-4">
+                    <div>
+                      <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">Course Title *</label>
+                      <input
+                        type="text"
+                        value={courseTitle}
+                        onChange={(e) => setCourseTitle(e.target.value)}
+                        placeholder="e.g. IELTS Premium Preparation"
+                        required
+                        className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#1a73e8]"
                       />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">Description *</label>
+                      <textarea
+                        value={courseDesc}
+                        onChange={(e) => setCourseDesc(e.target.value)}
+                        placeholder="Detail syllabus highlights..."
+                        rows={4}
+                        required
+                        className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#1a73e8]"
+                      />
+                    </div>
+                    <div className="flex gap-3 pt-2">
+                      <button
+                        type="submit"
+                        className="bg-[#1a73e8] text-white text-xs font-bold px-6 py-2.5 rounded-lg hover:bg-[#155cb8] transition-all uppercase tracking-widest"
+                      >
+                        {courseEditId ? 'Update Course' : 'Save Course'}
+                      </button>
                       <button
                         type="button"
-                        onClick={(e) => { e.stopPropagation(); setImage(''); if (fileInputRef.current) fileInputRef.current.value = ''; }}
-                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center hover:bg-red-600"
+                        onClick={() => { setShowCourseForm(false); setCourseEditId(null); }}
+                        className="border border-slate-800 text-slate-400 hover:text-white text-xs font-bold px-6 py-2.5 rounded-lg hover:bg-slate-850 transition-all uppercase"
                       >
-                        <X size={12} />
+                        Cancel
                       </button>
-                      <p className="text-xs text-gray-400 mt-2">Click to change image</p>
                     </div>
-                  ) : (
-                    <div className="flex flex-col items-center gap-2 py-4">
-                      <UploadCloud size={28} className="text-gray-300" />
-                      <p className="text-sm font-semibold text-gray-500">Click to select image</p>
-                      <p className="text-xs text-gray-400">PNG, JPG, WEBP · max 5 MB</p>
-                    </div>
-                  )}
+                  </form>
                 </div>
+              )}
 
-                {imageUploadError && (
-                  <p className="text-red-500 text-xs mt-1.5">{imageUploadError}</p>
-                )}
+              {/* Courses Grid Card List */}
+              <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-xl">
+                <div className="px-6 py-4 border-b border-slate-800 bg-slate-900/50 flex items-center justify-between">
+                  <h3 className="font-bold text-white text-xs uppercase tracking-wider">Live Course Catalog</h3>
+                  <span className="text-[11px] text-slate-500 font-semibold">{courses.length} courses listed</span>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-xs">
+                    <thead className="bg-slate-950 border-b border-slate-800">
+                      <tr className="text-left font-bold text-slate-400 uppercase tracking-widest">
+                        <th className="px-6 py-4 w-12">#</th>
+                        <th className="px-6 py-4">Title</th>
+                        <th className="px-6 py-4">Syllabus Highlights</th>
+                        <th className="px-6 py-4 text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-800/60">
+                      {courses.length === 0 && (
+                        <tr>
+                          <td colSpan={4} className="text-center text-slate-500 py-16 font-medium text-xs">No courses registered yet.</td>
+                        </tr>
+                      )}
+                      {courses.map((c, idx) => (
+                        <tr key={c.id} className="hover:bg-slate-800/20 transition-colors">
+                          <td className="px-6 py-4 text-slate-500 font-bold">{idx + 1}</td>
+                          <td className="px-6 py-4 font-bold text-white text-sm">{c.title}</td>
+                          <td className="px-6 py-4 text-slate-400 leading-relaxed max-w-sm truncate">{c.desc}</td>
+                          <td className="px-6 py-4 text-right">
+                            <div className="flex gap-2 justify-end">
+                              <button
+                                onClick={() => handleCourseEdit(c)}
+                                className="flex items-center gap-1.5 text-[#1a73e8] hover:bg-[#1a73e8]/10 border border-[#1a73e8]/20 px-2.5 py-1.5 rounded-lg text-[10px] font-bold uppercase transition-colors"
+                              >
+                                <Pencil size={11} /> Edit
+                              </button>
+                              <button
+                                onClick={() => handleCourseDelete(c.id)}
+                                className="flex items-center gap-1.5 text-red-400 hover:bg-red-950/20 border border-red-950 px-2.5 py-1.5 rounded-lg text-[10px] font-bold uppercase transition-colors"
+                              >
+                                <Trash2 size={11} /> Delete
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  id="featuredChk"
-                  checked={isFeatured}
-                  onChange={(e) => setIsFeatured(e.target.checked)}
-                  className="w-4 h-4 accent-[#ff4d15]"
-                />
-                <label htmlFor="featuredChk" className="text-xs font-bold text-gray-700 cursor-pointer">
-                  Mark as Featured
-                </label>
-              </div>
-              <div className="md:col-span-2 flex gap-3 pt-2">
-                <button
-                  type="submit"
-                  className="bg-[#25345d] text-white text-xs font-bold px-6 py-2.5 rounded hover:bg-[#1c2847] transition-all uppercase tracking-wider"
-                >
-                  {editingId ? 'Update Article' : 'Publish Article'}
-                </button>
-                <button
-                  type="button"
-                  onClick={resetForm}
-                  className="border border-gray-300 text-gray-600 text-xs font-bold px-6 py-2.5 rounded hover:bg-gray-50 transition-all uppercase tracking-wider"
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </div>
-        )}
+            </div>
+          )}
 
-        {/* Blog Table */}
-        <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-            <h2 className="text-sm font-bold text-[#25345d]">All Articles</h2>
-            <span className="text-xs text-gray-400">{blogs.length} posts</span>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-gray-50 border-b border-gray-100">
-                <tr className="text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
-                  <th className="px-6 py-3">Image</th>
-                  <th className="px-6 py-3">Title</th>
-                  <th className="px-6 py-3">Category</th>
-                  <th className="px-6 py-3">Author</th>
-                  <th className="px-6 py-3">Date</th>
-                  <th className="px-6 py-3 text-center">Featured</th>
-                  <th className="px-6 py-3 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-50">
-                {blogs.length === 0 && (
-                  <tr>
-                    <td colSpan={7} className="text-center text-gray-400 py-12 text-xs">No articles yet. Create one!</td>
-                  </tr>
-                )}
-                {blogs.map((b) => (
-                  <tr key={b.id} className="hover:bg-gray-50/60 transition-colors">
-                    <td className="px-6 py-3">
-                      <img
-                        src={b.image}
-                        alt=""
-                        className="w-14 h-10 object-cover rounded"
-                      />
-                    </td>
-                    <td className="px-6 py-3 font-semibold text-gray-700 max-w-[220px]">
-                      <p className="truncate">{b.title}</p>
-                    </td>
-                    <td className="px-6 py-3">
-                      <span className="bg-blue-50 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded-full">
-                        {b.category}
-                      </span>
-                    </td>
-                    <td className="px-6 py-3 text-gray-500 text-xs">{b.author}</td>
-                    <td className="px-6 py-3 text-gray-400 text-xs whitespace-nowrap">{b.date}</td>
-                    <td className="px-6 py-3 text-center">
-                      <button
-                        onClick={() => toggleFeatured(b.id)}
-                        title={b.isFeatured ? 'Remove from featured' : 'Mark as featured'}
-                        className="hover:scale-110 transition-transform"
-                      >
-                        {b.isFeatured
-                          ? <Star size={16} className="text-amber-400 fill-amber-400" />
-                          : <StarOff size={16} className="text-gray-300" />
-                        }
-                      </button>
-                    </td>
-                    <td className="px-6 py-3 text-right">
-                      <div className="flex gap-2 justify-end">
-                        <button
-                          onClick={() => handleEdit(b)}
-                          className="flex items-center gap-1 text-[#1a73e8] hover:bg-blue-50 px-2 py-1 rounded text-xs font-bold transition-colors"
-                        >
-                          <Pencil size={12} /> Edit
-                        </button>
-                        <button
-                          onClick={() => handleDelete(b.id)}
-                          className="flex items-center gap-1 text-red-500 hover:bg-red-50 px-2 py-1 rounded text-xs font-bold transition-colors"
-                        >
-                          <Trash2 size={12} /> Delete
-                        </button>
+          {/* ── BLOGS PANEL ── */}
+          {adminSection === 'blogs' && (
+            <div className="space-y-8">
+              {showForm && (
+                <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl max-w-3xl">
+                  <h2 className="text-xs font-bold text-white uppercase tracking-wider mb-5 flex items-center gap-1.5">
+                    {editingId ? '✏️ Modify Article Post' : '📝 Publish New Article'}
+                  </h2>
+                  <form onSubmit={handleSave} className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">Article Title *</label>
+                        <input
+                          type="text"
+                          value={title}
+                          onChange={(e) => setTitle(e.target.value)}
+                          placeholder="What visa do you need..."
+                          required
+                          className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#1a73e8]"
+                        />
                       </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                      <div>
+                        <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">Author *</label>
+                        <input
+                          type="text"
+                          value={author}
+                          onChange={(e) => setAuthor(e.target.value)}
+                          placeholder="e.g. Admin Team"
+                          required
+                          className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#1a73e8]"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">Article Description / Content *</label>
+                      <textarea
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        placeholder="Write clean paragraph content here..."
+                        rows={6}
+                        required
+                        className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#1a73e8]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">Featured Image Banner *</label>
+                      <div
+                        className="relative border-2 border-dashed border-slate-800 hover:border-[#1a73e8] rounded-xl p-6 text-center cursor-pointer transition-colors"
+                        onClick={() => !imageUploading && fileInputRef.current?.click()}
+                      >
+                        <input
+                          ref={fileInputRef}
+                          type="file"
+                          accept="image/*"
+                          onChange={handleImageUpload}
+                          className="hidden"
+                        />
+
+                        {imageUploading ? (
+                          <div className="flex flex-col items-center gap-2 py-4">
+                            <div className="w-8 h-8 border-2 border-[#1a73e8] border-t-transparent rounded-full animate-spin" />
+                            <p className="text-xs text-slate-400">Uploading to cloud server...</p>
+                          </div>
+                        ) : image ? (
+                          <div className="relative inline-block">
+                            <img
+                              src={image}
+                              alt="Preview"
+                              className="max-h-48 rounded-lg border border-slate-800 object-cover mx-auto"
+                            />
+                            <button
+                              type="button"
+                              onClick={(e) => { e.stopPropagation(); setImage(''); }}
+                              className="absolute -top-2.5 -right-2.5 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 transition-colors shadow-lg"
+                            >
+                              <X size={13} />
+                            </button>
+                            <p className="text-[11px] text-slate-500 mt-2 font-medium">Click to select a different banner image</p>
+                          </div>
+                        ) : (
+                          <div className="flex flex-col items-center gap-2 py-4">
+                            <UploadCloud size={32} className="text-slate-600 mb-1" />
+                            <p className="text-xs font-bold text-slate-300">Click to upload media</p>
+                            <p className="text-[10px] text-slate-500">Supports PNG, JPG, WEBP formats (max 5MB)</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2.5 py-1">
+                      <input
+                        type="checkbox"
+                        id="featuredPostChk"
+                        checked={isFeatured}
+                        onChange={(e) => setIsFeatured(e.target.checked)}
+                        className="w-4 h-4 rounded border-slate-800 bg-slate-950 text-[#1a73e8] focus:ring-0 focus:ring-offset-0"
+                      />
+                      <label htmlFor="featuredPostChk" className="text-xs font-bold text-slate-300 cursor-pointer">
+                        Mark this article as Featured (Highlights top card index)
+                      </label>
+                    </div>
+
+                    <div className="flex gap-3 pt-2">
+                      <button
+                        type="submit"
+                        className="bg-[#1a73e8] text-white text-xs font-bold px-6 py-2.5 rounded-lg hover:bg-[#155cb8] transition-all uppercase tracking-widest"
+                      >
+                        {editingId ? 'Save Edits' : 'Publish Article'}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={resetForm}
+                        className="border border-slate-800 text-slate-400 hover:text-white text-xs font-bold px-6 py-2.5 rounded-lg hover:bg-slate-850 transition-all uppercase"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              )}
+
+              {/* Articles Grid Card List */}
+              <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-xl">
+                <div className="px-6 py-4 border-b border-slate-800 bg-slate-900/50 flex items-center justify-between">
+                  <h3 className="font-bold text-white text-xs uppercase tracking-wider">Live Published News</h3>
+                  <span className="text-[11px] text-slate-500 font-semibold">{blogs.length} articles published</span>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-xs">
+                    <thead className="bg-slate-950 border-b border-slate-800">
+                      <tr className="text-left font-bold text-slate-400 uppercase tracking-widest">
+                        <th className="px-6 py-4 w-24">Banner</th>
+                        <th className="px-6 py-4">Title</th>
+                        <th className="px-6 py-4 w-32">Author</th>
+                        <th className="px-6 py-4 w-28">Date</th>
+                        <th className="px-6 py-4 w-24 text-center">Featured</th>
+                        <th className="px-6 py-4 text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-800/60">
+                      {blogs.length === 0 && (
+                        <tr>
+                          <td colSpan={6} className="text-center text-slate-500 py-16 font-medium text-xs">No article posts published yet.</td>
+                        </tr>
+                      )}
+                      {blogs.map((b) => (
+                        <tr key={b.id} className="hover:bg-slate-800/20 transition-colors">
+                          <td className="px-6 py-4">
+                            <img src={b.image} alt="" className="w-14 h-9 object-cover rounded border border-slate-800" />
+                          </td>
+                          <td className="px-6 py-4 font-bold text-white text-sm max-w-sm truncate">{b.title}</td>
+                          <td className="px-6 py-4 text-slate-400 font-semibold">{b.author}</td>
+                          <td className="px-6 py-4 text-slate-500 whitespace-nowrap">{b.date}</td>
+                          <td className="px-6 py-4 text-center">
+                            <button
+                              onClick={() => toggleFeatured(b.id)}
+                              className="hover:scale-110 active:scale-95 transition-transform"
+                            >
+                              {b.isFeatured ? (
+                                <Star size={16} className="text-amber-400 fill-amber-400 drop-shadow-md" />
+                              ) : (
+                                <StarOff size={16} className="text-slate-600" />
+                              )}
+                            </button>
+                          </td>
+                          <td className="px-6 py-4 text-right">
+                            <div className="flex gap-2 justify-end">
+                              <button
+                                onClick={() => handleEdit(b)}
+                                className="flex items-center gap-1.5 text-[#1a73e8] hover:bg-[#1a73e8]/10 border border-[#1a73e8]/20 px-2.5 py-1.5 rounded-lg text-[10px] font-bold uppercase transition-colors"
+                              >
+                                <Pencil size={11} /> Edit
+                              </button>
+                              <button
+                                onClick={() => handleDelete(b.id)}
+                                className="flex items-center gap-1.5 text-red-400 hover:bg-red-950/20 border border-red-950 px-2.5 py-1.5 rounded-lg text-[10px] font-bold uppercase transition-colors"
+                              >
+                                <Trash2 size={11} /> Delete
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-          </>
-        )} {/* end blogs section */}
-      </div>
+      </main>
     </div>
   );
 };
