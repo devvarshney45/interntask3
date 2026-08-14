@@ -164,6 +164,15 @@ const Header = ({ onSelectPage, currentPage }) => {
               HOME
             </a>
 
+            {/* Courses List direct link */}
+            <a
+              href="#"
+              onClick={(e) => { e.preventDefault(); navigate('courses-list'); }}
+              className={navLinkCls}
+            >
+              COURSES
+            </a>
+
             {/* ─── PAGES mega ─── */}
             <div className="relative">
               <button 
@@ -177,33 +186,15 @@ const Header = ({ onSelectPage, currentPage }) => {
                 <div
                   className="absolute top-full left-0 bg-white z-50"
                   style={{
-                    width: '640px',
+                    width: '440px',
                     boxShadow: '0 8px 30px rgba(0,0,0,0.12)',
                     border: '1px solid #e8e8e8',
                     padding: '28px 30px 24px',
                     display: 'grid',
-                    gridTemplateColumns: '1fr 1fr 1fr',
+                    gridTemplateColumns: '1fr 1fr',
                     gap: '0 24px',
                   }}
                 >
-                  {/* Standard Pages */}
-                  <div>
-                    <div className={colHeadCls}>STANDARD PAGES:</div>
-                    <ul>
-                      {standardPages.map((p) => (
-                        <li key={p.key}>
-                          <a
-                            href="#"
-                            onClick={(e) => { e.preventDefault(); navigate(p.key); }}
-                            className={megaItemCls}
-                            style={currentPage === p.key ? { fontWeight: '600' } : {}}
-                          >
-                            {p.name}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
                   {/* Special Pages */}
                   <div>
                     <div className={colHeadCls}>SPECIAL PAGES:</div>
