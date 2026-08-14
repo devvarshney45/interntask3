@@ -343,46 +343,7 @@ const Header = ({ onSelectPage, currentPage }) => {
           </button>
         </div>
 
-        {/* ── COLOR SCHEME SWITCHER PANEL (fixed right side matching mockup) ── */}
-        <div className="fixed right-0 top-[22%] z-[9999] flex items-start">
-          {/* Gear tab */}
-          <button
-            onClick={() => setSchemeOpen(!schemeOpen)}
-            className="flex items-center justify-center w-10 h-10 shadow-lg rounded-l-md hover:scale-105 transition-transform"
-            style={{ background: accentColor }}
-            title="Color Scheme"
-          >
-            <Settings size={18} color="#fff" className="animate-spin" style={{ animationDuration: '6s' }} />
-          </button>
 
-          {/* Panel */}
-          {schemeOpen && (
-            <div className="bg-white shadow-2xl border border-gray-200 p-4 rounded-l-md" style={{ width: '180px', marginLeft: '-1px' }}>
-              <p className="text-[11px] font-bold text-[#25345d] uppercase tracking-widest mb-3 text-center">Color Scheme</p>
-              <div className="grid grid-cols-3 gap-2 mb-4">
-                {COLOR_SCHEMES.map((scheme) => (
-                  <button
-                    key={scheme.name}
-                    onClick={() => setAccentColor(scheme.primary)}
-                    title={scheme.label}
-                    className="w-10 h-10 rounded-full border-2 hover:scale-110 transition-transform"
-                    style={{
-                      background: scheme.primary,
-                      borderColor: accentColor === scheme.primary ? '#25345d' : 'transparent',
-                    }}
-                  />
-                ))}
-              </div>
-              <button
-                onClick={() => setAccentColor(DEFAULT_COLOR)}
-                className="w-full py-1.5 text-white text-[11px] font-bold uppercase tracking-wider rounded-sm hover:opacity-90"
-                style={{ background: accentColor }}
-              >
-                RESET COLOR
-              </button>
-            </div>
-          )}
-        </div>
 
         {/* Mobile Nav */}
         {mobileOpen && (
